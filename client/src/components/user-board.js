@@ -8,8 +8,8 @@ import ShipBoxFake from '../containers/ship-box-fake'
 class UserBoard extends Component {
 
     handleCellClick(cellProps) {
-        const { selectedShip, ships, setupShip, readyForBattle} = this.props;
-        if(selectedShip.id !== null && ships[selectedShip.id] == null) {
+        const { selectedShip, ships, setupShip, toggleShipPlacing} = this.props;
+        if(selectedShip.id !== null && ships[selectedShip.id] === null) {
             const ship = {
                 id  : selectedShip.id,
                 size: selectedShip.size,
@@ -19,8 +19,8 @@ class UserBoard extends Component {
             };
             setupShip(ship);
         }
-        if(Object.keys(ships).length == 10) {
-            readyForBattle();
+        if(Object.keys(ships).length === 10) {
+            toggleShipPlacing();
         }
     }
 

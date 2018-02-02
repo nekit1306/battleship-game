@@ -28,36 +28,35 @@ export const startGame = () => ({
 });
 
 
-// socket actions
+// Socket actions
 
-
-export const loadInitialSockets = (socket) => {
+export const loadInitialSockets = socket => {
     return (dispatch) => {
         socket.on(SOCKET_ACTIONS.GAME_START, () => {
-            dispatch(startGame());
-        });
-
-        socket.on(SOCKET_ACTIONS.USER_SHOOT, () => {
-            dispatch(startGame());
+            dispatch(readyForBattle());
         });
 
         socket.on(SOCKET_ACTIONS.USER_LEFT, () => {
             dispatch(startGame());
         });
+
+        socket.on(SOCKET_ACTIONS.HIT, () => {
+            dispatch(startGame());
+        });
     }
 };
 
 
-export const joinGame = (socket) => {
+export const joinGame = socket => {
     return (dispatch) => {
-        socket.emit(SOCKET_ACTIONS.USER_JOIN);
+        socket.emit(SOCKET_ACTIONS.GAME_JOIN);
         dispatch(waitForOpponent());
     }
 };
 
-export const hitCell = socket => {
+export const shootAtBoard = (socket, cell) => {
     return (dispatch) => {
-        socket.emit(SOCKET_ACTIONS.CELL_HIT);
+        socket.emit(SOCKET_ACTIONS.SHOOT, cell);
     }
 };
 

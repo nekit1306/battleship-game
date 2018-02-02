@@ -1,29 +1,50 @@
 import http from 'http';
 import app from './server';
 import SocketIO from 'socket.io';
+import BattleshipGame from '../game';
 
 const server = http.createServer(app);
 const io = new SocketIO(server);
 
 let waitingRoom = [];
+let users = [];
+let gameId = 0;
+
 
 io.on('connection', (socket) => {
-    socket.on('USER_JOIN', () => {
+    socket.on('game_join', () => {
         waitingRoom.push(socket);
 
         if (waitingRoom.length === 2) {
-            waitingRoom[0].join('game_room');
-            waitingRoom[1].join('game_room');
+
+            const room = "inGame" + gameId++;
+            const game = new BattleshipGame(room, waitingRoom[0].id, waitingRoom[1].id);
+
+            waitingRoom[0].join(room);
+            waitingRoom[1].join(room);
+            users[waitingRoom[0].id] = game;
+            users[waitingRoom[1].id] = game;
 
             waitingRoom = [];
 
-            io.in('game_room').clients((err, clients) => {
+            io.in(room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).emit('GAME_START', socket.id !== socketId)
+                    io.to(socketId).emit('game_start', game.getCurrentTurn());
                 })
             });
         }
+    });
+
+    socket.on('shoot', cell => {
+        const game = users[socket.id];
+
+        socket.broadcast.to(game.room).emit('hit', cell);
+    });
+
+    socket.on('disconnect', () => {
+        socket.emit('user_left');
     })
+
 });
 
 server.listen(3000, () => {

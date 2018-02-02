@@ -1,12 +1,9 @@
 /**
  * Created by Kasutaja on 14.01.2018.
  */
-/**
- * Created by Kasutaja on 14.01.2018.
- */
+
 import { connect } from 'react-redux';
-import {shootAtBoard, joinGame} from '../actions/game_actions';
-import OpponentBoard from '../components/opponent-board';
+import Home from '../components/home';
 
 /*
  This is a redux specific function.
@@ -20,21 +17,14 @@ import OpponentBoard from '../components/opponent-board';
  */
 const mapStateToProps = (state) => {
     return {
-        opponentWaiting: state.list.opponentWaiting,
         currentTurn    : state.list.currentTurn,
-        readyForBattle : state.list.readyForBattle
+        readyForBattle : state.list.readyForBattle,
+        opponentWaiting: state.list.opponentWaiting
     };
 };
-
-const mapDispatchToProps = dispatch => ({
-    shootAtBoard: (socket, cell) => {
-        dispatch(shootAtBoard(socket, cell));
-    }
-});
-
 
 /*
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(mapStateToProps, mapDispatchToProps)(OpponentBoard);
+export default connect(mapStateToProps, null)(Home);

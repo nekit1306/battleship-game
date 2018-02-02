@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Header from './components/header';
-import Home from './components/home';
+import Home from './containers/home';
 
 const App = () => (
   <div>

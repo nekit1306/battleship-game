@@ -19,12 +19,6 @@ This is a redux specific function.
 http://redux.js.org/docs/api/bindActionCreators.html
  */
 const mapDispatchToProps = dispatch => ({
-  hitCell: (name) => {
-      dispatch(previewItem(name));
-  },
-  joinGame: (name) => {
-      dispatch(previewItem(name));
-  },
     loadInitialSockets: (socket) => {
         dispatch(loadInitialSockets(socket));
     }

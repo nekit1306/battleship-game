@@ -10,8 +10,12 @@ class OpponentBoard extends Component {
         this.props.joinGame(this.props.socket);
     }
 
-    handleCellClick() {
-        console.log('click-opponent');
+    handleCellClick(cellProps) {
+        const { readyForBattle, currentTurn, shootAtBoard, socket } = this.props;
+
+        if (readyForBattle && currentTurn) {
+            shootAtBoard(socket, cellProps.key);
+        }
     }
 
     render() {
@@ -22,23 +26,22 @@ class OpponentBoard extends Component {
             onCellClick: (cellProps) => this.handleCellClick(cellProps)
         };
 
-        const { opponentWaiting, currentTurn } = this.props;
+        const { opponentWaiting, currentTurn, readyForBattle } = this.props;
 
         return (
             <div id="opponent-board">
                 { !currentTurn &&
                     <div className="board-overlay">
                         <div className="search-game">
-                            {opponentWaiting ? (
-                                    <div className="">
-                                        <span className="fa fa-spinner fa-spin fa-2x"></span>
-                                        <p>Waiting for Opponent ...</p>
-                                    </div>
-                                ) : (
-                                    <div className="start-btn">
-                                        <button onClick={() => this.handleGameStart()} className="btn btn-rounded">Start game</button>
-                                    </div>
-                                )
+                            { !readyForBattle && !opponentWaiting &&
+                                <div className="start-btn">
+                                    <button onClick={() => this.handleGameStart()} className="btn btn-rounded">Start game</button>
+                                </div>
+                            }
+                            { opponentWaiting &&
+                                <div className="">
+                                    <span className="fa fa-spinner fa-spin fa-2x"></span>
+                                </div>
                             }
                         </div>
                     </div>

@@ -9,9 +9,9 @@ export const LIST_ACTIONS = {
 };
 
 export const SOCKET_ACTIONS = {
-    GAME_START: 'GAME_START',
-    USER_JOIN: 'USER_JOIN',
-    USER_SHOOT: 'USER_SHOOT',
-    USER_LEFT: 'USER_LEFT',
-    CELL_HIT: 'CELL_HIT',
+    GAME_START: 'game_start',
+    GAME_JOIN: 'game_join',
+    USER_LEFT: 'user_left',
+    SHOOT: 'shoot',
+    HIT: 'hit',
 };
