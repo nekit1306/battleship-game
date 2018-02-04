@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
 
             io.in(room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).emit('game_start', game.getCurrentTurn());
+                    io.to(socketId).emit('game_start', game.getCurrentTurn(socketId));
                 })
             });
         }
@@ -38,7 +38,9 @@ io.on('connection', (socket) => {
     socket.on('shoot', cell => {
         const game = users[socket.id];
 
-        socket.broadcast.to(game.room).emit('hit', cell);
+        const hitCell = {key: cell, hit: true};
+
+        socket.broadcast.to(game.room).emit('hit', hitCell);
     });
 
     socket.on('disconnect', () => {

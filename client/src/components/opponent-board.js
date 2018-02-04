@@ -7,7 +7,10 @@ import Board from '../containers/board';
 class OpponentBoard extends Component {
 
     handleGameStart() {
-        this.props.joinGame(this.props.socket);
+
+        const { joinGame, socket } = this.props;
+
+        joinGame(socket);
     }
 
     handleCellClick(cellProps) {

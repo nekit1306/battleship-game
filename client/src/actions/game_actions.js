@@ -9,8 +9,9 @@ export const waitForOpponent = () => ({
     type: LIST_ACTIONS.OPPONENT_WAITING,
 });
 
-export const readyForBattle = () => ({
+export const readyForBattle = (currentTurn) => ({
     type: LIST_ACTIONS.BATTLE_READY,
+    payload: currentTurn
 });
 
 export const selectShip = ship => ({
@@ -27,21 +28,26 @@ export const startGame = () => ({
     type: LIST_ACTIONS.GAME_START,
 });
 
+export const hitCell = cell => ({
+    type: LIST_ACTIONS.CELL_HIT,
+    payload: cell
+});
 
 // Socket actions
 
 export const loadInitialSockets = socket => {
     return (dispatch) => {
-        socket.on(SOCKET_ACTIONS.GAME_START, () => {
-            dispatch(readyForBattle());
+        socket.on(SOCKET_ACTIONS.GAME_START, (currentTurn) => {
+            console.log(currentTurn);
+            dispatch(readyForBattle(currentTurn));
         });
 
         socket.on(SOCKET_ACTIONS.USER_LEFT, () => {
             dispatch(startGame());
         });
 
-        socket.on(SOCKET_ACTIONS.HIT, () => {
-            dispatch(startGame());
+        socket.on(SOCKET_ACTIONS.HIT, (cell) => {
+            dispatch(hitCell(cell));
         });
     }
 };

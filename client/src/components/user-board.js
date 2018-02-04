@@ -9,7 +9,8 @@ class UserBoard extends Component {
 
     handleCellClick(cellProps) {
         const { selectedShip, ships, setupShip, toggleShipPlacing} = this.props;
-        if(selectedShip.id !== null && ships[selectedShip.id] === null) {
+        if (selectedShip.id !== null && !ships[selectedShip.id]) {
+
             const ship = {
                 id  : selectedShip.id,
                 size: selectedShip.size,
@@ -17,6 +18,7 @@ class UserBoard extends Component {
                 x: cellProps.x,
                 y: cellProps.y
             };
+
             setupShip(ship);
         }
         if(Object.keys(ships).length === 10) {

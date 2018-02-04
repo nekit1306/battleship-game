@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PlayBoard from '../containers/playboard';
 
 class Home extends Component {
@@ -29,7 +29,6 @@ class Home extends Component {
                     <div className="action-status">
                         <div className="entry-task">
                             <span className="task-text">{this.renderTitle()}</span>
-                            <span className="fa fa-arrow-down fa-2x task-icon"></span>
                         </div>
                     </div>
                 </div>

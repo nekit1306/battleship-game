@@ -21,7 +21,6 @@ import UserBoard from '../components/user-board';
 const mapStateToProps = (state) => {
     return {
         selectedShip: state.list.selectedShip,
-        cells       : state.list.cells,
         ships       : state.list.ships
     };
 };

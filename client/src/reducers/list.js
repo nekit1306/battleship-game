@@ -9,19 +9,25 @@ function getShipPosition (x, y, size) {
     return position;
 }
 
+
 export default (state = LISTS, action) => {
     switch (action.type) {
 
         case LIST_ACTIONS.SHIP_PLACING_TOGGLE:
             return { ...state, shipPlacing: !state.shipPlacing};
 
-        case LIST_ACTIONS.READY_FOR_BATTLE:
-            return {...state, readyForBattle: true};
+        case LIST_ACTIONS.BATTLE_READY:
+            return {
+                ...state,
+                readyForBattle: true,
+                opponentWaiting: false,
+                currentTurn: action.payload,
+            };
 
         case LIST_ACTIONS.OPPONENT_WAITING:
             return { ...state, opponentWaiting: true };
 
-        case LIST_ACTIONS.SETUP_SHIP:
+        case LIST_ACTIONS.SHIP_SETUP:
             const ships = { ...state.ships };
             const cells = { ...state.cells };
             const shipToAdd = action.payload;
@@ -43,6 +49,13 @@ export default (state = LISTS, action) => {
                 opponentWaiting: false,
                 currentTurn: action.payload
             };
+
+        case LIST_ACTIONS.CELL_HIT:
+            const hitCells = {...state.cells};
+
+            hitCells[action.payload.key] = { hit: action.payload.hit};
+
+            return {...state, cells: hitCells};
 
         default:
           return state;

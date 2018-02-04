@@ -29,6 +29,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
     shootAtBoard: (socket, cell) => {
         dispatch(shootAtBoard(socket, cell));
+    },
+    joinGame: (socket) => {
+        dispatch(joinGame(socket));
     }
 });
 
