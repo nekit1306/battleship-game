@@ -51,11 +51,11 @@ export default (state = LISTS, action) => {
             };
 
         case LIST_ACTIONS.CELL_HIT:
-            const hitCells = {...state.cells};
+            const hits = {...state.hits};
 
-            hitCells[action.payload.key] = { hit: action.payload.hit};
+            hits.opponentBoard[action.payload.key] = action.payload.hit;
 
-            return {...state, cells: hitCells};
+            return {...state, hits: hits};
 
         default:
           return state;

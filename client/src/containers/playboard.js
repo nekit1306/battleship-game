@@ -11,7 +11,8 @@ Whenever this list changes, any component that is using this list of item will r
 const mapStateToProps = state => ({
     listItems: state.list.items,
     shipPlacing: state.list.shipPlacing,
-    currentTurn: state.list.currentTurn
+    currentTurn: state.list.currentTurn,
+    hits       : state.list.hits
 });
 
 /*

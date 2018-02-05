@@ -2,6 +2,7 @@
  * Created by Kasutaja on 08.01.2018.
  */
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import Board from '../containers/board';
 import ShipBoxFake from '../containers/ship-box-fake'
 
@@ -26,10 +27,24 @@ class UserBoard extends Component {
         }
     }
 
+
+    cellClasses(key) {
+
+        const { hits } = this.props;
+
+        const classes = classnames({
+            hit: hits.userBoard[key]
+        });
+
+        return classes;
+    }
+
+
     render(){
         const boardProps = {
             opponentBoard: false,
-            onCellClick: (cellProps) => this.handleCellClick(cellProps)
+            onCellClick: cellProps => this.handleCellClick(cellProps),
+            classes: key => this.cellClasses(key)
         };
 
         return (

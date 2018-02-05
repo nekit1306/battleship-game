@@ -5,7 +5,7 @@
  * Created by Kasutaja on 14.01.2018.
  */
 import { connect } from 'react-redux';
-import {shootAtBoard, joinGame} from '../actions/game_actions';
+import {shootAtCell, joinGame} from '../actions/game_actions';
 import OpponentBoard from '../components/opponent-board';
 
 /*
@@ -27,8 +27,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    shootAtBoard: (socket, cell) => {
-        dispatch(shootAtBoard(socket, cell));
+    shootAtCell: (socket, cell) => {
+        dispatch(shootAtCell(socket, cell));
     },
     joinGame: (socket) => {
         dispatch(joinGame(socket));

@@ -2,9 +2,14 @@
 // eslint-disable-next-line
 export const LISTS = {
     opponentWaiting: false,
+    shipPlacing: false,
     selectedShip: {
         id: null,
         size: 0
+    },
+    hits: {
+        userBoard: [],
+        opponentBoard: []
     },
     ships: [],
     cells: [],
@@ -12,6 +17,5 @@ export const LISTS = {
     gameOver: false,
     winnerId: null,
     currentTurn: null,
-    error: null,
-    shipPlacing: false
+    error: null
 };

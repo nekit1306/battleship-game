@@ -9,7 +9,7 @@ export const waitForOpponent = () => ({
     type: LIST_ACTIONS.OPPONENT_WAITING,
 });
 
-export const readyForBattle = (currentTurn) => ({
+export const readyForBattle = currentTurn => ({
     type: LIST_ACTIONS.BATTLE_READY,
     payload: currentTurn
 });
@@ -37,8 +37,7 @@ export const hitCell = cell => ({
 
 export const loadInitialSockets = socket => {
     return (dispatch) => {
-        socket.on(SOCKET_ACTIONS.GAME_START, (currentTurn) => {
-            console.log(currentTurn);
+        socket.on(SOCKET_ACTIONS.GAME_START, currentTurn => {
             dispatch(readyForBattle(currentTurn));
         });
 
@@ -46,7 +45,7 @@ export const loadInitialSockets = socket => {
             dispatch(startGame());
         });
 
-        socket.on(SOCKET_ACTIONS.HIT, (cell) => {
+        socket.on(SOCKET_ACTIONS.HIT, cell => {
             dispatch(hitCell(cell));
         });
     }
@@ -60,7 +59,7 @@ export const joinGame = socket => {
     }
 };
 
-export const shootAtBoard = (socket, cell) => {
+export const shootAtCell = (socket, cell) => {
     return (dispatch) => {
         socket.emit(SOCKET_ACTIONS.SHOOT, cell);
     }

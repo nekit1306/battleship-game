@@ -2,6 +2,7 @@
  * Created by Kasutaja on 08.01.2018.
  */
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import Board from '../containers/board';
 
 class OpponentBoard extends Component {
@@ -14,11 +15,22 @@ class OpponentBoard extends Component {
     }
 
     handleCellClick(cellProps) {
-        const { readyForBattle, currentTurn, shootAtBoard, socket } = this.props;
+        const { readyForBattle, currentTurn, shootAtCell, socket } = this.props;
 
         if (readyForBattle && currentTurn) {
-            shootAtBoard(socket, cellProps.key);
+            shootAtCell(socket, cellProps.key);
         }
+    }
+
+    cellClasses(key) {
+
+        const { hits } = this.props;
+
+        const classes = classnames({
+            hit: hits.opponentBoard[key]
+        });
+
+        return classes;
     }
 
     render() {
@@ -26,7 +38,8 @@ class OpponentBoard extends Component {
         const boardProps = {
             socket: this.props.socket,
             opponentBoard: true,
-            onCellClick: (cellProps) => this.handleCellClick(cellProps)
+            onCellClick: cellProps => this.handleCellClick(cellProps),
+            classes: key => this.cellClasses(key)
         };
 
         const { opponentWaiting, currentTurn, readyForBattle } = this.props;

@@ -1,6 +1,6 @@
 import http from 'http';
-import app from './server';
 import SocketIO from 'socket.io';
+import app from './server';
 import BattleshipGame from '../game';
 
 const server = http.createServer(app);
@@ -40,7 +40,11 @@ io.on('connection', (socket) => {
 
         const hitCell = {key: cell, hit: true};
 
-        socket.broadcast.to(game.room).emit('hit', hitCell);
+        io.in(game.room).clients((err, clients) => {
+            clients.forEach(socketId => {
+                io.to(socketId).emit('hit', hitCell);
+            })
+        });
     });
 
     socket.on('disconnect', () => {
