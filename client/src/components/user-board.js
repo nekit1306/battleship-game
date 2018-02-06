@@ -9,7 +9,7 @@ import ShipBoxFake from '../containers/ship-box-fake'
 class UserBoard extends Component {
 
     handleCellClick(cellProps) {
-        const { selectedShip, ships, setupShip, toggleShipPlacing} = this.props;
+        const { selectedShip, ships, setupShipManual, toggleShipPlacing} = this.props;
         if (selectedShip.id !== null && !ships[selectedShip.id]) {
 
             const ship = {
@@ -20,7 +20,7 @@ class UserBoard extends Component {
                 y: cellProps.y
             };
 
-            setupShip(ship);
+            setupShipManual(ship);
         }
         if(Object.keys(ships).length === 10) {
             toggleShipPlacing();
@@ -29,14 +29,13 @@ class UserBoard extends Component {
 
 
     cellClasses(key) {
-
         const { hits } = this.props;
 
-        const classes = classnames({
-            hit: hits.userBoard[key]
+        return classnames({
+            hit: hits.userBoard[key] && hits.userBoard[key].hit
+
         });
 
-        return classes;
     }
 
 

@@ -6,7 +6,7 @@ const ActionButtons = (props) => (
             <span className="fa fa-random randomizeBtn" onClick={() => props.toggleShipPlacing()}></span>
         </div>
         <div className="action-btn">
-            <span className="fa fa-arrows itselfBtn" onClick={() => props.toggleShipPlacing()}></span>
+            <span className="fa fa-arrows itselfBtn" onClick={() => props.setupShipRandom()}></span>
         </div>
     </div>
 );

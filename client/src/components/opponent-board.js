@@ -9,9 +9,9 @@ class OpponentBoard extends Component {
 
     handleGameStart() {
 
-        const { joinGame, socket } = this.props;
+        const { joinGame, socket, ships } = this.props;
 
-        joinGame(socket);
+        joinGame(socket, ships);
     }
 
     handleCellClick(cellProps) {
@@ -23,14 +23,11 @@ class OpponentBoard extends Component {
     }
 
     cellClasses(key) {
-
         const { hits } = this.props;
 
-        const classes = classnames({
-            hit: hits.opponentBoard[key]
+        return classnames({
+            hit: hits.opponentBoard[key] && hits.opponentBoard[key].hit
         });
-
-        return classes;
     }
 
     render() {

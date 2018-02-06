@@ -11,25 +11,31 @@ let users = [];
 let gameId = 0;
 
 
-io.on('connection', (socket) => {
-    socket.on('game_join', () => {
-        waitingRoom.push(socket);
+io.on('connection', socket => {
+    socket.on('game_join', board => {
+
+        const userObj = { socket: socket, board: board };
+
+        waitingRoom.push(userObj);
 
         if (waitingRoom.length === 2) {
 
             const room = "inGame" + gameId++;
-            const game = new BattleshipGame(room, waitingRoom[0].id, waitingRoom[1].id);
+            const game = new BattleshipGame(room, waitingRoom[0], waitingRoom[1]);
 
             waitingRoom[0].join(room);
             waitingRoom[1].join(room);
-            users[waitingRoom[0].id] = game;
-            users[waitingRoom[1].id] = game;
+
+            waitingRoom.forEach((userData, i) => {
+                users[userData.socket.id].game = game;
+                users[userData.socket.id].player = i;
+            });
 
             waitingRoom = [];
 
             io.in(room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).emit('game_start', game.getCurrentTurn(socketId));
+                    io.to(socketId).emit('game_start', game.getCurrentTurn(users[socketId].player));
                 })
             });
         }
@@ -38,13 +44,14 @@ io.on('connection', (socket) => {
     socket.on('shoot', cell => {
         const game = users[socket.id];
 
-        const hitCell = {key: cell, hit: true};
+        const hitCell = { key: cell, hit: false };
 
-        io.in(game.room).clients((err, clients) => {
-            clients.forEach(socketId => {
-                io.to(socketId).emit('hit', hitCell);
-            })
-        });
+        if (game.checkShoot(cell)) {
+            hitCell.hit = true;
+        }
+
+        socket.to(game.room).emit('hit', hitCell);
+        socket.broadcast.to(game.room).emit('take_shot', hitCell);
     });
 
     socket.on('disconnect', () => {

@@ -4,7 +4,7 @@
 
 import { connect } from 'react-redux';
 import Board from '../components/board';
-import { setupShip, readyForBattle } from '../actions/game_actions'
+import { setupShipManual, readyForBattle } from '../actions/game_actions'
 
 /*
  This is a redux specific function.
@@ -25,8 +25,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    setupShip: (ship) => {
-        dispatch(setupShip(ship));
+    setupShipManual: (ship) => {
+        dispatch(setupShipManual(ship));
     },
     readyForBattle: () => {
         dispatch(readyForBattle());

@@ -5,7 +5,7 @@
  * Created by Kasutaja on 14.01.2018.
  */
 import { connect } from 'react-redux';
-import { setupShip, toggleShipPlacing } from '../actions/game_actions';
+import { setupShipManual, toggleShipPlacing } from '../actions/game_actions';
 import UserBoard from '../components/user-board';
 
 /*
@@ -26,8 +26,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    setupShip: (ship) => {
-        dispatch(setupShip(ship));
+    setupShipManual: (ship) => {
+        dispatch(setupShipManual(ship));
     },
     toggleShipPlacing: () => {
         dispatch(toggleShipPlacing());

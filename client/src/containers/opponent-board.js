@@ -22,7 +22,8 @@ const mapStateToProps = (state) => {
     return {
         opponentWaiting: state.list.opponentWaiting,
         currentTurn    : state.list.currentTurn,
-        readyForBattle : state.list.readyForBattle
+        readyForBattle : state.list.readyForBattle,
+        ships          : state.list.ships
     };
 };
 
@@ -30,8 +31,8 @@ const mapDispatchToProps = dispatch => ({
     shootAtCell: (socket, cell) => {
         dispatch(shootAtCell(socket, cell));
     },
-    joinGame: (socket) => {
-        dispatch(joinGame(socket));
+    joinGame: (socket, board) => {
+        dispatch(joinGame(socket, board));
     }
 });
 

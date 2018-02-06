@@ -19,17 +19,23 @@ export const selectShip = ship => ({
     payload: ship
 });
 
-export const setupShip = ship => ({
-    type: LIST_ACTIONS.SHIP_SETUP,
+export const setupShipManual = ship => ({
+    type: LIST_ACTIONS.SHIP_SETUP_MANUAL,
     payload: ship
 });
 
-export const startGame = () => ({
-    type: LIST_ACTIONS.GAME_START,
+export const setupShipRandom = () => ({
+    type: LIST_ACTIONS.SHIP_SETUP_RANDOM,
 });
+
 
 export const hitCell = cell => ({
     type: LIST_ACTIONS.CELL_HIT,
+    payload: cell
+});
+
+export const takeShot = cell => ({
+    type: LIST_ACTIONS.SHOT_TAKE,
     payload: cell
 });
 
@@ -41,20 +47,21 @@ export const loadInitialSockets = socket => {
             dispatch(readyForBattle(currentTurn));
         });
 
-        socket.on(SOCKET_ACTIONS.USER_LEFT, () => {
-            dispatch(startGame());
-        });
-
         socket.on(SOCKET_ACTIONS.HIT, cell => {
             dispatch(hitCell(cell));
         });
+
+        socket.on(SOCKET_ACTIONS.TAKE_SHOT, cell => {
+            dispatch(takeShot(cell));
+        });
+
     }
 };
 
 
-export const joinGame = socket => {
+export const joinGame = (socket, board) => {
     return (dispatch) => {
-        socket.emit(SOCKET_ACTIONS.GAME_JOIN);
+        socket.emit(SOCKET_ACTIONS.GAME_JOIN, board);
         dispatch(waitForOpponent());
     }
 };

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { toggleShipPlacing } from '../actions/game_actions';
+import { toggleShipPlacing, setupShipRandom } from '../actions/game_actions';
 import ActionButtons from '../components/action-buttons';
 
 /*
@@ -15,6 +15,9 @@ import ActionButtons from '../components/action-buttons';
 const mapDispatchToProps = dispatch => ({
     toggleShipPlacing: () => {
         dispatch(toggleShipPlacing());
+    },
+    setupShipRandom: () => {
+        dispatch(setupShipRandom());
     }
 });
 
