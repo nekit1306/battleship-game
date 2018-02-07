@@ -51,7 +51,7 @@ export const loadInitialSockets = socket => {
             dispatch(hitCell(cell));
         });
 
-        socket.on(SOCKET_ACTIONS.TAKE_SHOT, cell => {
+        socket.on(SOCKET_ACTIONS.SHOT_TAKE, cell => {
             dispatch(takeShot(cell));
         });
 

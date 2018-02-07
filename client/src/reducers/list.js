@@ -12,8 +12,8 @@ function getShipPosition (x, y, size) {
 function getRandomCoordinates () {
     const shipsSize = [4, 3, 2, 1];
 
-    const ships = [];
-    const cells = [];
+    const ships = {};
+    const cells = {};
 
     let shipId = 0;
 
@@ -91,12 +91,14 @@ export default (state = LISTS, action) => {
             };
 
         case LIST_ACTIONS.CELL_HIT:
+            console.log('hit');
             const hits = {...state.hits};
             hits.opponentBoard[action.payload.key] = { hit: action.payload.hit };
 
             return {...state, hits: hits};
 
         case LIST_ACTIONS.SHOT_TAKE:
+            console.log('shot_take');
             const takeShots = {...state.hits};
             takeShots.userBoard[action.payload.key] = { hit: action.payload.hit };
 

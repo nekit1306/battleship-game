@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = new SocketIO(server);
 
 let waitingRoom = [];
-let users = [];
+let users = {};
 let gameId = 0;
 
 
@@ -23,12 +23,11 @@ io.on('connection', socket => {
             const room = "inGame" + gameId++;
             const game = new BattleshipGame(room, waitingRoom[0], waitingRoom[1]);
 
-            waitingRoom[0].join(room);
-            waitingRoom[1].join(room);
+            waitingRoom[0].socket.join(room);
+            waitingRoom[1].socket.join(room);
 
             waitingRoom.forEach((userData, i) => {
-                users[userData.socket.id].game = game;
-                users[userData.socket.id].player = i;
+                users[userData.socket.id] = {game: game, player: i};
             });
 
             waitingRoom = [];
@@ -42,7 +41,7 @@ io.on('connection', socket => {
     });
 
     socket.on('shoot', cell => {
-        const game = users[socket.id];
+        const game = users[socket.id].game;
 
         const hitCell = { key: cell, hit: false };
 
@@ -50,8 +49,8 @@ io.on('connection', socket => {
             hitCell.hit = true;
         }
 
-        socket.to(game.room).emit('hit', hitCell);
-        socket.broadcast.to(game.room).emit('take_shot', hitCell);
+        io.to(socket.id).emit('hit', hitCell);
+        socket.broadcast.to(game.room).emit('shot_take', hitCell);
     });
 
     socket.on('disconnect', () => {

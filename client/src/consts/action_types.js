@@ -17,4 +17,5 @@ export const SOCKET_ACTIONS = {
     USER_LEFT: 'user_left',
     SHOOT: 'shoot',
     HIT: 'hit',
+    SHOT_TAKE: 'shot_take'
 };
