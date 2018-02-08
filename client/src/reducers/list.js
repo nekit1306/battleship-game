@@ -11,6 +11,7 @@ function getShipPosition (x, y, size) {
 
 function getRandomCoordinates () {
     const shipsSize = [4, 3, 2, 1];
+    const corners = [];
 
     const ships = {};
     const cells = {};
@@ -28,6 +29,7 @@ function getRandomCoordinates () {
                  y = Math.floor(Math.random() * 10);
             } while ((x + size) > 9);
 
+            console.log(calculateCorners(x, y, size));
 
             ships[shipId] = getShipPosition(x, y, size);
             cells[`${x}${y}`] = { shipId: shipId, shipSize: size};
@@ -37,6 +39,27 @@ function getRandomCoordinates () {
     });
 
     return { ships: ships, cells: cells};
+}
+
+
+function calculateCorners (x, y, size) {
+
+    const corners = [];
+
+    let startPosX = x - 1;
+    let startPosY = y - 1;
+
+    for(let i = 0; i < size + 2; i++) {
+        for(let a = 0; a < 3; a++) {
+            if ( startPosX >= 0 && startPosX < 10 && startPosY >= 0 && startPosY < 10) {
+                corners.push(`${startPosX}${startPosY}`);
+            }
+            startPosY++;
+        }
+        startPosX++;
+    }
+
+    return corners;
 }
 
 

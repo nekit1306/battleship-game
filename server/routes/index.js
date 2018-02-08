@@ -42,7 +42,6 @@ io.on('connection', socket => {
 
     socket.on('shoot', cell => {
         const game = users[socket.id].game;
-        const player = users[socket.id].player;
 
         const hitCell = { key: cell, hit: false };
 
