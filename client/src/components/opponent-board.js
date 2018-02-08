@@ -26,7 +26,8 @@ class OpponentBoard extends Component {
         const { hits } = this.props;
 
         return classnames({
-            hit: hits.opponentBoard[key] && hits.opponentBoard[key].hit
+            hit: hits.opponentBoard[key] && hits.opponentBoard[key].hit,
+            miss: hits.opponentBoard[key] && !hits.opponentBoard[key].hit
         });
     }
 

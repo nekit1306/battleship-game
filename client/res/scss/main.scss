@@ -30,8 +30,6 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 25px;
 }
 
-
-
 .l-header {
   position: relative;
   width: 100%;
@@ -67,7 +65,35 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   .cell-content {
     &.hit {
-      background: red;
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -1px 0 0 -10px;
+        width: 20px;
+        height: 2px;
+        background: #d10000;
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(135deg);
+      }
+    }
+    &.miss {
+      &:before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 25px;
+        background: #343431;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -4px 0 0 -4px;
+      }
     }
   }
   &:hover {

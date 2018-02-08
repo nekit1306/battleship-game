@@ -14,9 +14,7 @@ BattleshipGame.prototype.checkShoot = function(cell) {
 
     for (let key in board) {
         if (board.hasOwnProperty(key)) {
-            console.log(board[key]);
             if (board[key].indexOf(cell) > -1) {
-                console.log(cell, "founbd");
                 return true;
             }
         }

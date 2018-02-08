@@ -91,18 +91,23 @@ export default (state = LISTS, action) => {
             };
 
         case LIST_ACTIONS.CELL_HIT:
-            console.log('hit');
             const hits = {...state.hits};
             hits.opponentBoard[action.payload.key] = { hit: action.payload.hit };
 
-            return {...state, hits: hits};
+            return {
+                ...state,
+                hits: hits,
+                currentTurn: action.payload.hit
+            };
 
         case LIST_ACTIONS.SHOT_TAKE:
-            console.log('shot_take');
             const takeShots = {...state.hits};
             takeShots.userBoard[action.payload.key] = { hit: action.payload.hit };
 
-            return {...state, hits: takeShots};
+            return {...state,
+                hits: takeShots,
+                currentTurn: !action.payload.hit
+            };
 
         default:
           return state;

@@ -32,8 +32,8 @@ class UserBoard extends Component {
         const { hits } = this.props;
 
         return classnames({
-            hit: hits.userBoard[key] && hits.userBoard[key].hit
-
+            hit: hits.userBoard[key] && hits.userBoard[key].hit,
+            miss: hits.userBoard[key] && !hits.userBoard[key].hit
         });
 
     }

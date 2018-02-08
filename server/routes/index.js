@@ -42,12 +42,14 @@ io.on('connection', socket => {
 
     socket.on('shoot', cell => {
         const game = users[socket.id].game;
+        const player = users[socket.id].player;
 
         const hitCell = { key: cell, hit: false };
 
         if (game.checkShoot(cell)) {
             hitCell.hit = true;
         }
+
 
         io.to(socket.id).emit('hit', hitCell);
         socket.broadcast.to(game.room).emit('shot_take', hitCell);
