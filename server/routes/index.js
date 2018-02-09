@@ -49,6 +49,10 @@ io.on('connection', socket => {
             hitCell.hit = true;
         }
 
+        if (game.checkDestroy(cell)) {
+            const ship = {id: };
+            hitCell.hit = true;
+        }
 
         io.to(socket.id).emit('hit', hitCell);
         socket.broadcast.to(game.room).emit('shot_take', hitCell);
