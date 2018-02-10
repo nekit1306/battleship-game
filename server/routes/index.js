@@ -43,19 +43,10 @@ io.on('connection', socket => {
     socket.on('shoot', cell => {
         const game = users[socket.id].game;
 
-        const hitCell = { key: cell, hit: false };
+        const target = game.checkShoot(cell);
 
-        if (game.checkShoot(cell)) {
-            hitCell.hit = true;
-        }
-
-        if (game.checkDestroy(cell)) {
-            const ship = {id: };
-            hitCell.hit = true;
-        }
-
-        io.to(socket.id).emit('hit', hitCell);
-        socket.broadcast.to(game.room).emit('shot_take', hitCell);
+        io.to(socket.id).emit('hit', target);
+        socket.broadcast.to(game.room).emit('shot_take', target);
     });
 
     socket.on('disconnect', () => {

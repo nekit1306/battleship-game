@@ -11,18 +11,31 @@ BattleshipGame.prototype.getCurrentTurn = function(player) {
 
 BattleshipGame.prototype.checkShoot = function(cell) {
     const board = this.getOpponentBoard();
+    let target = {key: cell, hit: false};
 
     for (let key in board) {
         if (board.hasOwnProperty(key)) {
-            if (board[key].indexOf(cell) > -1) {
-                return true;
+            const position = board[key].pos;
+            const size = board[key].size;
+            const startPos = board[key].startPos;
+
+            if (position.indexOf(cell) > -1) {
+                const index = position.indexOf(cell);
+                position.splice(index, 1);
+                target.hit = true;
+
+                if(position.length === 0) {
+                    target.destroy = { id: key, size: size, startPos: startPos };
+                }
+
+                return target;
             }
         }
     }
 
     this.switchPlayer();
 
-    return false;
+    return target;
 };
 
 BattleshipGame.prototype.getOpponentBoard = function () {

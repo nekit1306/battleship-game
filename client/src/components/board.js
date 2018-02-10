@@ -32,13 +32,15 @@ class Board extends Component {
   }
 
   renderCells(cellProps) {
-      const { cells, onCellClick, opponentBoard, classes } = this.props;
+      const { cells, ships, onCellClick, opponentBoard, classes } = this.props;
+
+      const key = cellProps.key;
 
       return(
           <td className="cell" onClick={() => onCellClick(cellProps)}>
-            <div className={"cell-content " + classes(cellProps.key)}>
-                { !opponentBoard && cells[cellProps.key] &&
-                    <Ship size={cells[cellProps.key].shipSize} />
+            <div className={"cell-content " + classes(key)}>
+                { !opponentBoard && cells[key] &&
+                    <Ship size={ships[cells[key].id].size} />
                 }
             </div>
           </td>

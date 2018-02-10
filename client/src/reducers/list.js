@@ -31,8 +31,14 @@ function getRandomCoordinates () {
 
             corners = corners.concat(calculateCorners(x, y, size));
 
-            ships[shipId] = getShipPosition(x, y, size);
-            cells[`${x}${y}`] = { shipId: shipId, shipSize: size};
+            ships[shipId] = {
+                pos: getShipPosition(x, y, size),
+                size: size,
+                startPos: `${x}${y}`
+            };
+
+
+            cells[`${x}${y}`] = {id: shipId};
 
             shipId++;
         }
@@ -110,7 +116,8 @@ export default (state = LISTS, action) => {
 
         case LIST_ACTIONS.CELL_HIT:
             const hits = {...state.hits};
-            hits.opponentBoard[action.payload.key] = { hit: action.payload.hit };
+
+            hits.opponentBoard[action.payload.key] = {hit : action.payload.hit};
 
             return {
                 ...state,
@@ -122,7 +129,8 @@ export default (state = LISTS, action) => {
             const takeShots = {...state.hits};
             takeShots.userBoard[action.payload.key] = { hit: action.payload.hit };
 
-            return {...state,
+            return {
+                ...state,
                 hits: takeShots,
                 currentTurn: !action.payload.hit
             };
