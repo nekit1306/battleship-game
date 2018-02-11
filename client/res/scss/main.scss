@@ -62,9 +62,10 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
   background: #f1f1f1;
   border: 1px solid #bdbdbd;
-  cursor: pointer;
   .cell-content {
+    cursor: pointer;
     &.hit {
+      cursor: default;
       &:before, &:after {
         content: '';
         position: absolute;
@@ -81,8 +82,12 @@ h1, h2, h3, h4, h5, h6 {
       &:after {
         transform: rotate(135deg);
       }
+      &:hover {
+        background: #f1f1f1;
+      }
     }
     &.miss {
+      cursor: default;
       &:before {
         content: '';
         width: 8px;
@@ -94,13 +99,16 @@ h1, h2, h3, h4, h5, h6 {
         left: 50%;
         margin: -4px 0 0 -4px;
       }
+      &:hover {
+        background: #f1f1f1;
+      }
+    }
+    &:hover {
+      background: #ddd;
     }
   }
-  &:hover {
-    background: #ddd;
-  }
 }
-.bfield > tbody > tr > td > div {
+.bfield > tbody > tr > td > .cell-content {
   width: 32px;
   height: 32px;
 }

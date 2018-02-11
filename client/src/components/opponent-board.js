@@ -15,10 +15,12 @@ class OpponentBoard extends Component {
     }
 
     handleCellClick(cellProps) {
-        const { readyForBattle, currentTurn, shootAtCell, socket } = this.props;
+        const { readyForBattle, hits, currentTurn, shootAtCell, socket } = this.props;
 
-        if (readyForBattle && currentTurn) {
-            shootAtCell(socket, cellProps.key);
+        const cellId = cellProps.key;
+
+        if (readyForBattle && currentTurn && !hits.opponentBoard[cellId]) {
+            shootAtCell(socket, cellId);
         }
     }
 

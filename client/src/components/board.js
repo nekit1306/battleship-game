@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Ship from './ship';
 
@@ -32,16 +33,23 @@ class Board extends Component {
   }
 
   renderCells(cellProps) {
-      const { cells, ships, onCellClick, opponentBoard, classes } = this.props;
+      const { cells, ships, hits, onCellClick, opponentBoard, classes } = this.props;
 
       const key = cellProps.key;
 
+      const shipClasses = classnames({
+          danger: hits.userBoard[key] && hits.userBoard[key].destroy
+      });
+
       return(
-          <td className="cell" onClick={() => onCellClick(cellProps)}>
-            <div className={"cell-content " + classes(key)}>
-                { !opponentBoard && cells[key] &&
-                    <Ship size={ships[cells[key].id].size} />
-                }
+          <td className="cell">
+            <div className={"cell-content " + classes(key)} onClick={() => onCellClick(cellProps)}>
+              { !opponentBoard && cells[key] &&
+                <Ship type={shipClasses} size={ships[cells[key].id].size} />
+              }
+              { opponentBoard && hits.opponentBoard[key] && hits.opponentBoard[key].destroy &&
+                <Ship type={"danger"}  size={hits.opponentBoard[key].destroy.size }/>
+              }
             </div>
           </td>
       );

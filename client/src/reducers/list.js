@@ -1,7 +1,7 @@
 import { LIST_ACTIONS } from '../consts/action_types';
 import { LISTS } from '../consts/default_state';
 
-function getShipPosition (x, y, size) {
+function getShipPosition (x, y, size, orientation) {
     const position = [];
     for (let i = 0; i < size; i++) {
         position.push(`${x + i}${y}`);
@@ -16,46 +16,52 @@ function getRandomCoordinates () {
     const ships = {};
     const cells = {};
 
-    let shipId = 0;
+    let id = 0;
 
     shipsSize.forEach((size, i) => {
         for(let a = 0; a <= i; a++) {
 
             let x = null;
             let y = null;
+            let orientation = null;
 
             do {
-                 x = Math.floor(Math.random() * 10);
-                 y = Math.floor(Math.random() * 10);
+                x = Math.floor(Math.random() * 10);
+                y = Math.floor(Math.random() * 10);
+                orientation = 0;
+
             } while ((x + size) > 9 || corners.indexOf(`${x}${y}`) !== -1 || corners.indexOf(`${x + size}${y}`) !== -1);
 
-            corners = corners.concat(calculateCorners(x, y, size));
+            corners = corners.concat(calculateCorners(x, y, size, orientation));
 
-            ships[shipId] = {
-                pos: getShipPosition(x, y, size),
-                size: size,
+            ships[id] = {
+                pos     : getShipPosition(x, y, size, orientation),
+                size    : size,
                 startPos: `${x}${y}`
             };
 
+            cells[`${x}${y}`] = {
+                id: id
+            };
 
-            cells[`${x}${y}`] = {id: shipId};
-
-            shipId++;
+            id++;
         }
     });
 
-    return { ships: ships, cells: cells};
+    return {ships: ships, cells: cells};
 }
 
 
-function calculateCorners (x, y, size) {
+function calculateCorners (x, y, size, orientation) {
 
     const corners = [];
 
     for(let i = -1; i < size + 1; i++) {
         for(let a = -1; a < 2; a++) {
-            if ( x + i >= 0 && x + i < 10 && y + a >= 0 && y + a < 10) {
-                corners.push(`${x + i}${y + a}`);
+            const xCoord = orientation === 0 ? x + i : x + a;
+            const yCoord = orientation === 0 ? y + a : y + i;
+            if ( xCoord >= 0 && xCoord < 10 && yCoord >= 0 && yCoord < 10) {
+                corners.push(`${xCoord}${yCoord}`);
             }
         }
     }
@@ -85,7 +91,7 @@ export default (state = LISTS, action) => {
             const ships = { ...state.ships };
             const cells = { ...state.cells };
             const shipToAdd = action.payload;
-            cells[shipToAdd.key] = {shipId: shipToAdd.id, shipSize: shipToAdd.size};
+            cells[shipToAdd.key] = {id: shipToAdd.id};
             ships[shipToAdd.id] = getShipPosition(shipToAdd.x, shipToAdd.y, shipToAdd.size);
 
             return {
@@ -116,8 +122,15 @@ export default (state = LISTS, action) => {
 
         case LIST_ACTIONS.CELL_HIT:
             const hits = {...state.hits};
+            const destroyOpponentShip = action.payload.destroy;
 
-            hits.opponentBoard[action.payload.key] = {hit : action.payload.hit};
+            hits.opponentBoard[action.payload.key] = {hit: action.payload.hit};
+
+            if (destroyOpponentShip) {
+                hits.opponentBoard[destroyOpponentShip.startPos].destroy = {
+                    size: destroyOpponentShip.size
+                }
+            }
 
             return {
                 ...state,
@@ -127,7 +140,15 @@ export default (state = LISTS, action) => {
 
         case LIST_ACTIONS.SHOT_TAKE:
             const takeShots = {...state.hits};
-            takeShots.userBoard[action.payload.key] = { hit: action.payload.hit };
+            const destroyUserShip = action.payload.destroy;
+
+            takeShots.userBoard[action.payload.key] = {hit: action.payload.hit};
+
+            if (destroyUserShip) {
+                takeShots.userBoard[destroyUserShip.startPos].destroy = {
+                    size: destroyUserShip.size
+                }
+            }
 
             return {
                 ...state,

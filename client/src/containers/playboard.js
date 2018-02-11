@@ -9,10 +9,11 @@ For example, here we are retrieving the list of items from the redux store.
 Whenever this list changes, any component that is using this list of item will re-render.
  */
 const mapStateToProps = state => ({
-    listItems: state.list.items,
     shipPlacing: state.list.shipPlacing,
     currentTurn: state.list.currentTurn,
-    hits       : state.list.hits
+    hits       : state.list.hits,
+    opponentWaiting: state.list.opponentWaiting,
+    readyForBattle: state.list.readyForBattle
 });
 
 /*

@@ -8,8 +8,8 @@ export const LISTS = {
         size: 0
     },
     hits: {
-        userBoard: [],
-        opponentBoard: []
+        userBoard: {},
+        opponentBoard: {}
     },
     ships: [],
     cells: [],

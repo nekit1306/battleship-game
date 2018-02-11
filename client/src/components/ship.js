@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Ship = ({size}) => {
+const Ship = ({type, size}) => {
   return (
-    <div className={`ship-box ship-box-size-${size}`}></div>
+    <div className={`ship-box ship-box-size-${size} ship-box-${type}`}></div>
   );
 };
 

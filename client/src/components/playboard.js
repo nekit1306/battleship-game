@@ -15,10 +15,12 @@ class PlayBoard extends Component {
     }
 
     render() {
-        const { shipPlacing, currentTurn, hits} = this.props;
+        const { shipPlacing, currentTurn, hits, readyForBattle, opponentWaiting} = this.props;
         return (
             <div className={"playing-area " + (shipPlacing ? 'ship-placing' : '')}>
-                <ActionButtons/>
+                { !readyForBattle && !opponentWaiting &&
+                    <ActionButtons/>
+                }
                 <div className="field-clearfix">
                     <UserBoard socket={socket} currentTurn={currentTurn} hits={hits} />
                     <OpponentBoard socket={socket} currentTurn={currentTurn} hits={hits} />

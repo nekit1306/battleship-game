@@ -25,7 +25,7 @@ BattleshipGame.prototype.checkShoot = function(cell) {
                 target.hit = true;
 
                 if(position.length === 0) {
-                    target.destroy = { id: key, size: size, startPos: startPos };
+                    target.destroy = { size: size, startPos: startPos };
                 }
 
                 return target;
