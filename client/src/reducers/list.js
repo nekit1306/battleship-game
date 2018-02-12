@@ -4,7 +4,9 @@ import { LISTS } from '../consts/default_state';
 function getShipPosition (x, y, size, orientation) {
     const position = [];
     for (let i = 0; i < size; i++) {
-        position.push(`${x + i}${y}`);
+        const xCoord = orientation === 0 ? x + i : x;
+        const yCoord = orientation === 1 ? y + i : y;
+        position.push(`${xCoord}${yCoord}`);
     }
     return position;
 }
@@ -23,21 +25,31 @@ function getRandomCoordinates () {
 
             let x = null;
             let y = null;
+            let xCoord = null;
+            let yCoord = null;
+
+            let endPosition = null;
             let orientation = null;
 
             do {
                 x = Math.floor(Math.random() * 10);
                 y = Math.floor(Math.random() * 10);
-                orientation = 0;
+                orientation = Math.floor(Math.random() * 2);
 
-            } while ((x + size) > 9 || corners.indexOf(`${x}${y}`) !== -1 || corners.indexOf(`${x + size}${y}`) !== -1);
+                xCoord = orientation === 0 ? x + size : x;
+                yCoord = orientation === 1 ? y + size : y;
+
+                endPosition =orientation === 0 ? x + size : y + size;
+
+            } while ((endPosition) > 9 || corners.indexOf(`${x}${y}`) !== -1 || corners.indexOf(`${xCoord}${yCoord}`) !== -1);
 
             corners = corners.concat(calculateCorners(x, y, size, orientation));
 
             ships[id] = {
-                pos     : getShipPosition(x, y, size, orientation),
-                size    : size,
-                startPos: `${x}${y}`
+                pos        : getShipPosition(x, y, size, orientation),
+                size       : size,
+                startPos   : `${x}${y}`,
+                orientation: orientation
             };
 
             cells[`${x}${y}`] = {
