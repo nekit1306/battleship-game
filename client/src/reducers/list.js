@@ -39,7 +39,7 @@ function getRandomCoordinates () {
                 xCoord = orientation === 0 ? x + size : x;
                 yCoord = orientation === 1 ? y + size : y;
 
-                endPosition =orientation === 0 ? x + size : y + size;
+                endPosition = orientation === 0 ? x + size : y + size;
 
             } while ((endPosition) > 9 || corners.indexOf(`${x}${y}`) !== -1 || corners.indexOf(`${xCoord}${yCoord}`) !== -1);
 
@@ -134,13 +134,14 @@ export default (state = LISTS, action) => {
 
         case LIST_ACTIONS.CELL_HIT:
             const hits = {...state.hits};
-            const destroyOpponentShip = action.payload.destroy;
+            const destroyOpponentShip = action.payload.destroyed;
 
             hits.opponentBoard[action.payload.key] = {hit: action.payload.hit};
 
             if (destroyOpponentShip) {
-                hits.opponentBoard[destroyOpponentShip.startPos].destroy = {
-                    size: destroyOpponentShip.size
+                hits.opponentBoard[destroyOpponentShip.startPos].destroyed = {
+                    size: destroyOpponentShip.size,
+                    orientation: destroyOpponentShip.orientation
                 }
             }
 
@@ -152,14 +153,12 @@ export default (state = LISTS, action) => {
 
         case LIST_ACTIONS.SHOT_TAKE:
             const takeShots = {...state.hits};
-            const destroyUserShip = action.payload.destroy;
+            const destroyUserShip = action.payload.destroyed;
 
             takeShots.userBoard[action.payload.key] = {hit: action.payload.hit};
 
             if (destroyUserShip) {
-                takeShots.userBoard[destroyUserShip.startPos].destroy = {
-                    size: destroyUserShip.size
-                }
+                takeShots.userBoard[destroyUserShip.startPos].destroyed = true;
             }
 
             return {

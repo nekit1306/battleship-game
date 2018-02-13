@@ -32,24 +32,34 @@ class Board extends Component {
       return rows;
   }
 
+  renderShips(key) {
+
+      const { ships, cells, hits, isOpponent, shipClasses } = this.props;
+      const opponentBoard = hits.opponentBoard[key];
+
+      if (!isOpponent && cells[key]) {
+
+          return <Ship type={shipClasses(key)}
+                       size={ships[cells[key].id].size}
+                       orientation={ships[cells[key].id].orientation} />
+
+      } else if (isOpponent && opponentBoard && opponentBoard.destroyed) {
+
+          return <Ship type={shipClasses}
+                       size={opponentBoard.destroyed.size}
+                       orientation={opponentBoard.destroyed.orientation}/>
+      }
+  }
+
   renderCells(cellProps) {
-      const { cells, ships, hits, onCellClick, opponentBoard, classes } = this.props;
+      const { onCellClick, cellClasses } = this.props;
 
       const key = cellProps.key;
 
-      const shipClasses = classnames({
-          danger: hits.userBoard[key] && hits.userBoard[key].destroy
-      });
-
       return(
           <td className="cell">
-            <div className={"cell-content " + classes(key)} onClick={() => onCellClick(cellProps)}>
-              { !opponentBoard && cells[key] &&
-                <Ship type={shipClasses} size={ships[cells[key].id].size} />
-              }
-              { opponentBoard && hits.opponentBoard[key] && hits.opponentBoard[key].destroy &&
-                <Ship type={"danger"}  size={hits.opponentBoard[key].destroy.size }/>
-              }
+            <div className={"cell-content " + cellClasses(key)} onClick={() => onCellClick(cellProps)}>
+                {this.renderShips(key)}
             </div>
           </td>
       );

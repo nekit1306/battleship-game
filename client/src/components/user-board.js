@@ -35,15 +35,23 @@ class UserBoard extends Component {
             hit: hits.userBoard[key] && hits.userBoard[key].hit,
             miss: hits.userBoard[key] && !hits.userBoard[key].hit
         });
+    }
 
+    shipClasses(key) {
+        const { hits } = this.props;
+
+        return classnames({
+            destroyed: hits.userBoard[key] && hits.userBoard[key].destroyed,
+        });
     }
 
 
     render(){
         const boardProps = {
-            opponentBoard: false,
+            isOpponent: false,
             onCellClick: cellProps => this.handleCellClick(cellProps),
-            classes: key => this.cellClasses(key)
+            cellClasses: key => this.cellClasses(key),
+            shipClasses: key => this.shipClasses(key)
         };
 
         return (

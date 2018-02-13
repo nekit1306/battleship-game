@@ -33,13 +33,20 @@ class OpponentBoard extends Component {
         });
     }
 
+    shipClasses() {
+        return classnames({
+            destroyed: true
+        });
+    }
+
     render() {
 
         const boardProps = {
             socket: this.props.socket,
-            opponentBoard: true,
+            isOpponent: true,
             onCellClick: cellProps => this.handleCellClick(cellProps),
-            classes: key => this.cellClasses(key)
+            cellClasses: key => this.cellClasses(key),
+            shipClasses: this.shipClasses()
         };
 
         const { opponentWaiting, currentTurn, readyForBattle } = this.props;

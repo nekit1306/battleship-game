@@ -18,6 +18,7 @@ BattleshipGame.prototype.checkShoot = function(cell) {
             const position = board[key].pos;
             const size = board[key].size;
             const startPos = board[key].startPos;
+            const orientation = board[key].orientation;
 
             if (position.indexOf(cell) > -1) {
                 const index = position.indexOf(cell);
@@ -25,7 +26,11 @@ BattleshipGame.prototype.checkShoot = function(cell) {
                 target.hit = true;
 
                 if(position.length === 0) {
-                    target.destroy = { size: size, startPos: startPos };
+                    target.destroyed = {
+                        size: size,
+                        startPos: startPos,
+                        orientation:  orientation
+                    };
                 }
 
                 return target;
