@@ -55,6 +55,10 @@ export const loadInitialSockets = socket => {
             dispatch(takeShot(cell));
         });
 
+        socket.on(SOCKET_ACTIONS.USER_LEFT, () => {
+            // some dispatch
+        });
+
     }
 };
 

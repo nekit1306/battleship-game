@@ -3,8 +3,8 @@
  */
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import Board from '../containers/board';
-import ShipBoxFake from '../containers/ship-box-fake'
+import Board from '../containers/Board';
+import ShipBoxFake from '../containers/ShipBoxFake'
 
 class UserBoard extends Component {
 

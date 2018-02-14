@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import Board from '../containers/board';
+import Board from '../containers/Board';
 
 class OpponentBoard extends Component {
 
@@ -58,7 +58,7 @@ class OpponentBoard extends Component {
                         <div className="search-game">
                             { !readyForBattle && !opponentWaiting &&
                                 <div className="start-btn">
-                                    <button onClick={() => this.handleGameStart()} className="btn btn-rounded">Start game</button>
+                                    <button className="btn btn-rounded" onClick={() => this.handleGameStart()}>Start game</button>
                                 </div>
                             }
                             { opponentWaiting &&

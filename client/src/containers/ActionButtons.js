@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { toggleShipPlacing, setupShipRandom } from '../actions/game_actions';
-import ActionButtons from '../components/action-buttons';
+import { toggleShipPlacing, setupShipRandom } from '../actions/GameActions';
+import ActionButtons from '../components/ActionButtons';
 
 /*
  This is a redux specific function.

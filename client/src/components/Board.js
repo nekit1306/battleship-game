@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import Ship from './ship';
+import Ship from './Ship';
 
 class Board extends Component {
 
@@ -69,11 +69,13 @@ class Board extends Component {
       return (
           <div className ="player-field">
             <div className="gap">
-              <table className="table bfield">
-                <tbody>
-                {this.renderRows()}
-                </tbody>
-              </table>
+                <div className="board-table">
+                    <table className="table">
+                        <tbody>
+                        {this.renderRows()}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div className="field-bottom">{this.props.title}</div>
           </div>

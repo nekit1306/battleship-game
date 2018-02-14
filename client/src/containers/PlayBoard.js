@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { loadInitialSockets } from '../actions/game_actions';
-import PlayBoard from '../components/playboard';
+import { loadInitialSockets } from '../actions/GameActions';
+import PlayBoard from '../components/PlayBoard';
 
 /*
 This is a redux specific function.

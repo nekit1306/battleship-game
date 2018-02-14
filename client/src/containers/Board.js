@@ -3,7 +3,8 @@
  */
 
 import { connect } from 'react-redux';
-import Home from '../components/home';
+import Board from '../components/Board';
+import { setupShipManual, readyForBattle } from '../actions/GameActions'
 
 /*
  This is a redux specific function.
@@ -17,14 +18,24 @@ import Home from '../components/home';
  */
 const mapStateToProps = (state) => {
     return {
-        currentTurn    : state.list.currentTurn,
-        readyForBattle : state.list.readyForBattle,
-        opponentWaiting: state.list.opponentWaiting
+        selectedShip: state.list.selectedShip,
+        cells       : state.list.cells,
+        ships       : state.list.ships,
+        hits        : state.list.hits
     };
 };
+
+const mapDispatchToProps = dispatch => ({
+    setupShipManual: (ship) => {
+        dispatch(setupShipManual(ship));
+    },
+    readyForBattle: () => {
+        dispatch(readyForBattle());
+    }
+});
 
 /*
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

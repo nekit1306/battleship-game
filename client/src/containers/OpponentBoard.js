@@ -1,9 +1,12 @@
 /**
  * Created by Kasutaja on 14.01.2018.
  */
+/**
+ * Created by Kasutaja on 14.01.2018.
+ */
 import { connect } from 'react-redux';
-import { selectShip } from '../actions/game_actions';
-import ShipBoxFake from '../components/ship-box-fake';
+import {shootAtCell, joinGame} from '../actions/GameActions';
+import OpponentBoard from '../components/OpponentBoard';
 
 /*
  This is a redux specific function.
@@ -15,23 +18,27 @@ import ShipBoxFake from '../components/ship-box-fake';
  This is a redux specific function.
  http://redux.js.org/docs/api/bindActionCreators.html
  */
-const mapDispatchToProps = dispatch => ({
-    selectShip: (ship) => {
-        dispatch(selectShip(ship));
-    }
-});
-
 const mapStateToProps = (state) => {
     return {
-        selectedShip: state.list.selectedShip,
-        ships       : state.list.ships
+        opponentWaiting: state.list.opponentWaiting,
+        currentTurn    : state.list.currentTurn,
+        readyForBattle : state.list.readyForBattle,
+        ships          : state.list.ships
     };
 };
 
+const mapDispatchToProps = dispatch => ({
+    shootAtCell: (socket, cell) => {
+        dispatch(shootAtCell(socket, cell));
+    },
+    joinGame: (socket, board) => {
+        dispatch(joinGame(socket, board));
+    }
+});
 
 
 /*
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(mapStateToProps, mapDispatchToProps)(ShipBoxFake);
+export default connect(mapStateToProps, mapDispatchToProps)(OpponentBoard);

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import UserBoard from "../containers/user-board";
-import OpponentBoard from "../containers/opponent-board"
-import ActionButtons from "../containers/action-buttons";
+import UserBoard from "../containers/UserBoard";
+import OpponentBoard from "../containers/OpponentBoard"
+import ActionButtons from "../containers/ActionButtons";
 import io from 'socket.io-client';
 
 const socket = io('http://localhost:3000');

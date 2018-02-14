@@ -1,7 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Header from './components/header';
-import Home from './containers/home';
+import Header from './components/Header';
+import Home from './containers/Home';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3000');
 
 const App = () => (
   <div>

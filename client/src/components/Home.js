@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PlayBoard from '../containers/playboard';
+import PlayBoard from '../containers/PlayBoard';
 
 class Home extends Component {
 
@@ -22,10 +22,10 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="main-page">
+            <div className="home-page">
                 <div className="header-title">
                     <h1 className="entry-title">BATTLESHIP v0.4</h1>
-                    <div className="divider gradient"></div>
+                    <div className="divider"></div>
                     <div className="action-status">
                         <div className="entry-task">
                             <span className="task-text">{this.renderTitle()}</span>

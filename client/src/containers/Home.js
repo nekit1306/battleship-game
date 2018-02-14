@@ -1,12 +1,9 @@
 /**
  * Created by Kasutaja on 14.01.2018.
  */
-/**
- * Created by Kasutaja on 14.01.2018.
- */
+
 import { connect } from 'react-redux';
-import { setupShipManual, toggleShipPlacing } from '../actions/game_actions';
-import UserBoard from '../components/user-board';
+import Home from '../components/Home';
 
 /*
  This is a redux specific function.
@@ -20,23 +17,14 @@ import UserBoard from '../components/user-board';
  */
 const mapStateToProps = (state) => {
     return {
-        selectedShip: state.list.selectedShip,
-        ships       : state.list.ships
+        currentTurn    : state.list.currentTurn,
+        readyForBattle : state.list.readyForBattle,
+        opponentWaiting: state.list.opponentWaiting
     };
 };
-
-const mapDispatchToProps = dispatch => ({
-    setupShipManual: (ship) => {
-        dispatch(setupShipManual(ship));
-    },
-    toggleShipPlacing: () => {
-        dispatch(toggleShipPlacing());
-    }
-});
-
 
 /*
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(mapStateToProps, mapDispatchToProps)(UserBoard);
+export default connect(mapStateToProps, null)(Home);
