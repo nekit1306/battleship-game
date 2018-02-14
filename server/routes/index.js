@@ -45,15 +45,26 @@ io.on('connection', socket => {
 
         const target = game.checkShoot(cell);
 
+        checkGameOver(game);
+
         io.to(socket.id).emit('hit', target);
         socket.broadcast.to(game.room).emit('shot_take', target);
     });
 
     socket.on('disconnect', () => {
-        socket.emit('user_left');
+        if (waitingRoom.length > 0 && waitingRoom[0].socket === socket) {
+            waitingRoom = [];
+        }
     })
 
 });
+
+function checkGameOver(game) {
+    if (game.checkWinner()) {
+        // io.to(game.getWinnerId()).emit('gameover', true);
+        // io.to(game.getLoserId()).emit('gameover', false);
+    }
+}
 
 server.listen(3000, () => {
   console.log('Server listened on 3000 port');

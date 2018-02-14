@@ -2,6 +2,7 @@ function BattleshipGame(room, user, opponent) {
     this.players = [new Players(user), new Players(opponent)];
     this.room = room;
     this.currrentPlayer = Math.round(Math.random());
+    this.winnerId = null;
 }
 
 
@@ -12,6 +13,7 @@ BattleshipGame.prototype.getCurrentTurn = function(player) {
 BattleshipGame.prototype.checkShoot = function(cell) {
     const board = this.getOpponentBoard();
     let target = {key: cell, hit: false};
+    let destroyed = 0;
 
     for (let key in board) {
         if (board.hasOwnProperty(key)) {
@@ -25,12 +27,18 @@ BattleshipGame.prototype.checkShoot = function(cell) {
                 position.splice(index, 1);
                 target.hit = true;
 
-                if(position.length === 0) {
+                if (position.length === 0) {
                     target.destroyed = {
                         size: size,
                         startPos: startPos,
                         orientation:  orientation
                     };
+
+                    destroyed++;
+
+                    if (destroyed === 10) {
+                        this.winnerId = this.currrentPlayer;
+                    }
                 }
 
                 return target;
@@ -46,6 +54,10 @@ BattleshipGame.prototype.checkShoot = function(cell) {
 BattleshipGame.prototype.getOpponentBoard = function () {
     return this.currrentPlayer === 0 ?
         this.players[1].board : this.players[0].board;
+};
+
+BattleshipGame.prototype.checkWinner = function () {
+    return this.winnerId;
 };
 
 BattleshipGame.prototype.switchPlayer = function() {
