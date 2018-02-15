@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { toggleShipPlacing, setupShipRandom } from '../actions/GameActions';
+import { toggleShipPlacing, setupShipRandom } from '../actions/gameActions';
 import ActionButtons from '../components/ActionButtons';
 
 /*

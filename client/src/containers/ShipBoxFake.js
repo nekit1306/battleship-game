@@ -2,7 +2,7 @@
  * Created by Kasutaja on 14.01.2018.
  */
 import { connect } from 'react-redux';
-import { selectShip } from '../actions/GameActions';
+import { selectShip } from '../actions/gameActions';
 import ShipBoxFake from '../components/ShipBoxFake';
 
 /*

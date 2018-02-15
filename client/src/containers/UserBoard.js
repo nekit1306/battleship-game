@@ -5,7 +5,7 @@
  * Created by Kasutaja on 14.01.2018.
  */
 import { connect } from 'react-redux';
-import { setupShipManual, toggleShipPlacing } from '../actions/GameActions';
+import { setupShipManual, toggleShipPlacing } from '../actions/gameActions';
 import UserBoard from '../components/UserBoard';
 
 /*

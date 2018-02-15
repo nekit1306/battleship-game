@@ -4,7 +4,7 @@
 
 import { connect } from 'react-redux';
 import Board from '../components/Board';
-import { setupShipManual, readyForBattle } from '../actions/GameActions'
+import { setupShipManual, readyForBattle } from '../actions/gameActions'
 
 /*
  This is a redux specific function.

@@ -5,7 +5,7 @@
  * Created by Kasutaja on 14.01.2018.
  */
 import { connect } from 'react-redux';
-import {shootAtCell, joinGame} from '../actions/GameActions';
+import {shootAtCell, joinGame} from '../actions/gameActions';
 import OpponentBoard from '../components/OpponentBoard';
 
 /*

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { loadInitialSockets } from '../actions/GameActions';
+import { loadInitialSockets } from '../actions/gameActions';
 import PlayBoard from '../components/PlayBoard';
 
 /*

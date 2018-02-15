@@ -1,4 +1,4 @@
-import { LIST_ACTIONS, SOCKET_ACTIONS} from '../consts/action_types';
+import { LIST_ACTIONS, SOCKET_ACTIONS} from '../consts/actionTypes';
 
 
 export const toggleShipPlacing = () => ({
