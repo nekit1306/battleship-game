@@ -59,25 +59,14 @@ export default (state = LISTS, action) => {
             };
 
         case LIST_ACTIONS.CELL_HIT:
-            const hits = {...state.hits};
-            const destroyOpponentShip = action.payload.destroyed || false;
 
-
-            if (destroyOpponentShip) {
-                hits.opponentBoard[destroyOpponentShip.startPos].destroyed = {
-                    size: destroyOpponentShip.size,
-                    orientation: destroyOpponentShip.orientation
-                }
-            }
-
-            return {
+            const hitBoard = {
                 ...state,
                 hits: {
                     ...state.hits,
                     opponentBoard: {
                         ...state.hits.opponentBoard,
                         [action.payload.key]: {
-                            ...state.hits.opponentBoard[action.payload.key],
                             hit: action.payload.hit
                         }
                     }
@@ -85,17 +74,18 @@ export default (state = LISTS, action) => {
                 currentTurn: action.payload.hit
             };
 
-        case LIST_ACTIONS.SHOT_TAKE:
-            const takeShots = {...state.hits};
-            const destroyUserShip = action.payload.destroyed;
-
-            takeShots.userBoard[action.payload.key] = {hit: action.payload.hit};
-
-            if (destroyUserShip) {
-                takeShots.userBoard[destroyUserShip.startPos].destroyed = true;
+            if (action.payload.destroyed) {
+                hitBoard.hits.opponentBoard[action.payload.parent] = {
+                    ...hitBoard.hits.opponentBoard[action.payload.parent],
+                    destroyed: action.payload.destroyed
+                }
             }
 
-            return {
+            return hitBoard;
+
+        case LIST_ACTIONS.SHOT_TAKE:
+
+            const takeShoot = {
                 ...state,
                 hits: {
                     ...state.hits,
@@ -109,6 +99,15 @@ export default (state = LISTS, action) => {
                 },
                 currentTurn: !action.payload.hit
             };
+
+            if (action.payload.destroyed) {
+                takeShoot.hits.userBoard[action.payload.parent] = {
+                    ...takeShoot.hits.userBoard[action.payload.parent],
+                    destroyed: true
+                }
+            }
+
+            return takeShoot;
 
         default:
           return state;
