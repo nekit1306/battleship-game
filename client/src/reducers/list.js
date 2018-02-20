@@ -1,6 +1,6 @@
 import { LIST_ACTIONS } from '../consts/actionTypes';
 import { LISTS } from '../consts/defaultState';
-import { getRandomCoordinates, getShipPosition } from '../utils/helpers'
+import { getRandomCoordinates, getShipPosition } from '../utils/helpers';
 
 
 export default (state = LISTS, action) => {
@@ -21,31 +21,29 @@ export default (state = LISTS, action) => {
             return { ...state, opponentWaiting: true };
 
         case LIST_ACTIONS.SHIP_SETUP_MANUAL:
-            const shipToAdd = action.payload;
-
             return {
               ...state,
               ships: {
                   ...state.ships,
-                  [shipToAdd.id]: getShipPosition(shipToAdd.x, shipToAdd.y, shipToAdd.size)
+                  [action.payload.id]: getShipPosition(shipToAdd.x, shipToAdd.y, shipToAdd.size)
               },
               cells: {
                   ...state.cells,
-                  [shipToAdd.key]: {
-                      ...state.cells[shipToAdd.key],
-                      id: shipToAdd.id
+                  [action.payload.key]: {
+                      ...state.cells[action.payload.key],
+                      id: action.payload.id
                   }
               },
             };
 
         case LIST_ACTIONS.SHIP_SETUP_RANDOM:
 
-            const randomCoordinates = getRandomCoordinates();
+            const randomCoords = getRandomCoordinates();
 
             return {
                 ...state,
-                ships: randomCoordinates.ships,
-                cells: randomCoordinates.cells
+                ships: randomCoords.ships,
+                cells: randomCoords.cells
             };
 
         case LIST_ACTIONS.SHIP_SELECT:
@@ -58,19 +56,16 @@ export default (state = LISTS, action) => {
                 currentTurn: action.payload
             };
 
-        case LIST_ACTIONS.CELL_HIT:
-            const hits = {...state.hits};
-            const destroyOpponentShip = action.payload.destroyed || false;
-
-
-            if (destroyOpponentShip) {
-                hits.opponentBoard[destroyOpponentShip.startPos].destroyed = {
-                    size: destroyOpponentShip.size,
-                    orientation: destroyOpponentShip.orientation
-                }
-            }
-
+        case LIST_ACTIONS.GAME_OVER:
             return {
+                ...state,
+                gameOver: true,
+                isWinner: action.payload
+            };
+
+        case LIST_ACTIONS.CELL_HIT:
+
+            const hitsBoard = {
                 ...state,
                 hits: {
                     ...state.hits,
@@ -85,17 +80,19 @@ export default (state = LISTS, action) => {
                 currentTurn: action.payload.hit
             };
 
-        case LIST_ACTIONS.SHOT_TAKE:
-            const takeShots = {...state.hits};
-            const destroyUserShip = action.payload.destroyed;
-
-            takeShots.userBoard[action.payload.key] = {hit: action.payload.hit};
-
-            if (destroyUserShip) {
-                takeShots.userBoard[destroyUserShip.startPos].destroyed = true;
+            if (action.payload.destroyed) {
+                hitsBoard.hits.opponentBoard[action.payload.startPos] = {
+                    ...state.hits.opponentBoard[action.payload.startPos],
+                    destroyed: action.payload.destroyed
+                }
             }
 
-            return {
+            return hitsBoard;
+
+
+        case LIST_ACTIONS.SHOT_TAKE:
+
+            const shotsBoard = {
                 ...state,
                 hits: {
                     ...state.hits,
@@ -109,6 +106,15 @@ export default (state = LISTS, action) => {
                 },
                 currentTurn: !action.payload.hit
             };
+
+            if (action.payload.destroyed) {
+                hitsBoard.hits.userBoard[action.payload.startPos] = {
+                    ...state.hits.userBoard[action.payload.startPos],
+                    destroyed: true
+                }
+            }
+
+            return shotsBoard;
 
         default:
           return state;

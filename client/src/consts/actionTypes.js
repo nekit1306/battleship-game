@@ -7,6 +7,8 @@ export const LIST_ACTIONS = {
     SHIP_SETUP_RANDOM: 'SHIP_SETUP_RANDOM',
     OPPONENT_WAITING: 'OPPONENT_WAITING',
     GAME_START: 'GAME_START',
+    GAME_OVER: 'GAME_OVER',
+    GAME_RESET: 'GAME_RESET',
     CELL_HIT: 'CELL_HIT',
     SHOT_TAKE: 'SHOT_TAKE'
 };
@@ -14,6 +16,7 @@ export const LIST_ACTIONS = {
 export const SOCKET_ACTIONS = {
     GAME_START: 'game_start',
     GAME_JOIN: 'game_join',
+    GAME_OVER: 'game_over',
     USER_LEFT: 'user_left',
     SHOOT: 'shoot',
     HIT: 'hit',

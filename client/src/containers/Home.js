@@ -19,7 +19,9 @@ const mapStateToProps = (state) => {
     return {
         currentTurn    : state.list.currentTurn,
         readyForBattle : state.list.readyForBattle,
-        opponentWaiting: state.list.opponentWaiting
+        opponentWaiting: state.list.opponentWaiting,
+        isWinner       : state.list.isWinner,
+        gameOver       : state.list.gameOver
     };
 };
 

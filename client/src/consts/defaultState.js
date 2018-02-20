@@ -8,14 +8,14 @@ export const LISTS = {
         size: 0
     },
     hits: {
-        userBoard: {},
-        opponentBoard: {}
+        userBoard: [],
+        opponentBoard: []
     },
     ships: [],
     cells: [],
     readyForBattle: false,
     gameOver: false,
-    winnerId: null,
+    isWinner: null,
     currentTurn: null,
     error: null
 };

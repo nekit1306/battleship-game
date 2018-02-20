@@ -1,13 +1,13 @@
 function BattleshipGame(room, user, opponent) {
     this.players = [new Players(user), new Players(opponent)];
     this.room = room;
-    this.currrentPlayer = Math.round(Math.random());
+    this.currrentPlayerId = Math.round(Math.random());
     this.winnerId = null;
 }
 
 
-BattleshipGame.prototype.getCurrentTurn = function(player) {
-    return player === this.currrentPlayer;
+BattleshipGame.prototype.isCurrentTurn = function(id) {
+    return this.currrentPlayerId === id;
 };
 
 BattleshipGame.prototype.checkShoot = function(cell) {
@@ -18,9 +18,6 @@ BattleshipGame.prototype.checkShoot = function(cell) {
     for (let key in board) {
         if (board.hasOwnProperty(key)) {
             const position = board[key].pos;
-            const size = board[key].size;
-            const startPos = board[key].startPos;
-            const orientation = board[key].orientation;
 
             if (position.indexOf(cell) > -1) {
                 const index = position.indexOf(cell);
@@ -28,16 +25,16 @@ BattleshipGame.prototype.checkShoot = function(cell) {
                 target.hit = true;
 
                 if (position.length === 0) {
+                    target.startPos = board[key].startPos;
                     target.destroyed = {
-                        size: size,
-                        startPos: startPos,
-                        orientation:  orientation
+                        size: board[key].size,
+                        orientation:  board[key].orientation
                     };
 
                     destroyed++;
 
                     if (destroyed === 10) {
-                        this.winnerId = this.currrentPlayer;
+                        this.winnerId = this.currrentPlayerId;
                     }
                 }
 
@@ -52,16 +49,16 @@ BattleshipGame.prototype.checkShoot = function(cell) {
 };
 
 BattleshipGame.prototype.getOpponentBoard = function () {
-    return this.currrentPlayer === 0 ?
+    return this.currrentPlayerId === 0 ?
         this.players[1].board : this.players[0].board;
 };
 
-BattleshipGame.prototype.checkWinner = function () {
-    return this.winnerId;
+BattleshipGame.prototype.isWinner = function (id) {
+    return this.winnerId === id;
 };
 
 BattleshipGame.prototype.switchPlayer = function() {
-    this.currrentPlayer = this.currrentPlayer === 0 ? 1 : 0;
+    this.currrentPlayerId = this.currrentPlayerId === 0 ? 1 : 0;
 };
 
 // Players Object
