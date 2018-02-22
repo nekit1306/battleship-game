@@ -57,8 +57,13 @@ io.on('connection', socket => {
         }
 
         if (users[socket.id]) {
-            socket.broadcast.to(users[socket.id].game).emit('user_left');
-
+            socket.broadcast.to(users[socket.id].game.room).emit('user_left');
+            io.in(game.room).clients((err, clients) => {
+                clients.forEach(socketId => {
+                    io.to(socketId).leave(users[socketId].game.room);
+                    delete users[socketId];
+                })
+            });
         }
     })
 

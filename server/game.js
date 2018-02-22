@@ -53,6 +53,10 @@ BattleshipGame.prototype.getOpponentBoard = function () {
         this.players[1].board : this.players[0].board;
 };
 
+BattleshipGame.prototype.checkWinner = function () {
+    return this.winnerId;
+};
+
 BattleshipGame.prototype.isWinner = function (id) {
     return this.winnerId === id;
 };
