@@ -1,6 +1,6 @@
 import { LIST_ACTIONS } from '../consts/actionTypes';
 import { LISTS } from '../consts/defaultState';
-import { getRandomCoordinates, getShipPosition } from '../utils/helpers'
+import { getRandomCoordinates, getShipPosition } from '../utils/helpers';
 
 
 export default (state = LISTS, action) => {
@@ -21,31 +21,29 @@ export default (state = LISTS, action) => {
             return { ...state, opponentWaiting: true };
 
         case LIST_ACTIONS.SHIP_SETUP_MANUAL:
-            const shipToAdd = action.payload;
-
             return {
               ...state,
               ships: {
                   ...state.ships,
-                  [shipToAdd.id]: getShipPosition(shipToAdd.x, shipToAdd.y, shipToAdd.size)
+                  [action.payload.id]: getShipPosition(shipToAdd.x, shipToAdd.y, shipToAdd.size)
               },
               cells: {
                   ...state.cells,
-                  [shipToAdd.key]: {
-                      ...state.cells[shipToAdd.key],
-                      id: shipToAdd.id
+                  [action.payload.key]: {
+                      ...state.cells[action.payload.key],
+                      id: action.payload.id
                   }
               },
             };
 
         case LIST_ACTIONS.SHIP_SETUP_RANDOM:
 
-            const randomCoordinates = getRandomCoordinates();
+            const randomCoords = getRandomCoordinates();
 
             return {
                 ...state,
-                ships: randomCoordinates.ships,
-                cells: randomCoordinates.cells
+                ships: randomCoords.ships,
+                cells: randomCoords.cells
             };
 
         case LIST_ACTIONS.SHIP_SELECT:
@@ -58,15 +56,23 @@ export default (state = LISTS, action) => {
                 currentTurn: action.payload
             };
 
+        case LIST_ACTIONS.GAME_OVER:
+            return {
+                ...state,
+                gameOver: true,
+                isWinner: action.payload
+            };
+
         case LIST_ACTIONS.CELL_HIT:
 
-            const hitBoard = {
+            const hitsBoard = {
                 ...state,
                 hits: {
                     ...state.hits,
                     opponentBoard: {
                         ...state.hits.opponentBoard,
                         [action.payload.key]: {
+                            ...state.hits.opponentBoard[action.payload.key],
                             hit: action.payload.hit
                         }
                     }
@@ -75,17 +81,18 @@ export default (state = LISTS, action) => {
             };
 
             if (action.payload.destroyed) {
-                hitBoard.hits.opponentBoard[action.payload.parent] = {
-                    ...hitBoard.hits.opponentBoard[action.payload.parent],
+                hitsBoard.hits.opponentBoard[action.payload.startPos] = {
+                    ...state.hits.opponentBoard[action.payload.startPos],
                     destroyed: action.payload.destroyed
                 }
             }
 
-            return hitBoard;
+            return hitsBoard;
+
 
         case LIST_ACTIONS.SHOT_TAKE:
 
-            const takeShoot = {
+            const shotsBoard = {
                 ...state,
                 hits: {
                     ...state.hits,
@@ -101,13 +108,13 @@ export default (state = LISTS, action) => {
             };
 
             if (action.payload.destroyed) {
-                takeShoot.hits.userBoard[action.payload.parent] = {
-                    ...takeShoot.hits.userBoard[action.payload.parent],
+                hitsBoard.hits.userBoard[action.payload.startPos] = {
+                    ...state.hits.userBoard[action.payload.startPos],
                     destroyed: true
                 }
             }
 
-            return takeShoot;
+            return shotsBoard;
 
         default:
           return state;

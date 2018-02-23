@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = new SocketIO(server);
 
 let waitingRoom = [];
-let users = {};
+let users = [];
 let gameId = 0;
 
 
@@ -34,7 +34,7 @@ io.on('connection', socket => {
 
             io.in(room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).emit('game_start', game.getCurrentTurn(users[socketId].player));
+                    io.to(socketId).emit('game_start', game.isCurrentTurn(users[socketId].player));
                 })
             });
         }
@@ -55,14 +55,27 @@ io.on('connection', socket => {
         if (waitingRoom.length > 0 && waitingRoom[0].socket === socket) {
             waitingRoom = [];
         }
+
+        if (users[socket.id]) {
+            socket.broadcast.to(users[socket.id].game.room).emit('user_left');
+            io.in(game.room).clients((err, clients) => {
+                clients.forEach(socketId => {
+                    io.to(socketId).leave(users[socketId].game.room);
+                    delete users[socketId];
+                })
+            });
+        }
     })
 
 });
 
 function checkGameOver(game) {
     if (game.checkWinner()) {
-        // io.to(game.getWinnerId()).emit('gameover', true);
-        // io.to(game.getLoserId()).emit('gameover', false);
+        io.in(game.room).clients((err, clients) => {
+            clients.forEach(socketId => {
+                io.to(socketId).emit('game_over', game.isWinner(users[socketId].player));
+            })
+        });
     }
 }
 

@@ -39,6 +39,15 @@ export const takeShot = cell => ({
     payload: cell
 });
 
+export const gameOver = winner => ({
+    type: LIST_ACTIONS.GAME_OVER,
+    payload: winner
+});
+
+export const gameReset = () => ({
+    type: LIST_ACTIONS.GAME_RESET,
+});
+
 // Socket actions
 
 export const loadInitialSockets = socket => {
@@ -57,6 +66,10 @@ export const loadInitialSockets = socket => {
 
         socket.on(SOCKET_ACTIONS.USER_LEFT, () => {
             // some dispatch
+        });
+
+        socket.on(SOCKET_ACTIONS.GAME_OVER, winner => {
+            dispatch(gameOver(winner));
         });
 
     }

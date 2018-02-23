@@ -33,4 +33,29 @@
   .start-btn {
     margin-top: 30px;
   }
+  .announcements-list {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    max-width: 420px;
+    padding: 0;
+    z-index: 10;
+    .announcements-item {
+      position: relative;
+      padding: 16px;
+      box-shadow: 0 6px 8px rgba(102,119,136,.03), 0 1px 2px rgba(102,119,136,.3), 0 8px 12px rgba(58,193,203,.1);
+      border-radius: 1px;
+      background: #fff;
+      padding-right: 48px;
+      animation: announcements-item-flyin 500ms ease-out;
+      transition: opacity 500ms linear,transform 500ms ease-out;
+      .title {
+        font-size: 15px;
+        font-weight: 400;
+        color: #745fb5;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
 }
