@@ -16,8 +16,8 @@ export function getRandomCoordinates () {
     const shipsSize = [4, 3, 2, 1];
     let corners = [];
 
-    const ships = [];
-    const cells = [];
+    const ships = {};
+    const cells = {};
 
     let id = 0;
 

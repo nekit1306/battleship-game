@@ -73,7 +73,8 @@ export default (state = LISTS, action) => {
                         ...state.hits.opponentBoard,
                         [action.payload.key]: {
                             ...state.hits.opponentBoard[action.payload.key],
-                            hit: action.payload.hit
+                            hit: action.payload.hit,
+                            destroyed: false
                         }
                     }
                 },
@@ -82,7 +83,7 @@ export default (state = LISTS, action) => {
 
             if (action.payload.destroyed) {
                 hitsBoard.hits.opponentBoard[action.payload.startPos] = {
-                    ...state.hits.opponentBoard[action.payload.startPos],
+                    ...hitsBoard.hits.opponentBoard[action.payload.startPos],
                     destroyed: action.payload.destroyed
                 }
             }
@@ -100,7 +101,8 @@ export default (state = LISTS, action) => {
                         ...state.hits.userBoard,
                         [action.payload.key]: {
                             ...state.hits.userBoard[action.payload.key],
-                            hit: action.payload.hit
+                            hit: action.payload.hit,
+                            destroyed: false
                         }
                     }
                 },
@@ -108,8 +110,8 @@ export default (state = LISTS, action) => {
             };
 
             if (action.payload.destroyed) {
-                hitsBoard.hits.userBoard[action.payload.startPos] = {
-                    ...state.hits.userBoard[action.payload.startPos],
+                shotsBoard.hits.userBoard[action.payload.startPos] = {
+                    ...shotsBoard.hits.userBoard[action.payload.startPos],
                     destroyed: true
                 }
             }

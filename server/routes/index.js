@@ -52,15 +52,17 @@ io.on('connection', socket => {
     });
 
     socket.on('disconnect', () => {
+
         if (waitingRoom.length > 0 && waitingRoom[0].socket === socket) {
             waitingRoom = [];
         }
 
         if (users[socket.id]) {
-            socket.broadcast.to(users[socket.id].game.room).emit('user_left');
+            const game = users[socket.id].game;
+
+            socket.broadcast.to(game.room).emit('user_left');
             io.in(game.room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).leave(users[socketId].game.room);
                     delete users[socketId];
                 })
             });

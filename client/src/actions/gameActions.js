@@ -69,6 +69,7 @@ export const loadInitialSockets = socket => {
         });
 
         socket.on(SOCKET_ACTIONS.GAME_OVER, winner => {
+            console.log('game over');
             dispatch(gameOver(winner));
         });
 
