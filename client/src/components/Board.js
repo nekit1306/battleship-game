@@ -67,12 +67,12 @@ class Board extends Component {
 
   render() {
       return (
-          <div className ="player-field">
+          <div className="player-field">
             <div className="gap">
                 <div className="board-table">
                     <table className="table">
                         <tbody>
-                        {this.renderRows()}
+                            {this.renderRows()}
                         </tbody>
                     </table>
                 </div>

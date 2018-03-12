@@ -84,7 +84,7 @@ export const joinGame = (socket, board) => {
     }
 };
 
-export const shootAtCell = (socket, cell) => {
+    export const shootAtCell = (socket, cell) => {
     return (dispatch) => {
         socket.emit(SOCKET_ACTIONS.SHOOT, cell);
     }

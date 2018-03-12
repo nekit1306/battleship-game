@@ -9,6 +9,8 @@ const Ship = ({type, size, orientation}) => {
 
 Ship.propTypes = {
   size: PropTypes.object.isRequired,
+  type: PropTypes.object.isRequired,
+  orientation: PropTypes.object.isRequired,
 };
 
 Ship.defaultProps = {

@@ -1,6 +1,6 @@
 
 #user-board, #opponent-board {
-  width: 430px;
+  width: 480px;
   display: table-cell;
   text-align: center;
   position: relative;
@@ -111,6 +111,10 @@
   font-size: 30px;
   line-height: 1.2;
   text-align: center;
+}
+
+.entry-desc {
+  font-size: 15px;
 }
 
 .game-option {
