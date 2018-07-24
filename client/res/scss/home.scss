@@ -55,6 +55,10 @@
     }
 
   }
+  .divider {
+    height: 1px;
+    background: #ddd;
+  }
   .action-sidenav {
     text-align: center;
     z-index: 9999;
@@ -80,7 +84,17 @@
     }
   }
   .action-status {
+    position: relative;
     text-align: center;
+    margin-top: 50px;
+    .task-text {
+      position: absolute;
+      top: -10px;
+      padding: 0 20px;
+      background: #f8f8f8;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   .start-button {
     margin-top: 63px;
