@@ -23,8 +23,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state) => {
     return {
-        selectedShip: state.list.selectedShip,
-        ships       : state.list.ships
+        selectedShip: state.game.selectedShip,
+        ships       : state.game.ships
     };
 };
 

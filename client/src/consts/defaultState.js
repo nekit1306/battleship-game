@@ -17,5 +17,8 @@ export const LISTS = {
     gameOver: false,
     isWinner: null,
     currentTurn: null,
-    error: null
+};
+
+export const SOCKET = {
+    socket: null
 };

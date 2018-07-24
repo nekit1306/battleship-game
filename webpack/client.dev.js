@@ -8,8 +8,8 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
       app: [
-          'webpack-dev-server/client?http://localhost:8081',
-          'webpack/hot/only-dev-server',
+        'webpack-dev-server/client?http://localhost:8081',
+        'webpack/hot/only-dev-server',
         'react-hot-loader/patch',
         'webpack-hot-middleware/client?noInfo=false',
         './client/src/index.js',

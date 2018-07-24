@@ -18,10 +18,10 @@ import { setupShipManual, readyForBattle } from '../actions/gameActions'
  */
 const mapStateToProps = (state) => {
     return {
-        selectedShip: state.list.selectedShip,
-        cells       : state.list.cells,
-        ships       : state.list.ships,
-        hits        : state.list.hits
+        selectedShip: state.game.selectedShip,
+        cells       : state.game.cells,
+        ships       : state.game.ships,
+        hits        : state.game.hits
     };
 };
 

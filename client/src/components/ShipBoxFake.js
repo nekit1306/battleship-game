@@ -5,16 +5,14 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-class ShipBoxFake extends Component {
+const ShipBoxFake = (props) => {
 
+    const handleShipClick = ship => {
+        props.selectShip(ship);
+    };
 
-    onShipClick(ship) {
-        this.props.selectShip(ship);
-    }
-
-
-    renderShips() {
-        const { selectedShip, ships } = this.props;
+    const renderShips = () => {
+        const { selectedShip, ships } = props;
 
         let rows = [];
         let counter = 0;
@@ -31,7 +29,7 @@ class ShipBoxFake extends Component {
                 });
 
                 shipList.push(
-                    <div onClick={() => this.onShipClick(ship)}
+                    <div onClick={() => handleShipClick(ship)}
                          className={`ship-box-fake ship-fake-${i} ` + classes}>
                     </div>
                 )
@@ -39,17 +37,14 @@ class ShipBoxFake extends Component {
             rows.push(<div className="ship-box-fake-row">{shipList}</div>);
         }
         return rows;
-    }
+    };
 
-
-    render() {
-        return (
-            <div className ="ship-box-fake-block">
-                {this.renderShips()}
-            </div>
-        );
-    }
-}
+    return (
+        <div className ="ship-box-fake-block">
+            {renderShips()}
+        </div>
+    );
+};
 
 
 export default ShipBoxFake;

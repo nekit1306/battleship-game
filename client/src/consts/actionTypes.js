@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-export const LIST_ACTIONS = {
+export const GAME_ACTIONS = {
     SHIP_PLACING_TOGGLE: 'SHIP_PLACING_TOOGLE',
     BATTLE_READY: 'BATTLE_READY',
     SHIP_SELECT: 'SHIP_SELECT',
@@ -14,6 +14,10 @@ export const LIST_ACTIONS = {
 };
 
 export const SOCKET_ACTIONS = {
+    SOCKET_UPDATE: 'SOCKET_UPDATE',
+};
+
+export const SOCKET_EVENTS = {
     GAME_START: 'game_start',
     GAME_JOIN: 'game_join',
     GAME_OVER: 'game_over',
@@ -22,3 +26,5 @@ export const SOCKET_ACTIONS = {
     HIT: 'hit',
     SHOT_TAKE: 'shot_take'
 };
+
+

@@ -5,74 +5,69 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Board from '../containers/Board';
 
-class OpponentBoard extends Component {
+const OpponentBoard = (props) => {
 
-    handleGameStart() {
+    const handleGameStart = () => {
 
-        const { joinGame, socket, ships } = this.props;
+        const { joinGame, socket, ships } = props;
 
-        joinGame(socket, ships);
-    }
+        if (Object.keys(ships).length) {
+            joinGame(socket, ships);
+        }
+    };
 
-    handleCellClick(cellProps) {
-        const { readyForBattle, hits, currentTurn, shootAtCell, socket } = this.props;
+    const handleCellClick = (cellProps) => {
+        const { readyForBattle, hits, currentTurn, shootAtCell, socket } = props;
 
         const cellId = cellProps.key;
 
         if (readyForBattle && currentTurn && !hits.opponentBoard[cellId]) {
             shootAtCell(socket, cellId);
         }
-    }
+    };
 
-    cellClasses(key) {
-        const { hits } = this.props;
+    const cellClasses = (key) => {
+        const { hits } = props;
 
         return classnames({
             hit: hits.opponentBoard[key] && hits.opponentBoard[key].hit,
             miss: hits.opponentBoard[key] && !hits.opponentBoard[key].hit
         });
-    }
+    };
 
-    shipClasses() {
+    const shipClasses = () => {
         return classnames({
             destroyed: true
         });
-    }
+    };
 
-    render() {
+    const boardProps = {
+        isOpponent: true,
+        onCellClick: cellProps => handleCellClick(cellProps),
+        cellClasses: key => cellClasses(key),
+        shipClasses: shipClasses()
+    };
 
-        const boardProps = {
-            socket: this.props.socket,
-            isOpponent: true,
-            onCellClick: cellProps => this.handleCellClick(cellProps),
-            cellClasses: key => this.cellClasses(key),
-            shipClasses: this.shipClasses()
-        };
+    const { opponentWaiting, currentTurn, readyForBattle, ships } = props;
 
-        const { opponentWaiting, currentTurn, readyForBattle } = this.props;
-
-        return (
-            <div id="opponent-board">
-                { !currentTurn &&
-                    <div className="board-overlay">
-                        <div className="search-game">
-                            { !readyForBattle && !opponentWaiting &&
-                                <div className="start-btn">
-                                    <button className="btn btn-rounded" onClick={() => this.handleGameStart()}>Start game</button>
-                                </div>
-                            }
-                            { opponentWaiting &&
-                                <div className="">
-                                    <span className="fa fa-spinner fa-spin fa-2x"></span>
-                                </div>
-                            }
-                        </div>
+    return (
+        <div id="opponent-board">
+            { !currentTurn &&
+                <div className="board-overlay">
+                    <div className="search-game">
+                        { !readyForBattle && !opponentWaiting &&
+                            <div>
+                                <button className={"btn start-button " + (Object.keys(ships).length ? "btn-active" : "btn-disabled")}
+                                        onClick={() => handleGameStart()}>Start game</button>
+                            </div>
+                        }
                     </div>
-                }
-                <Board {...boardProps} />
-            </div>
-        )
-    }
-}
+                </div>
+            }
+            <Board {...boardProps} />
+            <p>Opponent Board</p>
+        </div>
+    );
+};
 
 export default OpponentBoard;

@@ -1,14 +1,30 @@
 import React from 'react';
 
-const ActionButtons = (props) => (
-    <div className="action-sidenav">
-        <div className="action-btn">
-            <span className="fa fa-random randomizeBtn" onClick={() => props.toggleShipPlacing()}></span>
+const ActionButtons = (props) => {
+
+    const {readyForBattle, opponentWaiting} = props;
+
+    const renderActionTitle = () => {
+
+        if (!readyForBattle && !opponentWaiting) {
+            return (
+                <div>
+                    <div className="action-btn" onClick={() => props.setupShipRandom()}>
+                        <i className="fas fa-random"></i>
+                    </div>
+                    <div className="action-btn" onClick={() => props.toggleShipPlacing()}>
+                        <i className="fas fa-hand-paper"></i>
+                    </div>
+                </div>
+            );
+        }
+    };
+
+    return (
+        <div className="action-sidenav">
+            {renderActionTitle()}
         </div>
-        <div className="action-btn">
-            <span className="fa fa-arrows itselfBtn" onClick={() => props.setupShipRandom()}></span>
-        </div>
-    </div>
-);
+    );
+};
 
 export default ActionButtons;

@@ -5,7 +5,7 @@
 
 body {
   margin: 0;
-  background: #f8f8f8;
+  background: #f1f3f5;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -32,4 +32,39 @@ tbody > tr > td {
 }
 .btn-rounded {
   border-radius: 25px;
+}
+
+.text-grey {
+  color: #656565;
+  font-size: 14px;
+}
+
+.divider {
+  height: 1px;
+  background: #ddd;
+  margin:0 auto;
+}
+
+.footer {
+  padding: 60px 20px;
+  div {
+    font-size: 14px;
+    .fas {
+      color: $primary-color;
+    }
+  }
+}
+
+
+input.form-control {
+  height: 40px;
+  box-shadow: none;
+  border:none;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-size: 15px;
 }

@@ -12,6 +12,15 @@ import ActionButtons from '../components/ActionButtons';
  This is a redux specific function.
  http://redux.js.org/docs/api/bindActionCreators.html
  */
+const mapStateToProps = (state) => {
+    return {
+        readyForBattle : state.game.readyForBattle,
+        opponentWaiting: state.game.opponentWaiting,
+        currentTurn    : state.game.currentTurn,
+        gameOver       : state.game.gameOver
+    };
+};
+
 const mapDispatchToProps = dispatch => ({
     toggleShipPlacing: () => {
         dispatch(toggleShipPlacing());
@@ -26,4 +35,4 @@ const mapDispatchToProps = dispatch => ({
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(null, mapDispatchToProps)(ActionButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(ActionButtons);

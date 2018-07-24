@@ -1,12 +1,12 @@
 /**
- * Created by Kasutaja on 14.01.2018.
+ * Created by Kasutaja on 18.04.2018.
  */
 /**
  * Created by Kasutaja on 14.01.2018.
  */
+
 import { connect } from 'react-redux';
-import {shootAtCell, joinGame} from '../actions/socketActions';
-import OpponentBoard from '../components/OpponentBoard';
+import Messenger from '../components/Messenger';
 
 /*
  This is a redux specific function.
@@ -20,27 +20,21 @@ import OpponentBoard from '../components/OpponentBoard';
  */
 const mapStateToProps = (state) => {
     return {
-        opponentWaiting: state.game.opponentWaiting,
-        currentTurn    : state.game.currentTurn,
-        readyForBattle : state.game.readyForBattle,
-        ships          : state.game.ships,
-        hits           : state.game.hits,
-        socket         : state.socket.socket
+        readyForBattle: state.game.readyForBattle,
     };
 };
 
 const mapDispatchToProps = dispatch => ({
-    shootAtCell: (socket, cell) => {
-        dispatch(shootAtCell(socket, cell));
-    },
-    joinGame: (socket, board) => {
-        dispatch(joinGame(socket, board));
-    }
+    // setupShipManual: (ship) => {
+    //     dispatch(setupShipManual(ship));
+    // },
+    // readyForBattle: () => {
+    //     dispatch(readyForBattle());
+    // }
 });
-
 
 /*
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(mapStateToProps, mapDispatchToProps)(OpponentBoard);
+export default connect(mapStateToProps, mapDispatchToProps)(Messenger);

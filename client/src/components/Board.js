@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
 import Ship from './Ship';
 
-class Board extends Component {
+const Board = (props) => {
 
-  renderRows() {
+  const renderRows = () => {
       let cells = [];
       let rows = [];
       for (let y = 0; y < 10; y++) {
           for (let x = 0; x < 10; x++) {
 
-              let cellProps = {
-                  key: `${x}${y}`,
-                  x: x,
-                  y: y
-              };
+              if (y === -1) {
+                  cells.push(
+                      <td className="header">
+                          <span>{alphabet[x + 1]}</span>
+                      </td>
+                  );
+              } else {
+                  if (x === -1) {
+                      cells.push(
+                          <td className="header">
+                              <span>{numbers[y + 1]}</span>
+                          </td>
+                      );
+                  } else {
 
-              cells.push(this.renderCells(cellProps));
+                      let cellProps = {
+                          key: `${x}${y}`,
+                          x: x,
+                          y: y
+                      };
+
+                      cells.push(renderCells(cellProps));
+                  }
+              }
           }
 
           rows.push(
@@ -30,11 +45,11 @@ class Board extends Component {
       }
 
       return rows;
-  }
+  };
 
-  renderShips(key) {
+  const renderShips = (key) => {
 
-      const { ships, cells, hits, isOpponent, shipClasses } = this.props;
+      const { ships, cells, hits, isOpponent, shipClasses } = props;
       const opponentBoard = hits.opponentBoard[key];
 
       if (!isOpponent && cells[key]) {
@@ -49,38 +64,44 @@ class Board extends Component {
                        size={opponentBoard.destroyed.size}
                        orientation={opponentBoard.destroyed.orientation}/>
       }
-  }
+  };
 
-  renderCells(cellProps) {
-      const { onCellClick, cellClasses } = this.props;
+  const renderCells = (cellProps) => {
+      const alphabet = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J '];
+      const numbers = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+      const { onCellClick, cellClasses } = props;
 
       const key = cellProps.key;
 
       return(
           <td className="cell">
             <div className={"cell-content " + cellClasses(key)} onClick={() => onCellClick(cellProps)}>
-                {this.renderShips(key)}
+                {renderShips(key)}
+                {cellProps.x === 0 &&
+                    <span className="left">{numbers[cellProps.y + 1]}</span>
+                }
+                {cellProps.y === 0 &&
+                    <span className="top">{alphabet[cellProps.x + 1]}</span>
+                }
             </div>
           </td>
       );
-  }
+  };
 
-  render() {
-      return (
-          <div className ="player-field">
-            <div className="gap">
-                <div className="board-table">
-                    <table className="table">
-                        <tbody>
-                        {this.renderRows()}
-                        </tbody>
-                    </table>
-                </div>
+  return (
+      <div className ="player-field">
+        <div className="gap">
+            <div className="board-table">
+                <table className="table">
+                    <tbody>
+                    {renderRows()}
+                    </tbody>
+                </table>
             </div>
-            <div className="field-bottom">{this.props.title}</div>
-          </div>
-      );
-    }
-}
+        </div>
+      </div>
+  );
+};
 
 export default Board;

@@ -46,7 +46,6 @@ module.exports = {
     ],
   },
   plugins: [
-    // new StartServerPlugin('./server.js'),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

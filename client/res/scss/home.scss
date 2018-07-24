@@ -1,12 +1,5 @@
 .home-page {
   .l-header {
-    position: relative;
-    width: 100%;
-    left: 0;
-    top: 0;
-    margin: auto;
-    min-width: inherit;
-    height: 50px;
     .logo {
       position: absolute;
       top: 0;
@@ -16,22 +9,90 @@
         width: 50px;
       }
     }
+
+    .header-title {
+      padding: 30px 0 0;
+      .cf-text {
+        color: #565252;
+        font-size: 14px;
+      }
+      .entry-title {
+        font-size: 30px;
+        line-height: 1.2;
+        text-align: center;
+        .badge {
+          position: absolute;
+          font-size: 12px;
+          font-weight: 500;
+          margin-top: -10px;
+        }
+      }
+      .action-title {
+        font-weight: 500;
+        color: #6a6969;
+        &:before, &:after {
+          content: "";
+          height: 1px;
+          background: #ddd;
+          width: 240px;
+          display: inline-block;
+          vertical-align: middle;
+          margin:0 15px;
+        }
+      }
+    }
+
+    .game-option {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+      height: 100%;
+      padding: 100px 0;
+      background: rgba(255,255,255,0.7);
+    }
+
   }
   .action-sidenav {
-    position: absolute;
-    top: 50px;
+    text-align: center;
     z-index: 9999;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    p {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+      margin-bottom: 10px;
+    }
     .action-btn {
-      font-size: 25px;
-      color: #4f4f4f;
+      font-size: 19px;
+      color: $primary-color;
       cursor: pointer;
+      width: 45px;
+      height: 45px;
+      border: 1px solid $primary-color;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 44px;
+      margin: 10px 0;
     }
   }
   .action-status {
     text-align: center;
   }
-  .start-btn {
-    margin-top: 30px;
+  .start-button {
+    margin-top: 63px;
+    margin-left: 33px;
+    font-weight: 400;
+    font-size: 14px;
+    &.btn-disabled {
+      background: #aaa;
+    }
+    &.btn-active {
+      background: $primary-color;
+    }
   }
   .announcements-list {
     display: none;
@@ -56,6 +117,112 @@
         color: #745fb5;
         margin: 0;
         padding: 0;
+      }
+    }
+  }
+
+  .chat-block {
+    position: fixed;
+    bottom: 10px;
+    right: 50px;
+    z-index: 9999;
+    .chat-inner-window {
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 4px 4px 6px 1px #eee;
+      transition: all .5s;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    .chat-header {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: #1e88e5;
+      color:#fff;
+      border-radius: 5px 5px 0 0;
+    }
+    .chat-history {
+      height: 350px;
+      width: 280px;
+      padding: 15px;
+      transform: translateY(15px);
+      .chat-history-messages {
+        .message-block {
+          margin-bottom: 10px;
+          .message-bubble {
+            max-width: 170px;
+            padding: 10px;
+            border-radius: 25px 25px 25px 0;
+            &.bubble-right {
+              float:right;
+              border-radius: 25px 25px 0 25px;
+              background: #1e88e5;
+              color: #fff;
+            }
+            &.bubble-left {
+              background: #ececec;
+            }
+          }
+        }
+        .message-block > div {
+          display: inline-block;
+          min-height: 40px;
+          font-size: 13px;
+          color: #474747;
+        }
+        .message-block {
+          .user-icon {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background: #ddd;
+            border-radius: 50%;
+            text-align: center;
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .chat-message {
+      .form-control {
+        border-top: 1px solid #eceaea;
+        border-radius: 0 0 5px 5px;
+        height: 50px;
+      }
+    }
+    .chat-icon-send {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      background: #1e88e5;
+      border-radius: 30px;
+      text-align: center;
+      color: #fff;
+      right: 20px;
+      bottom: 23px;
+      cursor: pointer;
+      z-index: 10000;
+      transition: all .5s;
+      font-size: 21px;
+    }
+    &.chat-opened {
+      .chat-inner-window {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      .chat-icon-send {
+        transform: rotate(360deg);
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        background: transparent;
+        color: #1e88e5;
+        font-size: 19px;
       }
     }
   }

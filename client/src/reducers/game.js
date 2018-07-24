@@ -1,4 +1,4 @@
-import { LIST_ACTIONS } from '../consts/actionTypes';
+import { GAME_ACTIONS } from '../consts/actionTypes';
 import { LISTS } from '../consts/defaultState';
 import { getRandomCoordinates, getShipPosition } from '../utils/helpers';
 
@@ -6,10 +6,15 @@ import { getRandomCoordinates, getShipPosition } from '../utils/helpers';
 export default (state = LISTS, action) => {
     switch (action.type) {
 
-        case LIST_ACTIONS.SHIP_PLACING_TOGGLE:
-            return { ...state, shipPlacing: !state.shipPlacing};
+        case GAME_ACTIONS.SHIP_PLACING_TOGGLE:
+            return {
+                ...state,
+                shipPlacing: true,
+                ships: [],
+                cells: []
+            };
 
-        case LIST_ACTIONS.BATTLE_READY:
+        case GAME_ACTIONS.BATTLE_READY:
             return {
                 ...state,
                 readyForBattle: true,
@@ -17,10 +22,10 @@ export default (state = LISTS, action) => {
                 currentTurn: action.payload,
             };
 
-        case LIST_ACTIONS.OPPONENT_WAITING:
+        case GAME_ACTIONS.OPPONENT_WAITING:
             return { ...state, opponentWaiting: true };
 
-        case LIST_ACTIONS.SHIP_SETUP_MANUAL:
+        case GAME_ACTIONS.SHIP_SETUP_MANUAL:
             return {
               ...state,
               ships: {
@@ -36,34 +41,35 @@ export default (state = LISTS, action) => {
               },
             };
 
-        case LIST_ACTIONS.SHIP_SETUP_RANDOM:
+        case GAME_ACTIONS.SHIP_SETUP_RANDOM:
 
             const randomCoords = getRandomCoordinates();
 
             return {
                 ...state,
                 ships: randomCoords.ships,
-                cells: randomCoords.cells
+                cells: randomCoords.cells,
+                shipPlacing: false
             };
 
-        case LIST_ACTIONS.SHIP_SELECT:
+        case GAME_ACTIONS.SHIP_SELECT:
             return {...state, selectedShip: action.payload};
 
-        case LIST_ACTIONS.GAME_START:
+        case GAME_ACTIONS.GAME_START:
             return {
                 ...state,
                 opponentWaiting: false,
                 currentTurn: action.payload
             };
 
-        case LIST_ACTIONS.GAME_OVER:
+        case GAME_ACTIONS.GAME_OVER:
             return {
                 ...state,
                 gameOver: true,
                 isWinner: action.payload
             };
 
-        case LIST_ACTIONS.CELL_HIT:
+        case GAME_ACTIONS.CELL_HIT:
 
             const hitsBoard = {
                 ...state,
@@ -91,7 +97,7 @@ export default (state = LISTS, action) => {
             return hitsBoard;
 
 
-        case LIST_ACTIONS.SHOT_TAKE:
+        case GAME_ACTIONS.SHOT_TAKE:
 
             const shotsBoard = {
                 ...state,

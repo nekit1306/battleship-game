@@ -5,6 +5,8 @@
 import { connect } from 'react-redux';
 import Home from '../components/Home';
 
+import { updateSocket, loadInitialSockets } from '../actions/socketActions'
+
 /*
  This is a redux specific function.
  What is does is: It gets the state specified in here from the global redux state.
@@ -17,16 +19,25 @@ import Home from '../components/Home';
  */
 const mapStateToProps = (state) => {
     return {
-        currentTurn    : state.list.currentTurn,
-        readyForBattle : state.list.readyForBattle,
-        opponentWaiting: state.list.opponentWaiting,
-        isWinner       : state.list.isWinner,
-        gameOver       : state.list.gameOver
+        currentTurn    : state.game.currentTurn,
+        readyForBattle : state.game.readyForBattle,
+        opponentWaiting: state.game.opponentWaiting,
+        isWinner       : state.game.isWinner,
+        gameOver       : state.game.gameOver
     };
 };
+const mapDispatchToProps = dispatch => ({
+    updateSocket: (socket) => {
+        dispatch(updateSocket(socket));
+    },
+    loadInitialSockets: (socket) => {
+        dispatch(loadInitialSockets(socket));
+    }
+});
+
 
 /*
  Here we are creating a Higher order component
  https://facebook.github.io/react/docs/higher-order-components.html
  */
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
