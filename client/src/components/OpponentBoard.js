@@ -17,21 +17,21 @@ const OpponentBoard = (props) => {
     };
 
     const handleCellClick = (cellProps) => {
-        const { readyForBattle, hits, currentTurn, shootAtCell, socket } = props;
+        const { readyForBattle, hit_points, currentTurn, shootAtCell, socket } = props;
 
         const cellId = cellProps.key;
 
-        if (readyForBattle && currentTurn && !hits.opponentBoard[cellId]) {
+        if (readyForBattle && currentTurn && !hit_points[cellId]) {
             shootAtCell(socket, cellId);
         }
     };
 
     const cellClasses = (key) => {
-        const { hits } = props;
+        const { hit_points } = props;
 
         return classnames({
-            hit: hits.opponentBoard[key] && hits.opponentBoard[key].hit,
-            miss: hits.opponentBoard[key] && !hits.opponentBoard[key].hit
+            hit: '',
+            miss: ''
         });
     };
 
@@ -42,7 +42,7 @@ const OpponentBoard = (props) => {
     };
 
     const boardProps = {
-        isOpponent: true,
+        isOpponent : true,
         onCellClick: cellProps => handleCellClick(cellProps),
         cellClasses: key => cellClasses(key),
         shipClasses: shipClasses()

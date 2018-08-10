@@ -30,19 +30,19 @@ const UserBoard = (props) => {
 
 
     const cellClasses = key => {
-        const { hits } = props;
+        const { hit_points } = props;
 
         return classnames({
-            hit: hits.userBoard[key] && hits.userBoard[key].hit,
-            miss: hits.userBoard[key] && !hits.userBoard[key].hit
+            hit: hit_points[key],
+            miss: hit_points[key]
         });
     };
 
     const shipClasses = key => {
-        const { hits } = props;
+        const { hit_points } = props;
 
         return classnames({
-            destroyed: hits.userBoard[key] && hits.userBoard[key].destroyed,
+            destroyed: hit_points[key]
         });
     };
 

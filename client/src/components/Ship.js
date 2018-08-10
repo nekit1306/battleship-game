@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Ship = ({type, size, orientation}) => {
+const Ship = ({type, data}) => {
   return (
-    <div className={`ship-box ship-box-size-${size} ship-box-${type} ship-${orientation}`}></div>
+    <div className={`ship-box ship-box-size-${data.size} ship-box-${type} ship-${data.orientation}`}></div>
   );
 };
 
 Ship.propTypes = {
-  size: PropTypes.object.isRequired,
   type: PropTypes.object.isRequired,
-  orientation: PropTypes.object.isRequired,
 };
 
 Ship.defaultProps = {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Ship from './Ship';
 
 const Board = (props) => {
@@ -49,20 +49,16 @@ const Board = (props) => {
 
   const renderShips = (key) => {
 
-      const { ships, cells, hits, isOpponent, shipClasses } = props;
-      const opponentBoard = hits.opponentBoard[key];
+      const { ships, cells, hit_points, isOpponent, shipClasses } = props;
+      const opponentBoard = hit_points[key];
 
       if (!isOpponent && cells[key]) {
 
-          return <Ship type={shipClasses(key)}
-                       size={ships[cells[key].id].size}
-                       orientation={ships[cells[key].id].orientation} />
+          return <Ship type={shipClasses(key)} data={ships[cells[key].id]} />
 
-      } else if (isOpponent && opponentBoard && opponentBoard.destroyed) {
+      } else if (isOpponent && opponentBoard) {
 
-          return <Ship type={shipClasses}
-                       size={opponentBoard.destroyed.size}
-                       orientation={opponentBoard.destroyed.orientation}/>
+          return <Ship type={shipClasses} data={opponentBoard.destroyed} />
       }
   };
 
@@ -71,6 +67,8 @@ const Board = (props) => {
       const numbers = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
       const { onCellClick, cellClasses } = props;
+
+      console.log(cellProps);
 
       const key = cellProps.key;
 

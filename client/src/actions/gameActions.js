@@ -2,7 +2,7 @@ import { GAME_ACTIONS } from '../consts/actionTypes';
 
 
 export const toggleShipPlacing = () => ({
-    type: GAME_ACTIONS.SHIP_PLACING_TOGGLE,
+    type: GAME_ACTIONS.SHIP_CLEAR,
 });
 
 export const waitForOpponent = () => ({

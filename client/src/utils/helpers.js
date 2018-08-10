@@ -44,7 +44,21 @@ export function getRandomCoordinates () {
 
             } while ((endPosition) > 9 || corners.indexOf(`${x}${y}`) !== -1 || corners.indexOf(`${xCoord}${yCoord}`) !== -1);
 
-            corners = corners.concat(calculateCorners(x, y, size, orientation));
+            corners = corners.concat((x, y, size, orientation) => {
+                const corners_points = [];
+
+                for(let i = -1; i < size + 1; i++) {
+                    for(let a = -1; a < 2; a++) {
+                        const xCoord = orientation === 0 ? x + i : x + a;
+                        const yCoord = orientation === 0 ? y + a : y + i;
+                        if ( xCoord >= 0 && xCoord < 10 && yCoord >= 0 && yCoord < 10) {
+                            corners_points.push(`${xCoord}${yCoord}`);
+                        }
+                    }
+                }
+
+                return corners_points;
+            });
 
             ships[id] = {
                 pos        : getShipPosition(x, y, size, orientation),
@@ -62,22 +76,4 @@ export function getRandomCoordinates () {
     });
 
     return {ships: ships, cells: cells};
-}
-
-
-export function calculateCorners (x, y, size, orientation) {
-
-    const corners = [];
-
-    for(let i = -1; i < size + 1; i++) {
-        for(let a = -1; a < 2; a++) {
-            const xCoord = orientation === 0 ? x + i : x + a;
-            const yCoord = orientation === 0 ? y + a : y + i;
-            if ( xCoord >= 0 && xCoord < 10 && yCoord >= 0 && yCoord < 10) {
-                corners.push(`${xCoord}${yCoord}`);
-            }
-        }
-    }
-
-    return corners;
 }

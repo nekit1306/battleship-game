@@ -21,8 +21,8 @@ import UserBoard from '../components/UserBoard';
 const mapStateToProps = (state) => {
     return {
         selectedShip: state.game.selectedShip,
-        ships       : state.game.ships,
-        hits        : state.game.hits
+        ships       : state.game.userBoard.ships,
+        hit_points        : state.game.userBoard.hit_points
     };
 };
 

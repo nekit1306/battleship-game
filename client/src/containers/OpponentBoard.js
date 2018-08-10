@@ -23,8 +23,8 @@ const mapStateToProps = (state) => {
         opponentWaiting: state.game.opponentWaiting,
         currentTurn    : state.game.currentTurn,
         readyForBattle : state.game.readyForBattle,
-        ships          : state.game.ships,
-        hits           : state.game.hits,
+        ships          : state.game.userBoard.ships,
+        hits           : state.game.opponentBoard.hit_points,
         socket         : state.socket.socket
     };
 };
