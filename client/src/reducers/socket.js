@@ -1,10 +1,12 @@
 /**
  * Created by Kasutaja on 15.04.2018.
  */
-import { INITIAL_SOCKET_STATE } from '../consts/defaultState';
-import { SOCKET_ACTIONS } from "../consts/actionTypes";
 
-export default (state = INITIAL_SOCKET_STATE, action) => {
+const socketInitialState = {
+    socket: null
+};
+
+const socketReducer = (state = socketInitialState, action) => {
     switch (action.type) {
         case SOCKET_ACTIONS.SOCKET_UPDATE:
             return {
@@ -16,4 +18,6 @@ export default (state = INITIAL_SOCKET_STATE, action) => {
             return state;
 
     }
-}
+};
+
+export default socketReducer;

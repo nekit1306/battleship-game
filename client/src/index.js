@@ -8,7 +8,7 @@ import {
 import { AppContainer } from 'react-hot-loader';
 import reducers from './reducers/index';
 import thunk from 'redux-thunk'
-import App from './app';
+import App from './containers/App';
 
 
 /*
@@ -17,7 +17,7 @@ Here we are getting the initial state injected by the server. See routes/index.j
 const initialState = window.__INITIAL_STATE__; // eslint-disable-line
 
 const store = createStore(reducers, initialState
-    +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(thunk)
+    + window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), applyMiddleware(thunk)
 );
 
 /*

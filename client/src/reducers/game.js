@@ -1,13 +1,36 @@
-import { GAME_ACTIONS } from '../consts/actionTypes';
-import { INITIAL_GAME_STATE, USER_BOARD_INITIAL_STATE } from '../consts/defaultState';
 import { getRandomCoordinates, getShipPosition } from '../utils/helpers';
+import {
+    SHIP_CLEAR,
+    SHIP_SETUP_MANUAL,
+    SHIP_SETUP_RANDOM,
+    SHOT_TAKE,
+    CELL_HIT
+} from '../actions/gameActions'
+
+const gameInitialState = {
+    userBoard      : {
+        hitPoints: [],
+        destroyed: []
+    },
+    opponentBoard  : {
+        hitPoints: [],
+        destroyed: []
+    },
+    ships          : [],
+    selectedShip   : {},
+    opponentWaiting: false,
+    readyForBattle : false,
+    gameOver       : false,
+    isWinner       : null,
+    currentTurn    : null
+};
 
 
-function userBoardReducer(state = {}, action) {
+const userBoardReducer = (state = {}, action) => {
     switch (action.type) {
-        case GAME_ACTIONS.SHIP_CLEAR:
+        case SHIP_CLEAR:
             return {...state, ships: [], cells: []};
-        case GAME_ACTIONS.SHIP_SETUP_MANUAL:
+        case SHIP_SETUP_MANUAL:
             return {
                 ...state,
                 ships: {
@@ -22,16 +45,15 @@ function userBoardReducer(state = {}, action) {
                     }
                 }
             };
-        case GAME_ACTIONS.SHIP_SETUP_RANDOM:
+        case SHIP_SETUP_RANDOM:
 
             const randomCoords = getRandomCoordinates();
 
             return {
                 ...state,
                 ships: randomCoords.ships,
-                cells: randomCoords.cells,
             };
-        case GAME_ACTIONS.SHOT_TAKE:
+        case SHOT_TAKE:
 
             const checkForDestroyed = (state = {}, destroyedArray) => {
                 if (Object.keys(destroyedArray).length > 0) {
@@ -54,12 +76,11 @@ function userBoardReducer(state = {}, action) {
         default:
             return state;
     }
-}
+};
 
-function opponentBoardReducer(state = {}, action) {
+const opponentBoardReducer = (state = {}, action)=> {
     switch (action.type) {
-        case GAME_ACTIONS.CELL_HIT:
-
+        case CELL_HIT:
             const checkForDestroyed = (state = {}, destroyedArray) => {
                 if (Object.keys(destroyedArray).length > 0) {
                     return state.concat(destroyedArray);
@@ -81,37 +102,39 @@ function opponentBoardReducer(state = {}, action) {
         default:
             return state;
     }
-}
+};
 
 
-export default (state = INITIAL_GAME_STATE, action) => {
+const gameReducer = (state = gameInitialState, action) => {
     switch (action.type) {
-        case GAME_ACTIONS.SHIP_SETUP_RANDOM:
-        case GAME_ACTIONS.SHIP_SETUP_MANUAL:
+        case SHIP_SETUP_RANDOM:
+        case SHIP_SETUP_MANUAL:
             return {...state, userBoard: userBoardReducer(state.userBoard, action)};
-        case GAME_ACTIONS.SHIP_CLEAR:
+        case SHIP_CLEAR:
             return {...state, userBoard: USER_BOARD_INITIAL_STATE};
-        case GAME_ACTIONS.OPPONENT_WAITING:
+        case OPPONENT_WAITING:
             return { ...state, opponentWaiting: true };
-        case GAME_ACTIONS.SHIP_SELECT:
+        case SHIP_SELECT:
             return {...state, selectedShip: action.payload};
-        case GAME_ACTIONS.GAME_START:
+        case GAME_START:
             return {...state, opponentWaiting: false, currentTurn: action.payload};
-        case GAME_ACTIONS.GAME_OVER:
+        case GAME_OVER:
             return {...state, gameOver: true, isWinner: action.payload};
-        case GAME_ACTIONS.SHOT_TAKE:
+        case GAME_RESET:
+            return{...state, ...gameInitialState};
+        case SHOT_TAKE:
             return {
                 ...state,
                 userBoard: userBoardReducer(state.userBoard, action),
                 currentTurn: !action.payload.hit
             };
-        case GAME_ACTIONS.CELL_HIT:
+        case CELL_HIT:
             return {
                 ...state,
                 opponentBoard: opponentBoardReducer(state.userBoard, action),
                 currentTurn: action.payload.hit
             };
-        case GAME_ACTIONS.BATTLE_READY:
+        case BATTLE_READY:
             return {
                 ...state,
                 readyForBattle: true,
@@ -121,4 +144,6 @@ export default (state = INITIAL_GAME_STATE, action) => {
         default:
           return state;
     }
-}
+};
+
+export default gameReducer;

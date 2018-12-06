@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserBoard from "../containers/UserBoard";
 import OpponentBoard from "../containers/OpponentBoard"
-import ActionButtons from "../containers/ActionButtons"
+import ActionButtons from "../components/ActionButtons"
 
-const PlayBoard = (props) => {
+const PlayBoard = () => {
     return (
-        <div className={"playing-area " + (props.shipPlacing ? 'ship-placing' : '')}>
+        <div className="playing-area">
             <div className="field-clearfix">
                 <ActionButtons/>
                 <UserBoard />

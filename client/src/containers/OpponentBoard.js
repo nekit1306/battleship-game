@@ -1,46 +1,74 @@
 /**
- * Created by Kasutaja on 14.01.2018.
+ * Created by Kasutaja on 08.01.2018.
  */
-/**
- * Created by Kasutaja on 14.01.2018.
- */
-import { connect } from 'react-redux';
-import {shootAtCell, joinGame} from '../actions/socketActions';
-import OpponentBoard from '../components/OpponentBoard';
+import React, { Component } from 'react';
+import classnames from 'classnames';
+import Board from '../containers/Board';
 
-/*
- This is a redux specific function.
- What is does is: It gets the state specified in here from the global redux state.
- For example, here we are retrieving the list of items from the redux store.
- Whenever this list changes, any component that is using this list of item will re-render.
- */
-/*
- This is a redux specific function.
- http://redux.js.org/docs/api/bindActionCreators.html
- */
-const mapStateToProps = (state) => {
-    return {
-        opponentWaiting: state.game.opponentWaiting,
-        currentTurn    : state.game.currentTurn,
-        readyForBattle : state.game.readyForBattle,
-        ships          : state.game.userBoard.ships,
-        hits           : state.game.opponentBoard.hit_points,
-        socket         : state.socket.socket
+class OpponentBoard extends Component{
+
+    handleGameStart = () => {
+
+        const { joinGame, ships } = props;
+
+        if (Object.keys(ships).length > 0) {
+            joinGame(ships);
+        }
     };
+
+    handleCellClick = (cellProps) => {
+        const { readyForBattle, hit_points, currentTurn, shootAtCell } = props;
+
+        const cellId = cellProps.key;
+
+        if (readyForBattle && currentTurn && !hit_points[cellId]) {
+            shootAtCell(cellId);
+        }
+    };
+
+    render() {
+        const cellClasses = (key) => {
+            const hasPoints = this.props.hitPoints[key];
+
+            return classnames({
+                miss         : !hasPoints,
+                ship_damaged : hasPoints,
+            });
+        };
+
+        const shipClasses = () => {
+            return classnames({
+                ship_destroyed: true
+            });
+        };
+
+        const boardProps = {
+            isOpponent : true,
+            onCellClick: cellProps => this.handleCellClick(cellProps),
+            cellClasses: key => cellClasses(key),
+            shipClasses: shipClasses()
+        };
+
+        return (
+            <div id="opponent-board">
+                { !currentTurn &&
+                <div className="board-overlay">
+                    <div className="search-game">
+                        { !readyForBattle && !opponentWaiting &&
+                        <div>
+                            <button className={"btn start-button " + (Object.keys(ships).length > 0 ? "btn-active" : "btn-disabled")}
+                                    onClick={() => this.handleGameStart()}>Start game</button>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+                <Board {...boardProps} />
+                <p>Opponent Board</p>
+            </div>
+        );
+    }
+
 };
 
-const mapDispatchToProps = dispatch => ({
-    shootAtCell: (socket, cell) => {
-        dispatch(shootAtCell(socket, cell));
-    },
-    joinGame: (socket, board) => {
-        dispatch(joinGame(socket, board));
-    }
-});
-
-
-/*
- Here we are creating a Higher order component
- https://facebook.github.io/react/docs/higher-order-components.html
- */
-export default connect(mapStateToProps, mapDispatchToProps)(OpponentBoard);
+export default OpponentBoard;

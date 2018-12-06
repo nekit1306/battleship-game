@@ -1,50 +1,108 @@
-import { GAME_ACTIONS } from '../consts/actionTypes';
+/**
+ * Created by Kasutaja on 08.01.2018.
+ */
+
+import {
+    SHIP_CLEAR,
+    BATTLE_READY,
+    CELL_HIT,
+    GAME_OVER,
+    GAME_RESET,
+    OPPONENT_WAITING,
+    SHIP_SELECT,
+    SHIP_SETUP_MANUAL,
+    SHIP_SETUP_RANDOM,
+    SHOT_TAKE
+} from '../constants/ActionTypes';
+
+import { GAME_JOIN, GAME_OVER, GAME_START, USER_LEFT } from '../constants/SocketEvents';
 
 
 export const toggleShipPlacing = () => ({
-    type: GAME_ACTIONS.SHIP_CLEAR,
+    type: SHIP_CLEAR,
 });
 
 export const waitForOpponent = () => ({
-    type: GAME_ACTIONS.OPPONENT_WAITING,
+    type: OPPONENT_WAITING,
 });
 
 export const readyForBattle = currentTurn => ({
-    type: GAME_ACTIONS.BATTLE_READY,
+    type: BATTLE_READY,
     payload: currentTurn
 });
 
 export const selectShip = ship => ({
-    type: GAME_ACTIONS.SHIP_SELECT,
+    type: SHIP_SELECT,
     payload: ship
 });
 
 export const setupShipManual = ship => ({
-    type: GAME_ACTIONS.SHIP_SETUP_MANUAL,
+    type: SHIP_SETUP_MANUAL,
     payload: ship
 });
 
 export const setupShipRandom = () => ({
-    type: GAME_ACTIONS.SHIP_SETUP_RANDOM,
+    type: SHIP_SETUP_RANDOM,
 });
 
-
 export const hitCell = cell => ({
-    type: GAME_ACTIONS.CELL_HIT,
+    type: CELL_HIT,
     payload: cell
 });
 
 export const takeShot = cell => ({
-    type: GAME_ACTIONS.SHOT_TAKE,
+    type: SHOT_TAKE,
     payload: cell
 });
 
 export const gameOver = winner => ({
-    type: GAME_ACTIONS.GAME_OVER,
+    type: GAME_OVER,
     payload: winner
 });
 
 export const gameReset = () => ({
-    type: GAME_ACTIONS.GAME_RESET,
+    type: GAME_RESET,
 });
+
+
+// Socket events
+
+export const loadInitialEvents = socket => {
+    return (dispatch) => {
+        socket.on(GAME_START, currentTurn => {
+            dispatch(readyForBattle(currentTurn));
+        });
+
+        socket.on(HIT, cell => {
+            dispatch(hitCell(cell));
+        });
+
+        socket.on(SHOT_TAKE, cell => {
+            dispatch(takeShot(cell));
+        });
+
+        socket.on(USER_LEFT, () => {
+            // some dispatch
+        });
+
+        socket.on(GAME_OVER, winner => {
+            dispatch(gameOver(winner));
+        });
+
+    }
+};
+
+export const joinGame = (socket, board) => {
+    return (dispatch) => {
+        socket.emit(GAME_JOIN, board);
+        dispatch(waitForOpponent());
+    }
+};
+
+export const shootAtCell = (socket, cell) => {
+    return () => {
+        socket.emit(SHOOT, cell);
+    }
+};
+
 

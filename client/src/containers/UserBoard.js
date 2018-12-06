@@ -1,43 +1,62 @@
 /**
- * Created by Kasutaja on 14.01.2018.
+ * Created by Kasutaja on 08.01.2018.
  */
-/**
- * Created by Kasutaja on 14.01.2018.
- */
-import { connect } from 'react-redux';
-import { setupShipManual, toggleShipPlacing } from '../actions/gameActions';
-import UserBoard from '../components/UserBoard';
+import React, { Component } from 'react';
+import classnames from 'classnames';
+import Board from '../components/Board';
+import ShipBoxFake from '../containers/ShipBoxFakeContainer'
 
-/*
- This is a redux specific function.
- What is does is: It gets the state specified in here from the global redux state.
- For example, here we are retrieving the list of items from the redux store.
- Whenever this list changes, any component that is using this list of item will re-render.
- */
-/*
- This is a redux specific function.
- http://redux.js.org/docs/api/bindActionCreators.html
- */
-const mapStateToProps = (state) => {
-    return {
-        selectedShip: state.game.selectedShip,
-        ships       : state.game.userBoard.ships,
-        hit_points        : state.game.userBoard.hit_points
+class UserBoard extends Component {
+
+    handleCellClick = cellProps => {
+        const { selectedShip, ships, setupShipManual} = props;
+
+        if (selectedShip.id !== null && !ships[selectedShip.id]) {
+            const ship = {
+                id  : selectedShip.id,
+                size: selectedShip.size,
+                key : cellProps.key,
+                x   : cellProps.x,
+                y   : cellProps.y
+            };
+
+            setupShipManual(ship);
+        }
     };
-};
 
-const mapDispatchToProps = dispatch => ({
-    setupShipManual: (ship) => {
-        dispatch(setupShipManual(ship));
-    },
-    toggleShipPlacing: () => {
-        dispatch(toggleShipPlacing());
+    render() {
+        const boardProps = {
+            isOpponent: false,
+            onCellClick: cellProps => this.handleCellClick(cellProps),
+            cellClasses: key => cellClasses(key),
+            shipClasses: key => shipClasses(key)
+        };
+
+        const cellClasses = key => {
+            const { hit_points } = props;
+
+            return classnames({
+                hit: hit_points[key],
+                miss: hit_points[key]
+            });
+        };
+
+        const shipClasses = key => {
+            const { destroyed } = props;
+
+            return classnames({
+                ship_destroyed: destroyed[key]
+            });
+        };
+        return (
+            <div id="user-board">
+                <ShipBoxFake />
+                <Board {...boardProps} />
+                <p>User Board</p>
+            </div>
+        );
+    };
     }
-});
 
 
-/*
- Here we are creating a Higher order component
- https://facebook.github.io/react/docs/higher-order-components.html
- */
-export default connect(mapStateToProps, mapDispatchToProps)(UserBoard);
+export default UserBoard;

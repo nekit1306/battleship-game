@@ -3,31 +3,25 @@
  */
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import ActionButtons from "../containers/ActionButtons";
-import Board from '../containers/Board';
-import ShipBoxFake from '../containers/ShipBoxFake'
+import Board from '../components/Board';
+import ShipBoxFake from '../containers/ShipBoxFakeContainer'
 
 const UserBoard = (props) => {
-
     const handleCellClick = cellProps => {
-        const { selectedShip, ships, setupShipManual, toggleShipPlacing} = props;
+        const { selectedShip, ships, setupShipManual} = props;
         if (selectedShip.id !== null && !ships[selectedShip.id]) {
 
             const ship = {
                 id  : selectedShip.id,
                 size: selectedShip.size,
                 key : cellProps.key,
-                x: cellProps.x,
-                y: cellProps.y
+                x   : cellProps.x,
+                y   : cellProps.y
             };
 
             setupShipManual(ship);
         }
-        if(Object.keys(ships).length === 10) {
-            toggleShipPlacing();
-        }
     };
-
 
     const cellClasses = key => {
         const { hit_points } = props;
@@ -39,10 +33,10 @@ const UserBoard = (props) => {
     };
 
     const shipClasses = key => {
-        const { hit_points } = props;
+        const { hit_points, destroyed } = props;
 
         return classnames({
-            destroyed: hit_points[key]
+            ship_destroyed: destroyed[key]
         });
     };
 

@@ -17,7 +17,6 @@ export function getRandomCoordinates () {
     let corners = [];
 
     const ships = {};
-    const cells = {};
 
     let id = 0;
 
@@ -67,13 +66,9 @@ export function getRandomCoordinates () {
                 orientation: orientation
             };
 
-            cells[`${x}${y}`] = {
-                id: id
-            };
-
             id++;
         }
     });
 
-    return {ships: ships, cells: cells};
+    return ships;
 }

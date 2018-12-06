@@ -1,30 +1,35 @@
+/**
+ * Created by Kasutaja on 08.01.2018.
+ */
+
 import React from 'react';
 
-const ActionButtons = (props) => {
+class ActionButtons extends Component {
 
-    const {readyForBattle, opponentWaiting} = props;
+    render() {
+        const { readyForBattle, opponentWaiting } = this.props;
 
-    const renderActionTitle = () => {
-
-        if (!readyForBattle && !opponentWaiting) {
-            return (
-                <div>
-                    <div className="action-btn" onClick={() => props.setupShipRandom()}>
-                        <i className="fas fa-random"></i>
+        const renderButton = () => {
+            if (!readyForBattle && !opponentWaiting) {
+                return (
+                    <div>
+                        <div className="action-btn" onClick={() => props.setupShipRandom()}>
+                            <i className="fas fa-random"></i>
+                        </div>
+                        <div className="action-btn" onClick={() => props.toggleShipPlacing()}>
+                            <i className="fas fa-hand-paper"></i>
+                        </div>
                     </div>
-                    <div className="action-btn" onClick={() => props.toggleShipPlacing()}>
-                        <i className="fas fa-hand-paper"></i>
-                    </div>
-                </div>
-            );
-        }
-    };
+                );
+            }
+        };
+        return (
+            <div className="action-sidenav">
+                {renderButton()}
+            </div>
+        );
+    }
 
-    return (
-        <div className="action-sidenav">
-            {renderActionTitle()}
-        </div>
-    );
 };
 
 export default ActionButtons;
