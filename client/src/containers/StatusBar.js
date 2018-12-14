@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-class StatusBar extends Component {
-
+export class StatusBar extends Component {
     render() {
-        const { readyForBattle, opponentWaiting, currentTurn, gameOver, isWinner } = props;
+        const { readyForBattle, opponentWaiting, currentTurn, gameOver, isWinner } = this.props;
 
         const renderActionTitle = () => {
             if (!readyForBattle && !opponentWaiting) {
@@ -34,4 +34,14 @@ class StatusBar extends Component {
     }
 }
 
-export default StatusBar;
+const mapStateToProps = (state) => {
+    return {
+        readyForBattle: state.game.readyForBattle,
+        opponentWaiting: state.game.opponentWaiting,
+        currentTurn: state.game.currentTurn,
+        gameOver: state.game.gameOver,
+        isWinner: state.game.isWinner
+    }
+};
+
+export default connect(mapStateToProps, null)(StatusBar);

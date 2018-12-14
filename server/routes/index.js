@@ -13,13 +13,11 @@ let gameId = 0;
 
 io.on('connection', socket => {
     socket.on('game_join', board => {
-
         const userObj = { socket: socket, board: board };
 
         waitingRoom.push(userObj);
 
         if (waitingRoom.length === 2) {
-
             const room = "inGame" + gameId++;
             const game = new BattleshipGame(room, waitingRoom[0], waitingRoom[1]);
 
@@ -42,7 +40,6 @@ io.on('connection', socket => {
 
     socket.on('shoot', cell => {
         const game = users[socket.id].game;
-
         const target = game.checkShoot(cell);
 
         checkGameOver(game);
@@ -52,7 +49,6 @@ io.on('connection', socket => {
     });
 
     socket.on('disconnect', () => {
-
         if (waitingRoom.length > 0 && waitingRoom[0].socket === socket) {
             waitingRoom = [];
         }

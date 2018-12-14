@@ -39,9 +39,9 @@ const render = (Component) => {
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
+  module.hot.accept('./containers/App', () => {
     // eslint-disable-next-line
-    const nextApp = require('./app').default;
+    const nextApp = require('./containers/App').default;
     render(nextApp);
   });
 }

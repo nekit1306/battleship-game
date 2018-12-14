@@ -5,15 +5,15 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-class ShipBoxFake extends Component{
+class FakeShips extends Component{
 
     handleShipClick = ship => {
-        props.selectShip(ship);
+        this.props.selectShip(ship);
     };
 
     render() {
         const renderShips = () => {
-            const { selectedShip, ships } = props;
+            const { selectedShip, ships } = this.props;
 
             let rows = [];
             let counter = 0;
@@ -52,4 +52,4 @@ class ShipBoxFake extends Component{
 };
 
 
-export default ShipBoxFake;
+export default FakeShips;

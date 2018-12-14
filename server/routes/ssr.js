@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import reducers from '../../client/src/reducers/index';
 import thunk from 'redux-thunk';
-import App from '../../client/src/app';
+import App from '../../client/src/containers/App';
 
 const router = express.Router();
 
@@ -22,8 +22,7 @@ router.get('/', (req, res) => {
     <Provider store={store}>
       <StaticRouter
         location={req.originalUrl}
-        context={context}
-      >
+        context={context}>
         <App />
       </StaticRouter>
     </Provider>,

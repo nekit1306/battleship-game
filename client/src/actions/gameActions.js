@@ -6,7 +6,6 @@ import {
     SHIP_CLEAR,
     BATTLE_READY,
     CELL_HIT,
-    GAME_OVER,
     GAME_RESET,
     OPPONENT_WAITING,
     SHIP_SELECT,

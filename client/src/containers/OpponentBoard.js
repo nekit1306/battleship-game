@@ -3,12 +3,12 @@
  */
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import Board from '../containers/Board';
+import Board from '../components/Board';
+import {connect} from 'react-redux';
 
-class OpponentBoard extends Component{
+class OpponentBoard extends Component {
 
     handleGameStart = () => {
-
         const { joinGame, ships } = props;
 
         if (Object.keys(ships).length > 0) {
@@ -28,7 +28,7 @@ class OpponentBoard extends Component{
 
     render() {
         const cellClasses = (key) => {
-            const hasPoints = this.props.hitPoints[key];
+            const hasPoints = this.props.hit_points[key];
 
             return classnames({
                 miss         : !hasPoints,
@@ -46,17 +46,18 @@ class OpponentBoard extends Component{
             isOpponent : true,
             onCellClick: cellProps => this.handleCellClick(cellProps),
             cellClasses: key => cellClasses(key),
-            shipClasses: shipClasses()
+            shipClasses: shipClasses(),
+            title      : 'some title'
         };
 
         return (
             <div id="opponent-board">
-                { !currentTurn &&
+                { !this.props.currentTurn &&
                 <div className="board-overlay">
                     <div className="search-game">
-                        { !readyForBattle && !opponentWaiting &&
+                        { !this.props.readyForBattle && !this.props.opponentWaiting &&
                         <div>
-                            <button className={"btn start-button " + (Object.keys(ships).length > 0 ? "btn-active" : "btn-disabled")}
+                            <button className={"btn start-button " + (Object.keys(this.props.ships).length > 0 ? "btn-active" : "btn-disabled")}
                                     onClick={() => this.handleGameStart()}>Start game</button>
                         </div>
                         }
@@ -71,4 +72,24 @@ class OpponentBoard extends Component{
 
 };
 
-export default OpponentBoard;
+const mapStateToProps = (state) => {
+    return {
+        hit_points : state.game.opponentBoard.hitPoints,
+        destroyed  : state.game.opponentBoard.destroyed,
+        selectedShip: state.game.selectedShip,
+        ships:           state.game.ships,
+        currentTurn: state.game.currentTurn,
+        opponentWaiting: state.game.opponentWaiting
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setupShipManual: () => {
+            dispatch(setupShipManual())
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OpponentBoard);
+

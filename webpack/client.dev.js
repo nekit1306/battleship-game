@@ -1,10 +1,12 @@
 const webpack = require('webpack');
 const helpers      = require('./helpers');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 
 const PORT = 8081;
 
 module.exports = {
+    context: path.join(__dirname, '../client'),
   devtool: 'inline-source-map',
   entry: {
       app: [
@@ -12,14 +14,14 @@ module.exports = {
         'webpack/hot/only-dev-server',
         'react-hot-loader/patch',
         'webpack-hot-middleware/client?noInfo=false',
-        './client/src/index.js',
-        './client/res/scss/main.scss'
+        './src/index.js',
+        './res/scss/main.scss'
       ]
   },
   output: {
-      path: helpers.root('build'),
+      path: path.join(__dirname, '../server/public'),
       filename: './static/app.js',
-      publicPath: '/'
+      publicPath: '/',
   },
   devServer: {
       port: PORT,

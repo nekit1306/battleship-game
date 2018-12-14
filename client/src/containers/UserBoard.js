@@ -4,12 +4,13 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import Board from '../components/Board';
-import ShipBoxFake from '../containers/ShipBoxFakeContainer'
+import FakeShips from '../components/FakeShips';
+import {connect} from 'react-redux';
 
 class UserBoard extends Component {
 
     handleCellClick = cellProps => {
-        const { selectedShip, ships, setupShipManual} = props;
+        const { selectedShip, ships, setupShipManual} = this.props;
 
         if (selectedShip.id !== null && !ships[selectedShip.id]) {
             const ship = {
@@ -25,15 +26,8 @@ class UserBoard extends Component {
     };
 
     render() {
-        const boardProps = {
-            isOpponent: false,
-            onCellClick: cellProps => this.handleCellClick(cellProps),
-            cellClasses: key => cellClasses(key),
-            shipClasses: key => shipClasses(key)
-        };
-
         const cellClasses = key => {
-            const { hit_points } = props;
+            const { hit_points } = this.props;
 
             return classnames({
                 hit: hit_points[key],
@@ -42,21 +36,43 @@ class UserBoard extends Component {
         };
 
         const shipClasses = key => {
-            const { destroyed } = props;
+            const { destroyed } = this.props;
 
             return classnames({
                 ship_destroyed: destroyed[key]
             });
         };
+
+        const boardProps = {
+            isOpponent: false,
+            onCellClick: (cellProps) => this.handleCellClick(cellProps),
+            cellClasses: (key) => cellClasses(key),
+            shipClasses: (key) => shipClasses(key),
+            title      : "My Field"
+        };
+
         return (
-            <div id="user-board">
-                <ShipBoxFake />
-                <Board {...boardProps} />
-                <p>User Board</p>
-            </div>
+            <Board {...boardProps} />
         );
     };
+}
+
+const mapStateToProps = (state) => {
+    return {
+        hit_points : state.game.userBoard.hitPoints,
+        destroyed  : state.game.userBoard.destroyed,
+        selectedShip: state.game.selectedShip,
+        ships:           state.game.ships
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setupShipManual: () => {
+            dispatch(setupShipManual())
+        }
     }
+};
 
+export default connect(mapStateToProps, mapDispatchToProps)(UserBoard);
 
-export default UserBoard;

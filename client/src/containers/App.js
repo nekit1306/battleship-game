@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PlayBoard from '../components/PlayBoard';
-import Header from '../containers/HeaderContainer';
-import Footer from './Footer';
+import Header from '../components/Common/Header';
+import Footer from '../components/Common/Footer';
 import io from 'socket.io-client';
 import {connect} from 'react-redux';
 import StatusBar from '../containers/StatusBar';
 
 class App extends Component {
-
     constructor(props) {
         super(props);
     }
@@ -33,17 +32,16 @@ class App extends Component {
     }
 }
 
-export default App;
-
-const mapStateToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        readyForBattle : state.game.readyForBattle,
-        opponentWaiting: state.game.opponentWaiting,
-        currentTurn    : state.game.currentTurn,
-        gameOver       : state.game.gameOver,
-        isWinner       : state.game.isWinner
+        updateSocket: socket => {
+            dispatch(updateSocket(socket));
+        },
+        loadInitialEvents: socket => {
+            dispatch(loadInitialEvents(socket));
+        },
     };
 };
 
-export default connect(mapStateToProps, null)(App);
+export default connect(null, mapDispatchToProps)(App);
 

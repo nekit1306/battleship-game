@@ -4,7 +4,13 @@ import {
     SHIP_SETUP_MANUAL,
     SHIP_SETUP_RANDOM,
     SHOT_TAKE,
-    CELL_HIT
+    CELL_HIT,
+    OPPONENT_WAITING,
+    SHIP_SELECT,
+    GAME_START,
+    GAME_OVER,
+    GAME_RESET,
+    BATTLE_READY
 } from '../actions/gameActions'
 
 const gameInitialState = {
