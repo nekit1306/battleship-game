@@ -19,8 +19,8 @@ module.exports = {
       ]
   },
   output: {
-      path: path.join(__dirname, '../server/public'),
-      filename: './static/app.js',
+      path: path.join(__dirname, '../build'),
+      filename: '.js/bundle.js',
       publicPath: '/',
   },
   devServer: {
@@ -59,9 +59,8 @@ module.exports = {
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
-          filename: 'index.html',
           template: helpers.root('server/views/index.dev.ejs'),
-          inject: false,
+          inject: 'body',
       }),
       new webpack.DefinePlugin({
           "process.env": { BUILD_TARGET: JSON.stringify("client") },

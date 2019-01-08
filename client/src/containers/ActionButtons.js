@@ -3,14 +3,21 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import { toggleShipPlacing, setupShipRandom } from '../actions/game';
 
 import ButtonList from '../components/ButtonList';
 
-const ActionButtons = (props) => {
-    return (
-        <ButtonList {...props}></ButtonList>
-    );
-};
+class ActionButtons extends Component {
+    render() {
+        const { readyForBattle, opponentWaiting } = this.props;
+
+        if (!readyForBattle && !opponentWaiting) {
+            return (
+                <ButtonList {...this.props} />
+            );
+        }
+    }
+}
 
 const mapStateToProps = (state) => {
     return {
@@ -22,7 +29,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setupShipRandom: () => {
-            dispatch(setupShipManual())
+            dispatch(setupShipRandom())
         },
         toggleShipPlacing: () => {
             dispatch(toggleShipPlacing())

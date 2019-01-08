@@ -4,13 +4,12 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import Board from '../components/Board';
-import FakeShips from '../components/FakeShips';
 import {connect} from 'react-redux';
 
 class UserBoard extends Component {
 
-    handleCellClick = cellProps => {
-        const { selectedShip, ships, setupShipManual} = this.props;
+    handleCellClick = (cellProps) => {
+        const { selectedShip, ships, setupShipManual } = this.props;
 
         if (selectedShip.id !== null && !ships[selectedShip.id]) {
             const ship = {
@@ -26,43 +25,41 @@ class UserBoard extends Component {
     };
 
     render() {
-        const cellClasses = key => {
-            const { hit_points } = this.props;
-
+        const cellClasses = (key) => {
             return classnames({
-                hit: hit_points[key],
-                miss: hit_points[key]
+                hit : false,
+                miss: false
             });
         };
 
         const shipClasses = key => {
-            const { destroyed } = this.props;
-
             return classnames({
-                ship_destroyed: destroyed[key]
+                ship_destroyed: this.props.destroyed[key]
             });
         };
 
         const boardProps = {
-            isOpponent: false,
+            isOpponent : false,
             onCellClick: (cellProps) => this.handleCellClick(cellProps),
             cellClasses: (key) => cellClasses(key),
             shipClasses: (key) => shipClasses(key),
-            title      : "My Field"
+            title      : "My Board"
         };
 
         return (
-            <Board {...boardProps} />
+            <div id='user-board'>
+                <Board {...boardProps} />
+            </div>
         );
     };
 }
 
 const mapStateToProps = (state) => {
     return {
-        hit_points : state.game.userBoard.hitPoints,
-        destroyed  : state.game.userBoard.destroyed,
+        hit_points  : state.game.userBoard.hitPoints,
+        destroyed   : state.game.userBoard.destroyed,
         selectedShip: state.game.selectedShip,
-        ships:           state.game.ships
+        ships       : state.game.ships
     };
 };
 

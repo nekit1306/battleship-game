@@ -7,7 +7,8 @@ import {
 } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import reducers from './reducers/index';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
+import '../res/scss/main.scss';
 import App from './containers/App';
 
 

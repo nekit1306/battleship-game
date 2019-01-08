@@ -12,7 +12,7 @@ module.exports = {
   target: 'node',
   output: {
     path: path.join(__dirname, '../dist'),
-    filename: './server.js',
+    filename: './js/server.js',
   },
   externals: [nodeExternals()],
   module: {

@@ -13,7 +13,7 @@ module.exports = {
     './res/scss/main.scss',
   ],
   output: {
-    path: path.join(__dirname, '../dist/static'),
+    path: path.join(__dirname, '../dist'),
     filename: './js/index.js',
     publicPath: '/',
   },

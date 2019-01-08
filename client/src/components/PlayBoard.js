@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import UserBoard from "../containers/UserBoard";
 import OpponentBoard from "../containers/OpponentBoard"
 import ActionButtons from "../containers/ActionButtons"

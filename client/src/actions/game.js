@@ -12,7 +12,7 @@ import {
     SHIP_SETUP_MANUAL,
     SHIP_SETUP_RANDOM,
     SHOT_TAKE
-} from '../constants/ActionTypes';
+} from './types';
 
 import { GAME_JOIN, GAME_OVER, GAME_START, USER_LEFT } from '../constants/SocketEvents';
 

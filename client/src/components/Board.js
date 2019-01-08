@@ -6,12 +6,18 @@ import Ship from './Ship';
 
 class Board extends Component {
 
+    buildCount = () => {
+        return Array(10).fill().map((_, i) => i);
+    };
+
     renderRows() {
+        const totalRows = this.buildCount();
+        const totalCells = this.buildCount();
         let cells = [];
         let rows = [];
 
-        for (let y = 0; y < 10; y++) {
-            for (let x = 0; x < 10; x++) {
+        totalRows.forEach((y, key) => {
+            totalCells.forEach((x, key) => {
                 if (y === -1) {
                     cells.push(
                         <td className="header">
@@ -35,7 +41,7 @@ class Board extends Component {
                         cells.push(this.renderCells(cellProps));
                     }
                 }
-            }
+            });
             rows.push(
                 <tr key={y}>
                     {cells}
@@ -43,7 +49,7 @@ class Board extends Component {
             );
 
             cells = [];
-        }
+        });
         return rows;
     };
 
@@ -100,6 +106,6 @@ class Board extends Component {
           </div>
       )
     }
-};
+}
 
 export default Board;

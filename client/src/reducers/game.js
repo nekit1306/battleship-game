@@ -11,17 +11,11 @@ import {
     GAME_OVER,
     GAME_RESET,
     BATTLE_READY
-} from '../actions/gameActions'
+} from '../actions/types';
 
 const gameInitialState = {
-    userBoard      : {
-        hitPoints: [],
-        destroyed: []
-    },
-    opponentBoard  : {
-        hitPoints: [],
-        destroyed: []
-    },
+    userBoard      : {},
+    opponentBoard  : {},
     ships          : [],
     selectedShip   : {},
     opponentWaiting: false,
@@ -52,12 +46,9 @@ const userBoardReducer = (state = {}, action) => {
                 }
             };
         case SHIP_SETUP_RANDOM:
-
-            const randomCoords = getRandomCoordinates();
-
             return {
                 ...state,
-                ships: randomCoords.ships,
+                ships:  getRandomCoordinates(),
             };
         case SHOT_TAKE:
 

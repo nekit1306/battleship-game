@@ -19,7 +19,7 @@ io.on('connection', socket => {
 
         if (waitingRoom.length === 2) {
             const room = "inGame" + gameId++;
-            const game = new BattleshipGame(room, waitingRoom[0], waitingRoom[1]);
+            const game = new BattleshipGame(room, waitingRoom[0].board, waitingRoom[1].board);
 
             waitingRoom[0].socket.join(room);
             waitingRoom[1].socket.join(room);

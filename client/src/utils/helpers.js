@@ -21,7 +21,7 @@ export function getRandomCoordinates () {
     let id = 0;
 
     shipsSize.forEach((size, i) => {
-        for(let a = 0; a <= i; a++) {
+        for (let a = 0; a <= i; a++) {
 
             let x = null;
             let y = null;
@@ -71,4 +71,8 @@ export function getRandomCoordinates () {
     });
 
     return ships;
+}
+
+export function isDefined(property) {
+    return property !== 'undefined';
 }

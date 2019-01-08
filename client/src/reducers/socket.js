@@ -2,7 +2,7 @@
  * Created by Kasutaja on 15.04.2018.
  */
 
-import { SOCKET_UPDATE } from '../actions/socketActions'
+import { SOCKET_UPDATE } from '../actions/sockets'
 
 const socketInitialState = {
     socket: null

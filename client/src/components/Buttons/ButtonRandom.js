@@ -3,12 +3,10 @@
  */
 import React from 'react';
 
-const ButtonRandom = (props) => {
-    return (
-        <div className="action-btn" onClick={() => props.onClick}>
-            <i className="fas fa-hand-paper"></i>
-        </div>
-    )
-};
+const ButtonRandom = (props) =>(
+    <div className="action-btn" onClick={() => props.onClick}>
+        <i className="fas fa-hand-paper"></i>
+    </div>
+);
 
 export default ButtonRandom;

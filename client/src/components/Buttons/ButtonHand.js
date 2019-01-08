@@ -3,12 +3,10 @@
  */
 import React from 'react';
 
-const ButtonHand = (props) => {
-    return (
-        <div className="action-btn" onClick={() => props.onClick}>
-            <i className="fas fa-hand-paper"></i>
-        </div>
-    )
-};
+const ButtonHand = (props) => (
+    <div className="action-btn" onClick={() => props.onClick}>
+        <i className="fas fa-hand-paper"></i>
+    </div>
+);
 
 export default ButtonHand;

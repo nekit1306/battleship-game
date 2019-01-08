@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-class FakeShips extends Component{
+class FakeShips extends Component {
 
     handleShipClick = ship => {
         this.props.selectShip(ship);
@@ -49,7 +49,6 @@ class FakeShips extends Component{
             </div>
         );
     }
-};
-
+}
 
 export default FakeShips;
