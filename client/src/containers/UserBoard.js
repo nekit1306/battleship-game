@@ -25,7 +25,7 @@ class UserBoard extends Component {
     };
 
     render() {
-        const cellClasses = (key) => {
+        const cellClasses = key => {
             return classnames({
                 hit : false,
                 miss: false
@@ -40,9 +40,9 @@ class UserBoard extends Component {
 
         const boardProps = {
             isOpponent : false,
-            onCellClick: (cellProps) => this.handleCellClick(cellProps),
-            cellClasses: (key) => cellClasses(key),
-            shipClasses: (key) => shipClasses(key),
+            onCellClick: cellProps => this.handleCellClick(cellProps),
+            cellClasses: key => cellClasses(key),
+            shipClasses: key => shipClasses(key),
             title      : "My Board"
         };
 

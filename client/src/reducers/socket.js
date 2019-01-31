@@ -4,11 +4,11 @@
 
 import { SOCKET_UPDATE } from '../actions/sockets'
 
-const socketInitialState = {
+const INITIAL_STATE = {
     socket: null
 };
 
-const socketReducer = (state = socketInitialState, action) => {
+const socketReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SOCKET_UPDATE:
             return {

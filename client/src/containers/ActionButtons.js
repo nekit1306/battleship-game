@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { toggleShipPlacing, setupShipRandom } from '../actions/game';
+import { toggleManualSetup, setupShipRandom } from '../actions/game';
 
 import ButtonList from '../components/ButtonList';
 
@@ -22,17 +22,17 @@ class ActionButtons extends Component {
 const mapStateToProps = (state) => {
     return {
         readyForBattle : state.game.readyForBattle,
-        opponentWaiting: state.game.opponentWaiting,
+        gameState      : state.game.gameState,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setupShipRandom: () => {
-            dispatch(setupShipRandom())
+        setupShipRandom: (ships) => {
+            dispatch(setupShipRandom(ships))
         },
-        toggleShipPlacing: () => {
-            dispatch(toggleShipPlacing())
+        toggleManualSetup: () => {
+            dispatch(toggleManualSetup())
         },
     }
 };

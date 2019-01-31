@@ -3,8 +3,8 @@ import game from './game';
 import socket from './socket';
 
 const rootReducer = combineReducers({
-    game,
-    socket
+    gameReducer,
+    socketReducer
 });
 
 export default rootReducer;

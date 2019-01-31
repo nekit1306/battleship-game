@@ -32,20 +32,20 @@ io.on('connection', socket => {
 
             io.in(room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).emit('game_start', game.isCurrentTurn(users[socketId].player));
+                    io.to(socketId).emit('game_start', {gameState: game.currentState(), currentTurn: game.isCurrentTurn(users[socketId].player)});
                 })
             });
         }
     });
 
-    socket.on('shoot', cell => {
+    socket.on('user_shoot', cell => {
         const game = users[socket.id].game;
-        const target = game.checkShoot(cell);
+        const hitResponse = game.checkShoot(cell);
+
+        io.to(socket.id).emit('user_hit', hitResponse);
+        socket.broadcast.to(game.room).emit('shot_take', hitResponse);
 
         checkGameOver(game);
-
-        io.to(socket.id).emit('hit', target);
-        socket.broadcast.to(game.room).emit('shot_take', target);
     });
 
     socket.on('disconnect', () => {

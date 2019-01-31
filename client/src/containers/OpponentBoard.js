@@ -30,7 +30,7 @@ class OpponentBoard extends Component {
     render() {
         const { currentTurn, readyForBattle, opponentWaiting, ships} = this.props;
 
-        const cellClasses = (key) => {
+        const cellClasses = key => {
 
             return classnames({
                 miss         : false,

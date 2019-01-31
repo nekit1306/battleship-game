@@ -12,31 +12,27 @@ class BattleshipGame  {
     };
 
     checkShoot(target) {
-        const opponent = this.currrentPlayerId === 0 ? 1 : 0;
-        const board = this.getOpponentBoard();
+        const opponent = this.getOpponentPlayer();
 
-        board.forEach((item, key) => {
-            if (board.hasOwnProperty(key)) {
-                const position = board[key].pos;
+        opponent.pointsLeft.forEach((item, index) => {
+            if (item.includes(target)) {
 
-                if (position.includes(target)) {
-                    this.players[opponent].setHitPoints(target, true);
-                    this.players[opponent].removePointFromBoard(key, target);
+                opponent.setHitPoints(target, true);
+                opponent.removePointFromBoard(index, target);
 
-                    if (this.getOpponentBoard()[key].pos.length === 0) {
-                        this.players[opponent].setDestroyedPoints(key);
-                    }
-
-                    if (this.players[opponent].getShipsLeft() === 0) {
-                        this.winnerId = this.currrentPlayerId;
-                    }
-
-                    return this.getOpponentPoints();
+                if (opponent.pointsLeft[index].length === 0) {
+                    opponent.setDestroyedPoints(index);
                 }
+
+                if (opponent.getShipsLeft() === 0) {
+                    this.winnerId = this.currrentPlayerId;
+                }
+
+                return this.getOpponentPoints();
             }
         });
 
-        this.players[opponent].setHitPoints(target, false);
+        opponent.setHitPoints(target, false);
 
         this.switchPlayer();
 
@@ -44,18 +40,22 @@ class BattleshipGame  {
     };
 
     getOpponentPoints() {
-        const opponent = this.currrentPlayerId === 0 ? 1 : 0;
+        const opponentPlayer = this.getOpponentPlayer();
 
         return {
-            hitPoints: this.players[opponent].getHitPoints(),
-            destroyed: this.players[opponent].getDestroyedPoints(),
+            hitPoints: opponentPlayer.hitPoints,
+            sunkPoints: opponentPlayer.sunkPoints,
         }
     }
 
      getOpponentBoard() {
-        return this.currrentPlayerId === 0 ?
-            this.players[1].board : this.players[0].board;
+        return this.getOpponentPlayer().board;
     };
+
+    getOpponentPlayer() {
+        return this.currrentPlayerId === 0 ?
+            this.players[1] : this.players[0];
+    }
 
     checkWinner() {
         return this.winnerId;
@@ -77,14 +77,15 @@ class Player {
     constructor(board) {
         this.board = board;
         this.hitPoints = {};
-        this.destroyed = {};
+        this.sunkPoints = {};
+        this.points = this.getShipPosition();
     }
 
     getShipsLeft() {
         let shipCount = 0;
 
-        this.board.forEach((item, key) => {
-            if (this.board.hasOwnProperty(key)) {
+        this.points.forEach((item, key) => {
+            if (this.points.hasOwnProperty(key)) {
                 if (this.board[key].pos.length) {
                     shipCount++;
                 }
@@ -94,30 +95,26 @@ class Player {
         return shipCount;
     };
 
-    getDestroyedPoints() {
-        return this.destroyed;
+    getShipPosition() {
+        return Object.entries(this.board).map(val => val.pos);
     }
 
-    getHitPoints() {
-        return this.hitPoints;
-    }
-
-    setHitPoints(target, isDamaged) {
+    setHitPoints(target, damaged) {
         this.hitPoints[target] = {
             id     : target,
-            damaged: isDamaged
+            damaged: damaged
         };
     }
 
-    removePointFromBoard(key, target) {
-        const boardPosition = this.board[key].pos;
-
-        boardPosition.splice(boardPosition.findIndex(target, 1));
+    removePointFromBoard(index, target) {
+        this.pointsLeft[index].splice(this.pointsLeft[index].findIndex(target, 1));
     }
 
     setDestroyedPoints(key) {
-        this.destroyed[key] = {
-            id         : key,
+        const firstValue = this.board[key].pos.find((val, i) => i === 0);
+
+        this.sunkPoints[firstValue] = {
+            id         : firstValue,
             size       : this.board[key].size,
             orientation: this.board[key].orientation
         }
