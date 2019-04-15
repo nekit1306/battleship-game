@@ -1,10 +1,10 @@
 
 class BattleshipGame  {
     constructor(room, userBoard, opponentBoard) {
-        this.players = [new Player(userBoard), new Player(opponentBoard)];
-        this.room = room;
+        this.players          = [new Player(userBoard), new Player(opponentBoard)];
+        this.room             = room;
         this.currrentPlayerId = Math.round(Math.random());
-        this.winnerId = null;
+        this.winnerId         = null;
     }
 
     isCurrentTurn(id) {
@@ -16,24 +16,20 @@ class BattleshipGame  {
 
         opponent.pointsLeft.forEach((item, index) => {
             if (item.includes(target)) {
-
                 opponent.setHitPoints(target, true);
                 opponent.removePointFromBoard(index, target);
 
                 if (opponent.pointsLeft[index].length === 0) {
                     opponent.setDestroyedPoints(index);
                 }
-
                 if (opponent.getShipsLeft() === 0) {
                     this.winnerId = this.currrentPlayerId;
                 }
-
                 return this.getOpponentPoints();
             }
         });
 
         opponent.setHitPoints(target, false);
-
         this.switchPlayer();
 
         return this.getOpponentPoints();
@@ -43,8 +39,8 @@ class BattleshipGame  {
         const opponentPlayer = this.getOpponentPlayer();
 
         return {
-            hitPoints: opponentPlayer.hitPoints,
-            sunkPoints: opponentPlayer.sunkPoints,
+            hitPoints:  this.getOpponentPlayer().hitPoints,
+            sunkPoints:  this.getOpponentPlayer().sunkPoints,
         }
     }
 

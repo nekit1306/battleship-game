@@ -4,14 +4,11 @@
   "description": "Battleship Game using Redux and socket.io",
   "main": "server/bin/server.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack/client.dev.js",
-    "build": "npm run build:client && npm run build:server",
-    "build:server": "cross-env NODE_ENV=production webpack --config webpack/server.prod.js --progress",
-    "build:client": "cross-env NODE_ENV=production webpack --config webpack/client.prod.js --progress",
-    "start": "cd dist && node js/server.js",
-    "start:server": "cross-env NODE_ENV=development node server/server.babel.js",
-    "start:client": "webpack-dev-server --config webpack/client.dev.js",
-    "lint": "eslint --ext .jsx,.js ./"
+    "test": "",
+    "start-dev": "node server/server.babel.js",
+    "start": "node server.prod.js",
+    "build": "rimraf dist && webpack --config ./config/webpack.prod.config.js --progress --profile --colors",
+    "eslint": "eslint ."
   },
   "keywords": [
     "react",
@@ -62,9 +59,10 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "4.9.4",
     "sass-loader": "^6.0.6",
     "start-server-webpack-plugin": "^2.2.0",
+    "stats-webpack-plugin": "^0.7.0",
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.10.0",
