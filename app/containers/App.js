@@ -24,7 +24,6 @@ class App extends Component<Props> {
 
     componentDidMount() {
         const socket = io('http://localhost:3000');
-
         this.props.updateSocket(socket);
         this.props.loadInitialEvents(socket);
     }
