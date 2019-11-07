@@ -1,86 +1,80 @@
-/**
- * Created by Kasutaja on 08.01.2018.
- */
+// @flow
+
 import React, { Component } from 'react';
-import classnames from 'classnames';
-import Board from '../components/Board';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Board from '../components/Board';
+import { joinGame, shootAtCell } from '../actions/game';
 import Overlay from '../components/Overlay';
+import { GAME_START_STATE } from "../utils/constants";
+import type {Dispatch, State} from "../types";
+import type {DestroyedShip, Hit, Ship} from "../types/game";
 
-class OpponentBoard extends Component {
+type Props = {
+    enemyHits: Hit[],
+    ships: Ship[],
+    enemyShips: DestroyedShip[],
+    currentTurn: boolean,
+    gameState: number,
+    socket: any,
+    joinGame: (socket: any, ships: Ship[]) => void,
+    shootAtCell: (socket: any, key: string) => void,
+}
 
-    handleGameStart = () => {
-        const { joinGame, ships } = props;
+class OpponentBoard extends Component<Props> {
+    handleGameStart = () => { 
+        const { joinGame, ships, socket } = this.props;
 
-        if (Object.keys(ships).length > 0) {
-            joinGame(ships);
+        if (ships.length > 0) {
+            joinGame(socket, ships);
         }
     };
 
-    handleCellClick = (cellProps) => {
-        const {hit_points, currentTurn, shootAtCell } = props;
+    handleCellClick = (key: string) => {
+        const { socket, currentTurn, shootAtCell, gameState, enemyHits } = this.props;
 
-        const cellId = cellProps.key;
+        const hitCell = enemyHits.find(it => it.id === key);
 
-        if (currentTurn && !hit_points[cellId]) {
-            shootAtCell(cellId);
+        if (gameState !== GAME_START_STATE || !currentTurn || hitCell) {
+            return;
         }
+
+        shootAtCell(socket, key);
     };
 
     render() {
-        const { currentTurn, ships} = this.props;
-
-        const cellClasses = key => {
-
-            return classnames({
-                miss         : false,
-                ship_damaged : false,
-            });
-        };
-
-        const shipClasses = () => {
-            return classnames({
-                ship_destroyed: true
-            });
-        };
-
-        const boardProps = {
-            isOpponent : true,
-            onCellClick: cellProps => this.handleCellClick(cellProps),
-            cellClasses: key => cellClasses(key),
-            shipClasses: shipClasses(),
-            title      : 'Opponent Board'
-        };
+        const { gameState, enemyShips, ships, enemyHits, currentTurn } = this.props;
 
         return (
-            <div id='opponent-board'>
-                { !currentTurn &&
-                    <Overlay ships={ships}
-                             currentTurn={currentTurn}
-                             onButtonClick={() => this.handleGameStart()}/>
-                }
-                <Board {...boardProps} />
-            </div>
+            <Board onCellClick={(key) => this.handleCellClick(key)}
+                   ships={enemyShips}
+                   hits={enemyHits}
+                   title={"Opponent Board"}>
+                <Overlay ships={ships}
+                         gameState={gameState}
+                         currentTurn={currentTurn}
+                         onButtonClick={() => this.handleGameStart()}/> }
+            </Board>
         );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: State) => {
     return {
-        hit_points     : state.game.opponentBoard.hitPoints,
-        destroyed      : state.game.opponentBoard.destroyed,
-        selectedShip   : state.game.selectedShip,
         ships          : state.game.ships,
-        currentTurn    : state.game.currentTurn
+        enemyHits      : state.game.enemyHits,
+        currentTurn    : state.game.currentTurn,
+        enemyShips     : state.game.enemyShips,
+        gameState      : state.game.gameState,
+        socket         : state.socket.socket,
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setupShipManual: () => {
-            dispatch(setupShipManual())
-        }
-    }
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return bindActionCreators({
+        joinGame,
+        shootAtCell
+    }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OpponentBoard);

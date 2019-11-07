@@ -1,10 +1,10 @@
 'use strict';
 
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const StatsPlugin = require('stats-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import StatsPlugin from 'stats-webpack-plugin';
 
 module.exports = {
     // The entry file. All your app roots fromn here.

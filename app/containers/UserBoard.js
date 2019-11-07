@@ -2,73 +2,52 @@
  * Created by Kasutaja on 08.01.2018.
  */
 import React, { Component } from 'react';
-import classnames from 'classnames';
-import Board from '../components/Board';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setupShipManual } from '../actions/game';
+import Board from '../components/Board';
+import type {GameState} from "../types/game";
+import type {Dispatch} from "../types";
 
 class UserBoard extends Component {
-
-    handleCellClick = (cellProps) => {
-        const { selectedShip, ships, setupShipManual } = this.props;
-
-        if (selectedShip.id !== null && !ships[selectedShip.id]) {
-            const ship = {
-                id  : selectedShip.id,
-                size: selectedShip.size,
-                key : cellProps.key,
-                x   : cellProps.x,
-                y   : cellProps.y
-            };
-
-            setupShipManual(ship);
-        }
+    handleCellClick = (props) => {
+        // const { selectedShip, ships, setupShipManual } = this.props;
+        // if (selectedShip.id !== null && !ships[selectedShip.id]) {
+        //     const ship = {
+        //         id  : selectedShip.id,
+        //         size: selectedShip.size,
+        //         key : props.key,
+        //         x   : props.x,
+        //         y   : props.y
+        //     };
+        //     setupShipManual(ship);
+        // }
     };
 
     render() {
-        const cellClasses = key => {
-            return classnames({
-                hit : false,
-                miss: false
-            });
-        };
-
-        const shipClasses = key => {
-            return classnames({
-                ship_destroyed: this.props.destroyed[key]
-            });
-        };
-
-        const boardProps = {
-            isOpponent : false,
-            onCellClick: cellProps => this.handleCellClick(cellProps),
-            cellClasses: key => cellClasses(key),
-            shipClasses: key => shipClasses(key),
-            title      : "My Board"
-        };
+        const {hits, ships} = this.props;
 
         return (
-            <div id='user-board'>
-                <Board {...boardProps} />
-            </div>
+            <Board onCellClick={(key) => this.handleCellClick(key)}
+                   hits={hits}
+                   ships={ships}
+                   title={"My Board"} />
         );
     };
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: GameState) => {
     return {
-        hit_points  : state.game.userBoard.hitPoints,
-        destroyed   : state.game.userBoard.destroyed,
         selectedShip: state.game.selectedShip,
-        ships       : state.game.ships
+        ships       : state.game.ships,
+        hits        : state.game.hits
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setupShipManual: () => {
-            dispatch(setupShipManual())
-        }
-    }
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return bindActionCreators({
+        setupShipManual
+    }, dispatch);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserBoard);

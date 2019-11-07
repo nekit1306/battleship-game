@@ -2,15 +2,17 @@
  * Created by Kasutaja on 15.04.2018.
  */
 
-import { SOCKET_UPDATE } from '../actions/sockets'
+import { UPDATE_SOCKET } from '../actions/types';
+import type {SocketState} from "../types/sockets";
+import type {Action} from "../types";
 
 const INITIAL_STATE = {
     socket: null
 };
 
-const socketReducer = (state = INITIAL_STATE, action) => {
+const socketReducer = (state: SocketState = INITIAL_STATE, action: Action) => {
     switch (action.type) {
-        case SOCKET_UPDATE:
+        case UPDATE_SOCKET:
             return {
                 ...state,
                 socket: action.payload

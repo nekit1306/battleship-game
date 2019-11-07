@@ -1,14 +1,24 @@
 import React from 'react';
+import {GAME_DEFAULT_STATE, GAME_START_STATE} from "../utils/constants";
+import type {Ship} from "../types/game";
+import ButtonStart from "./Buttons/ButtonStart";
 
-const Overlay = (props) => {
+type Props ={
+    ships: Ship[],
+    gameState: number,
+    currentTurn: boolean,
+    onButtonClick: () => void
+}
+
+const Overlay = ({ships, gameState, currentTurn, onButtonClick}: Props) => {
+    if (gameState < GAME_START_STATE || !currentTurn) {
+        return null;
+    }
     return (
         <div className="board-overlay">
             <div className="search-game">
-                { !props.currentTurn &&
-                    <div>
-                        <button className={"btn start-button " + (Object.keys(props.ships).length > 0 ? "btn-active" : "btn-disabled")}
-                                onClick={() => props.onButtonClick()}>Start game</button>
-                    </div>
+                { gameState === GAME_DEFAULT_STATE &&
+                  <ButtonStart ships={ships} onButtonClick={() => onButtonClick}/>
                 }
             </div>
         </div>

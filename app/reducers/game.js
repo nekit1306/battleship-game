@@ -1,39 +1,26 @@
 import {
     SHIP_SETUP_MANUAL_ACTIVE,
-    SHIP_SETUP_MANUAL,
     SETUP_SHIP_MANUAL,
     SETUP_SHIP_RANDOM,
-    SHOT_TAKE,
     OPPONENT_ATTACK,
-    OPPONENT_WAITING,
-    SHIP_SELECT,
-    GAME_START,
-    GAME_OVER,
-    GAME_RESET,
-    START_GAME,
-    ABORT_GAME,
-    BATTLE_READY,
+    START_NEW_GAME,
+    SET_CURRENT_TURN,
     SELECT_SHIP,
-    WAIT_FOR_OPPONENT,
     USER_ATTACK,
-    END_GAME,
-    REPEAT_GAME
+    UPDATE_GAME_STATE,
+    SET_WINNER
 } from '../actions/types';
 
-import {
-    GAME_ABORTED_STATE,
-    GAME_DEFAULT_STATE,
-    GAME_OVER_STATE,
-    GAME_START_STATE,
-    GAME_WAITING_STATE
-} from '../utils/constants';
-import socketReducer from './socket';
+import { GAME_DEFAULT_STATE } from '../utils/constants';
+import type {GameState} from "../types/game";
+import type {Action} from "../types";
 
 
 const INITIAL_STATE  = {
-    userBoard        : {},
-    opponentBoard    : {},
+    hits             : [],
+    enemyHits        : [],
     ships            : [],
+    enemyShips       : [],
     selectedShip     : {},
     gameState        : GAME_DEFAULT_STATE,
     winnerId         : null,
@@ -41,32 +28,7 @@ const INITIAL_STATE  = {
     manualSetupActive: false
 };
 
-const updateBoardPoints = (state = {}, action) => {
-    switch (action.type) {
-        case USER_ATTACK:
-        case OPPONENT_ATTACK:
-            return {
-                ...state,
-                hitPoints : action.payload.hit_points,
-                sunkPoints: action.payload.sunk_points
-            };
-        default:
-            return state;
-    }
-};
-
-const updateShipCoordinates = (state = {}, action) => {
-    switch (action.type) {
-        case SETUP_SHIP_RANDOM:
-            return [...action.payload.ships];
-        case SETUP_SHIP_MANUAL:
-            return [...state, action.payload];
-        default:
-            return state;
-    }
-};
-
-const gameReducer = (state = INITIAL_STATE, action) => {
+const gameReducer = (state: GameState = INITIAL_STATE, action: Action) => {
     switch (action.type) {
         case SHIP_SETUP_MANUAL_ACTIVE:
             return {
@@ -79,51 +41,44 @@ const gameReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 selectedShip: action.payload
             };
-        case WAIT_FOR_OPPONENT:
-            return {
-                ...state,
-                gameState: GAME_WAITING_STATE,
-            };
         case SETUP_SHIP_MANUAL:
             return {
                 ...state,
-                ships: updateShipCoordinates(state.ships, action)
+                ships: []
             };
         case SETUP_SHIP_RANDOM:
             return {
                 ...state,
-                ships: updateShipCoordinates(state.ships, action),
+                ships: action.payload,
                 manualSetupActive: false
+            };
+        case SET_CURRENT_TURN:
+            return {
+                ...state,
+               currentTurn: action.payload
             };
         case OPPONENT_ATTACK:
             return {
                 ...state,
-                userBoard  : updateBoardPoints(state.userBoard, action),
-                currentTurn: true
+                hits: action.payload,
             };
         case USER_ATTACK:
             return {
                 ...state,
-                opponentBoard: updateBoardPoints(state.opponentBoard, action),
-                currentTurn  : false
+                enemyHits : action.payload.hits,
+                enemyShips: action.payload.ships
             };
-        case START_GAME:
+        case UPDATE_GAME_STATE:
             return {
                 ...state,
-                gameState  : GAME_START_STATE,
-                currentTurn: action.payload
+                gameState: action.payload
             };
-        case ABORT_GAME:
-            return {
-                gameState: GAME_ABORTED_STATE,
-            };
-        case END_GAME:
+        case SET_WINNER:
             return {
                 ...state,
-                gameState: GAME_OVER_STATE,
-                isWinner : action.payload
+                winnerId: action.payload
             };
-        case REPEAT_GAME:
+        case START_NEW_GAME:
             return {
                 ...state,
                 ...INITIAL_STATE

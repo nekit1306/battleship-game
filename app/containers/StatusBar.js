@@ -1,21 +1,23 @@
-import React, {Component} from 'react';
+// @flow
+
+import React from 'react';
 import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { startNewGame } from "../actions/game";
+import type {Dispatch, State} from "../types";
+
 import StatusTitle from '../components/StatusTitle';
 
-export class StatusBar extends Component {
-    render() {
-        return (
-            <StatusTitle {...this.props}/>
-        )
-    }
-}
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: State) => {
     return {
-        // currentTurn    : state.game.currentTurn,
-        gameOver       : state.game.gameOver,
-        isWinner       : state.game.isWinner
+        currentTurn: state.game.currentTurn,
+        gameState  : state.game.gameState,
+        winnerId   : state.game.winnerId
     }
 };
 
-export default connect(mapStateToProps, null)(StatusBar);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return bindActionCreators(startNewGame, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusTitle);

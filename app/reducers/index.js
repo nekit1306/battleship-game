@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import game from './game';
+import gameReducer from './game';
 import socketReducer from './socket';
 
 const rootReducer = combineReducers({
-    game,
-    socketReducer
+    game  : gameReducer,
+    socket: socketReducer
 });
 
 export default rootReducer;

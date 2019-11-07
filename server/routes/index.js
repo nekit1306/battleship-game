@@ -4,11 +4,11 @@ import app from './server';
 import BattleshipGame from '../game';
 
 const server = http.createServer(app);
-const io = new SocketIO(server);
+const io     = new SocketIO(server);
 
 let waitingRoom = [];
-let users = [];
-let gameId = 0;
+let users       = [];
+let gameId      = 0;
 
 
 io.on('connection', socket => {
@@ -24,28 +24,49 @@ io.on('connection', socket => {
             waitingRoom[0].socket.join(room);
             waitingRoom[1].socket.join(room);
 
-            waitingRoom.forEach((userData, i) => {
-                users[userData.socket.id] = {game: game, player: i};
+            waitingRoom.forEach((data, index) => {
+                users[data.socket.id] = {
+                    game  : game,
+                    player: index
+                };
             });
 
             waitingRoom = [];
 
             io.in(room).clients((err, clients) => {
                 clients.forEach(socketId => {
-                    io.to(socketId).emit('game_start', {gameState: game.currentState(), currentTurn: game.isCurrentTurn(users[socketId].player)});
+                    io.to(socketId).emit('game_start', {
+                        currentTurn: game.isCurrentTurn(users[socketId].player)
+                    });
                 })
             });
         }
     });
 
-    socket.on('user_shoot', cell => {
-        const game = users[socket.id].game;
-        const hitResponse = game.checkShoot(cell);
+    socket.on('user_cell_hit', cell => {
+        const game   = users[socket.id].game;
+        const target = game.getTarget(cell);
 
-        io.to(socket.id).emit('user_hit', hitResponse);
-        socket.broadcast.to(game.room).emit('shot_take', hitResponse);
+        io.to(socket.id).emit('user_hit', {
+            response   : target,
+            currentTurn: game.isCurrentTurn(users[socket.id].player)
+        });
 
-        checkGameOver(game);
+        socket.broadcast.to(game.room).emit('user_take_shoot', {
+            response   : target.hits,
+            currentTurn: !game.isCurrentTurn(users[socket.id].player)
+        });
+
+        if (!game.checkWinner()) {
+            io.in(game.room).clients((err, clients) => {
+                clients.forEach(socketId => {
+                    io.to(socketId).emit('game_over', {
+                        winnerId : game.isWinner(users[socketId].player),
+                    });
+                    delete users[socketId];
+                })
+            });
+        }
     });
 
     socket.on('disconnect', () => {
@@ -57,6 +78,7 @@ io.on('connection', socket => {
             const game = users[socket.id].game;
 
             socket.broadcast.to(game.room).emit('user_left');
+
             io.in(game.room).clients((err, clients) => {
                 clients.forEach(socketId => {
                     delete users[socketId];
@@ -66,16 +88,6 @@ io.on('connection', socket => {
     })
 
 });
-
-function checkGameOver(game) {
-    if (game.checkWinner()) {
-        io.in(game.room).clients((err, clients) => {
-            clients.forEach(socketId => {
-                io.to(socketId).emit('game_over', game.isWinner(users[socketId].player));
-            })
-        });
-    }
-}
 
 server.listen(3000, () => {
   console.log('Server listened on 3000 port');

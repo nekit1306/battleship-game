@@ -1,10 +1,13 @@
-/**
- * Created by Kasutaja on 15.04.2018.
- */
+// @flow
+
 import React from 'react';
 
-const ButtonRandom = (props) =>(
-    <div className="action-btn" onClick={() => props.onClick}>
+type Props = {
+    onClick: () => void
+}
+
+const ButtonRandom = ({onClick}: Props) =>(
+    <div className="action-btn" onClick={() => onClick}>
         <i className="fas fa-hand-paper"></i>
     </div>
 );

@@ -1,15 +1,16 @@
+// @flow
+
 import React from 'react';
 
-const Ship = ({type, data}) => (
-    <div className={`ship-box ship-box-size-${data.size} ship-box-${type} ship-${data.orientation}`}></div>
-);
+type Props = {
+    size: number;
+    orientation: string
+}
 
-// Ship.propTypes = {
-//   type: PropTypes.object.isRequired,
-// };
-//
-// Ship.defaultProps = {
-//   size: null,
-// };
+const ShipBox = ({size, orientation}: Props) => {
+    return (
+        <div className={"ship-box size--" + size + ' orient--' + orientation}></div>
+    );
+};
 
-export default Ship;
+export default ShipBox;

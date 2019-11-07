@@ -1,9 +1,9 @@
 'use strict';
 
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 module.exports = {
     devtool: 'eval-source-map',
@@ -27,7 +27,7 @@ module.exports = {
             filename: 'index.html'
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development')
         })
@@ -58,8 +58,14 @@ module.exports = {
                     }
                 ]
             },
-            { test: /\.woff(2)?(\?[a-z0-9#=&.]+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
-            { test: /\.(ttf|eot|svg)(\?[a-z0-9#=&.]+)?$/, loader: 'file' }
+            {
+                test: /\.woff(2)?(\?[a-z0-9#=&.]+)?$/,
+                loader: 'url?limit=10000&mimetype=application/font-woff'
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?[a-z0-9#=&.]+)?$/,
+                loader: 'file'
+            }
         ]
     }
 };

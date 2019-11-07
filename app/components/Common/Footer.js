@@ -1,6 +1,5 @@
-/**
- * Created by Kasutaja on 15.04.2018.
- */
+// @flow
+
 import React from 'react';
 
 const Footer = () => {

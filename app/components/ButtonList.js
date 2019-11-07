@@ -1,32 +1,26 @@
-/**
- * Created by Kasutaja on 15.04.2018.
- */
-import React, {Component} from 'react';
-import { getCoordinates} from '../utils/helpers';
+// @flow
 
-class ButtonList extends Component {
+import React from 'react';
+import {GAME_START_STATE} from "../utils/constants";
+import ButtonHand from "./Buttons/ButtonHand";
+import ButtonRandom from "./Buttons/ButtonRandom";
 
-    setupShipRandom = () => {
-        const ships = getCoordinates();
-        this.props.setupShipRandom(ships);
-    };
+type Props = {
+    setupShipRandom: () => void,
+    toggleManualSetup: () => void,
+    gameState: number;
+}
 
-    toggleManualSetup = () => {
-        this.props.toggleManualSetup();
-    };
-
-    render() {
-        return (
-            <div className="action-sidenav">
-                <div className="action-btn" onClick={() => this.toggleManualSetup()}>
-                    <i className="fas fa-hand-paper"></i>
-                </div>
-                <div className="action-btn" onClick={() => this.setupShipRandom()}>
-                    <i className="fas fa-random"></i>
-                </div>
-            </div>
-        )
+const ButtonList = ({setupShipRandom, toggleManualSetup, gameState}: Props) => {
+    if (gameState > GAME_START_STATE) {
+        return null;
     }
+    return (
+        <div className="action-sidenav">
+            <ButtonHand onClick={() => toggleManualSetup()}/>
+            <ButtonRandom onClick={() => setupShipRandom()}/>
+        </div>
+    )
 };
 
 export default ButtonList;
