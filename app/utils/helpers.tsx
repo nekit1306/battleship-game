@@ -6,36 +6,36 @@ export const buildArray = () => {
         .fill(1, 6, 10);
 };
 
-export const buildCount = () => {
+export const buildCount = (): number[] => {
     return new Array(10).fill(0).map((_, i) => i);
 };
 
-export const inRange = (val, min, max) => {
+export const inRange = (val: number, min: number, max: number): boolean => {
     return val >= min && val <= max;
 };
 
-export const inCellBounds = (x, y) => {
+export const inCellBounds = (x: number, y: number): boolean => {
     return x > 9 || y > 9;
 };
 
-export const getCoordsArray = (x, y, orientation, length) => {
-    return orientation === 'h' ? [x, y, x + length - 1, y] : [x, y, x, y + length - 1];
+export const getCoordsArray = (x: number, y: number, o: string, s: number): number[] => {
+    return o === 'h' ? [x, y, x + s - 1, y] : [x, y, x, y + s - 1];
 };
 
-export const getRandomNum = () => {
+export const getRandomNum = (): number => {
     return Math.floor(Math.random() * 10);
 };
 
-export const generateOrientation = () => {
+export const generateOrientation = (): string => {
     return Math.floor(Math.random() * 2) === 0 ? 'h' : 'v';
 };
 
-export const generatePosition = (x, y, o, s) => {
+export const generatePosition = (x: number, y: number, o: string, s: number): string[] => {
   return new Array(s).fill(0).map((_, i) => o === 'h' ?
       `${x + i}${y}` : `${x}${y + i}`);
 };
 
-export const checkAvailableCells = (array1, array2) => {
+export const checkAvailableCells = (array1: number[], array2: number[]): boolean => {
 
     if (inCellBounds(array1[2], array1[3])) {
         return true;
@@ -76,17 +76,14 @@ export const generateCoordinates = () => {
             id         : `${x}${y}`,
             position   : generatePosition(x, y, o, size),
             orientation: o,
-            size       : value
+            size       : size
         };
     };
 
     return buildArray().map((v) => generateShipItem(v));
 };
 
-export const isDefined = (item) => {
+export const isDefined = (item: any): boolean => {
     return typeof item !== 'undefined';
 };
 
-export const isUndefined = (item) => {
-    return typeof item === 'undefined';
-};

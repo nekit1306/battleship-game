@@ -9,26 +9,26 @@ import {
     USER_ATTACK,
     UPDATE_GAME_STATE,
     SET_WINNER
-} from '../actions/types';
+} from 'utils/constants';
 
-import { GAME_DEFAULT_STATE } from '../utils/constants';
-import type {GameState} from "../types/game";
-import type {Action} from "../types";
+import { GameStatus } from 'utils/constants';
+import { GameState, Game } from "types/game";
+import { Action } from "types";
 
 
-const INITIAL_STATE  = {
+const INITIAL_STATE: Game  = {
     hits             : [],
     enemyHits        : [],
     ships            : [],
     enemyShips       : [],
     selectedShip     : {},
-    gameState        : GAME_DEFAULT_STATE,
+    gameState        : GameStatus.DEFAULT,
     winnerId         : null,
     currentTurn      : null,
     manualSetupActive: false
 };
 
-const gameReducer = (state: GameState = INITIAL_STATE, action: Action) => {
+const gameReducer = (state: Game = INITIAL_STATE, action: Action): Game => {
     switch (action.type) {
         case SHIP_SETUP_MANUAL_ACTIVE:
             return {

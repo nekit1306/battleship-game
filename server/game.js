@@ -98,7 +98,6 @@ class BattleshipGame  {
 
 
 // Players Object
-
 class Player {
     constructor(board) {
         this.board       = board;

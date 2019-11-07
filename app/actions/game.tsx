@@ -12,7 +12,7 @@ import {
     SET_CURRENT_TURN,
     USER_ATTACK,
     OPPONENT_ATTACK
-} from './types';
+} from 'utils/constants';
 
 import {
     GAME_JOIN,
@@ -22,13 +22,10 @@ import {
     USER_LEFT,
     USER_TAKE_SHOOT,
     USER_CELL_HIT,
-    GAME_START_STATE,
-    GAME_ABORTED_STATE,
-    GAME_WAITING_STATE,
-    GAME_END_STATE
-} from '../utils/constants';
-import type {Dispatch} from "../types";
-import type {GameAction, Hit, Ship} from "../types/game";
+} from 'utils/constants';
+
+import {Dispatch} from "types";
+import {GameAction} from "types/game";
 
 
 export const toggleManualSetup = (): GameAction => ({

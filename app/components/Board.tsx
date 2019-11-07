@@ -1,22 +1,22 @@
 // @flow
 
 import  * as React from 'react';
-import {buildCount, isDefined} from "../utils/helpers";
-import ShipBox from "./Ship";
 import classnames from "classnames";
+import {buildCount, isDefined} from "utils/helpers";
+import ShipBox from "./Ship";
 import {
     HIT_STATUS_DONE,
     HIT_STATUS_HIT,
     HIT_STATUS_MISS
-} from "../utils/constants";
+} from "utils/constants";
 
-type Props = {
+interface Props {
     onCellClick: (key: string) => void;
     ships      : any[],
     hits       : any[],
     title      : string,
-    children?  : React.Node
-};
+    children?  : React.ReactNode
+}
 
 class Board extends React.Component<Props> {
     renderRows = () => {
