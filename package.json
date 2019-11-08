@@ -21,6 +21,7 @@
   ],
   "author": "Nikita Kulagin",
   "dependencies": {
+    "@types/react-redux": "^7.1.5",
     "classnames": "^2.2.5",
     "cross-env": "^5.0.5",
     "ejs": "^2.5.7",

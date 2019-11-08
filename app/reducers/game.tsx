@@ -12,11 +12,9 @@ import {
 } from 'utils/constants';
 
 import { GameStatus } from 'utils/constants';
-import { GameState, Game } from "types/game";
-import { Action } from "types";
+import { GameState, GameAction } from "types/game";
 
-
-const INITIAL_STATE: Game  = {
+const INITIAL_STATE: GameState = {
     hits             : [],
     enemyHits        : [],
     ships            : [],
@@ -28,7 +26,7 @@ const INITIAL_STATE: Game  = {
     manualSetupActive: false
 };
 
-const gameReducer = (state: Game = INITIAL_STATE, action: Action): Game => {
+const gameReducer = (state = INITIAL_STATE, action: GameAction): GameState => {
     switch (action.type) {
         case SHIP_SETUP_MANUAL_ACTIVE:
             return {

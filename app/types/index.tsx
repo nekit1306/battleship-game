@@ -3,9 +3,12 @@ import  { Dispatch as ReduxDispatch } from 'redux';
 import  { GameState, GameAction } from './game';
 import  { SocketAction, SocketState } from "./sockets";
 
-export type ReduxInitAction = { type: '@@INIT' };
+export interface AppState {
+    game  : GameState,
+    socket: SocketState
+}
 
-export type State = GameState & SocketState;
+export type ReduxInitAction = { type: '@@INIT' };
 
 export type Action = ReduxInitAction | GameAction | SocketAction;
 

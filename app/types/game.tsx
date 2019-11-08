@@ -1,5 +1,12 @@
-import  {
-    SHIP_SETUP_MANUAL_ACTIVE
+import {
+    OPPONENT_ATTACK,
+    SELECT_SHIP, SET_CURRENT_TURN,
+    SET_WINNER, SETUP_SHIP_MANUAL,
+    SETUP_SHIP_RANDOM,
+    SHIP_SETUP_MANUAL_ACTIVE,
+    START_NEW_GAME,
+    UPDATE_GAME_STATE,
+    USER_ATTACK
 } from 'utils/constants'
 
 export interface GameState {
@@ -14,22 +21,14 @@ export interface GameState {
     manualSetupActive: boolean
 }
 
-export interface IncrementEnthusiasm {
-    type: constants.INCREMENT_ENTHUSIASM;
-}
-
-export interface DecrementEnthusiasm {
-    type: constants.DECREMENT_ENTHUSIASM;
-}
-
 export type GameAction =
-    | { type: string, payload: any }
-    | { type: 'SELECT_SHIP'}
-    | { type: 'SETUP_SHIP_MANUAL', id: number }
-    | { type: 'SETUP_SHIP_RANDOM', ships: any[] }
-    | { type: 'USER_ATTACK', hits: any[], ships: any[] }
-    | { type: 'OPPONENT_ATTACK', hits: any[] }
-    | { type: 'SET_WINNER', id: number }
-    | { type: 'SET_CURRENT_TURN', turn: boolean }
-    | { type: 'UPDATE_GAME_STATE', id: number }
-    | { type: 'START_NEW_GAME' }
+    | { type: typeof SHIP_SETUP_MANUAL_ACTIVE }
+    | { type: typeof SELECT_SHIP}
+    | { type: typeof SETUP_SHIP_RANDOM}
+    | { type: typeof SETUP_SHIP_MANUAL}
+    | { type: typeof SET_WINNER}
+    | { type: typeof OPPONENT_ATTACK}
+    | { type: typeof USER_ATTACK}
+    | { type: typeof UPDATE_GAME_STATE}
+    | { type: typeof SET_CURRENT_TURN}
+    | { type: typeof START_NEW_GAME}

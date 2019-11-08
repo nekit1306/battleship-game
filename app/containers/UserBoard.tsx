@@ -1,13 +1,13 @@
 /**
  * Created by Kasutaja on 08.01.2018.
  */
-import React, { Component } from 'react';
+import * as React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setupShipManual } from '../actions/game';
+import { setupShipManual } from 'actions/game';
 import Board from '../components/Board';
-import type {GameState} from "../types/game";
-import type {Dispatch} from "../types";
+import {GameState} from "types/game";
+import {Dispatch} from "types";
 
 class UserBoard extends Component {
     handleCellClick = (props) => {
@@ -25,13 +25,10 @@ class UserBoard extends Component {
     };
 
     render() {
-        const {hits, ships} = this.props;
-
         return (
-            <Board onCellClick={(key) => this.handleCellClick(key)}
-                   hits={hits}
-                   ships={ships}
-                   title={"My Board"} />
+            <Board onClick={(key) => this.handleCellClick(key)}
+                   title={"My Board"}
+                   {...this.props} />
         );
     };
 }
@@ -40,7 +37,8 @@ const mapStateToProps = (state: GameState) => {
     return {
         selectedShip: state.game.selectedShip,
         ships       : state.game.ships,
-        hits        : state.game.hits
+        hits        : state.game.hits,
+        title       : 'My Board'
     };
 };
 

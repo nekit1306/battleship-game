@@ -1,18 +1,16 @@
-// @flow
-
-import React from 'react';
-import {GAME_START_STATE} from "../utils/constants";
+import * as React from 'react';
+import {GameStatus} from "utils/constants";
 import ButtonHand from "./Buttons/ButtonHand";
 import ButtonRandom from "./Buttons/ButtonRandom";
 
-type Props = {
+interface Props {
     setupShipRandom: () => void,
     toggleManualSetup: () => void,
     gameState: number;
 }
 
 const ButtonList = ({setupShipRandom, toggleManualSetup, gameState}: Props) => {
-    if (gameState > GAME_START_STATE) {
+    if (gameState > GameStatus.STARTED) {
         return null;
     }
     return (

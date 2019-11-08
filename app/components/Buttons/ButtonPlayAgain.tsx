@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from 'react';
 
-type Props = {
+interface Props {
     onStartNewGame: () => void;
 }
 

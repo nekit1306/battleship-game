@@ -11,7 +11,7 @@ import {
     SET_WINNER,
     SET_CURRENT_TURN,
     USER_ATTACK,
-    OPPONENT_ATTACK
+    OPPONENT_ATTACK, GameStatus
 } from 'utils/constants';
 
 import {
@@ -27,14 +27,8 @@ import {
 import {Dispatch} from "types";
 import {GameAction} from "types/game";
 
-
 export const toggleManualSetup = (): GameAction => ({
     type: SHIP_SETUP_MANUAL_ACTIVE,
-});
-
-export const selectShip = (id: string): GameAction => ({
-    type   : SELECT_SHIP,
-    payload: id
 });
 
 export const setupShipManual = (id: number): GameAction => ({
@@ -42,12 +36,16 @@ export const setupShipManual = (id: number): GameAction => ({
     payload: id
 });
 
-export const setupShipRandom = (ships: Ship[]): GameAction => ({
-    type   : SETUP_SHIP_RANDOM,
-    payload: ships
+export const selectShip = (id: string): GameAction => ({
+    type   : SELECT_SHIP,
+    payload: id
 });
 
-export const userAttack = (hits: Hit[], ships: Ship[]): GameAction => ({
+export const setupShipRandom = (): GameAction => ({
+    type   : SETUP_SHIP_RANDOM,
+});
+
+export const userAttack = (hits: HitsModel[], ships: ShipsModel[]): GameAction => ({
     type   : USER_ATTACK,
     payload: {
         hits : hits,
@@ -55,7 +53,7 @@ export const userAttack = (hits: Hit[], ships: Ship[]): GameAction => ({
     }
 });
 
-export const opponentAttack = (hits: Hit[]): GameAction => ({
+export const opponentAttack = (hits: HitsModel[]): GameAction => ({
     type   : OPPONENT_ATTACK,
     payload: hits
 });
@@ -64,7 +62,7 @@ export const startNewGame = (): GameAction => ({
     type: START_NEW_GAME,
 });
 
-export const updateGameState = (state: GameStatusState): GameAction => ({
+export const updateGameState = (state: number): GameAction => ({
     type   : UPDATE_GAME_STATE,
     payload: state
 });
@@ -81,10 +79,10 @@ export const setCurrentTurn = (turn: boolean): GameAction => ({
 
 
 // Socket events
-export const loadInitialEvents = (socket: any): GameAction => {
+export const loadInitialEvents = (socket: any): (dispatch: Dispatch) => void => {
     return (dispatch: Dispatch) => {
         socket.on(GAME_START, (data: any) => {
-            dispatch(updateGameState(GAME_START_STATE));
+            dispatch(updateGameState(GameStatus.STARTED));
             dispatch(setCurrentTurn(data.currentTurn));
         });
 
@@ -101,25 +99,25 @@ export const loadInitialEvents = (socket: any): GameAction => {
         });
 
         socket.on(GAME_OVER, (data: any) => {
-            dispatch(updateGameState(GAME_END_STATE));
+            dispatch(updateGameState(GameStatus.END));
             dispatch(setWinner(data.winnerId));
         });
 
         socket.on(USER_LEFT, () => {
-            dispatch(updateGameState(GAME_ABORTED_STATE));
+            dispatch(updateGameState(GameStatus.ABORTED));
         });
 
     }
 };
 
-export const joinGame = (socket: any, ships: Ship[]): GameAction => {
-    return (dispatch) => {
+export const joinGame = (socket: any, ships: ShipsModel[]): (dispatch: Dispatch) => void => {
+    return (dispatch: Dispatch) => {
         socket.emit(GAME_JOIN, ships);
-        dispatch(updateGameState(GAME_WAITING_STATE));
+        dispatch(updateGameState(GameStatus.WAITING));
     }
 };
 
-export const shootAtCell = (socket: any, cell: string): GameAction => {
+export const shootAtCell = (socket: any, cell: string): () => void => {
     return () => {
         socket.emit(USER_CELL_HIT, cell);
     }

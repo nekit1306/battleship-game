@@ -1,10 +1,8 @@
-// @flow
-
-import React from 'react';
+import * as React from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { startNewGame } from "../actions/game";
-import type {Dispatch, State} from "../types";
+import { startNewGame } from "actions/game";
+import {Dispatch, State} from "types";
 
 import StatusTitle from '../components/StatusTitle';
 

@@ -1,6 +1,5 @@
-// @flow
-
-import React, { Component } from 'react';
+import * as React from 'react';
+import { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import io from 'socket.io-client';
@@ -8,9 +7,9 @@ import PlayBoard from '../components/PlayBoard';
 import Header from '../components/Common/Header';
 import Footer from '../components/Common/Footer';
 import StatusBar from './StatusBar';
-import { loadInitialEvents } from '../actions/game';
-import { updateSocket } from '../actions/sockets';
-import type {Dispatch} from "../types";
+import { loadInitialEvents } from 'actions/game';
+import { updateSocket } from 'actions/sockets';
+import  {Dispatch} from "types";
 
 type Props = {
     updateSocket: (socket: any) => void,

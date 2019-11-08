@@ -1,12 +1,8 @@
-// @flow
+import { UPDATE_SOCKET } from 'utils/constants';
 
-export interface Socket {
+export interface SocketState {
     socket: any
 }
 
-export interface SocketState {
-    socket: Socket
-}
-
 export type SocketAction =
-    | { type: 'UPDATE_SOCKET', socket: any }
+    | { type: typeof UPDATE_SOCKET, payload: any }

@@ -1,10 +1,7 @@
-// @flow
+import * as React from 'react';
 
-import React from 'react';
-import type {Ship} from "../../types/game";
-
-type Props = {
-    ships: Ship[],
+interface Props {
+    ships: any[],
     onButtonClick: () => void
 }
 

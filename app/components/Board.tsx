@@ -1,14 +1,8 @@
-// @flow
-
-import  * as React from 'react';
+import * as React from 'react';
 import classnames from "classnames";
 import {buildCount, isDefined} from "utils/helpers";
 import ShipBox from "./Ship";
-import {
-    HIT_STATUS_DONE,
-    HIT_STATUS_HIT,
-    HIT_STATUS_MISS
-} from "utils/constants";
+import { ShipStatus } from "utils/constants";
 
 interface Props {
     onCellClick: (key: string) => void;
@@ -51,15 +45,15 @@ class Board extends React.Component<Props> {
         const chars = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J '];
         const nums  = ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-        const hitCell: any = hits.find(it => it.id === cProps.key);
+        const hitCell = hits.find(it => it.id === cProps.key);
 
         const classNames = classnames(
             'cell-content',
             {
                 'cell-content_empty': !isDefined(hitCell),
-                'cell-content_miss': isDefined(hitCell) && hitCell.status === HIT_STATUS_MISS,
-                'cell-content_hit' : isDefined(hitCell) && hitCell.status === HIT_STATUS_HIT,
-                'cell-content_done': isDefined(hitCell) && hitCell.status === HIT_STATUS_DONE
+                'cell-content_miss' : isDefined(hitCell) && hitCell.status === ShipStatus.MISSED,
+                'cell-content_hit'  : isDefined(hitCell) && hitCell.status === ShipStatus.DAMAGED,
+                'cell-content_done' : isDefined(hitCell) && hitCell.status === ShipStatus.DESTROYED
             });
 
         return (
@@ -78,7 +72,7 @@ class Board extends React.Component<Props> {
     };
 
     renderShips = (key: string) => {
-        const ship: any = this.props.ships.find(val => val.id === key);
+        const ship = this.props.ships.find(val => val.id === key);
 
         return isDefined(ship) ?
             <ShipBox size={ship.size} orientation={ship.orientation} /> : null;
@@ -88,7 +82,6 @@ class Board extends React.Component<Props> {
         return (
             <div className="field-board">
                 <div className="gap">
-                    {this.props.children}
                     <div className="player-field">
                         <div className="board-table">
                             <table className="table">
@@ -101,6 +94,6 @@ class Board extends React.Component<Props> {
             </div>
         )
     }
-};
+}
 
 export default Board;

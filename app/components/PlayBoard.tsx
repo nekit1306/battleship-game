@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import UserBoard from "../containers/UserBoard";
 import OpponentBoard from "../containers/OpponentBoard"
 import ActionButtons from "../containers/ActionButtons"
